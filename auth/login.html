@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Macondo&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./login.css" />
+    <title>API Test</title>
+  </head>
+  <body>
+    <h1 class="welcome-text">VoteESN</h1>
+    <form class="login-form">
+      <h4 class="login-title">Log In</h4>
+      <div class="form-control">
+        <div class="form-row">
+          <input
+            type="text"
+            name="email"
+            class="email-input"
+            placeholder="Email"
+          />
+        </div>
+        <div class="form-row">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="password-input"
+            placeholder="Password"
+          />
+          <button class="show-password" onclick="togglePassword(event)">
+          <img class="password-toggle" src="../img/login/eye.png" alt="unvisible-password" />
+        </button>
+        </div>
+        <div class="login-container">
+          <button class="login-btn">Log In</button>
+          <div class="log-status"></div>
+        </div>
+      </div>
+    </form>
+
+    <script src="./login.js"></script>
+  </body>
+</html>
