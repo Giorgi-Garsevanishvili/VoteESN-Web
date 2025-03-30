@@ -114,6 +114,10 @@ input:focus {
   background-color: transparent;
 }
 
+.show-password:focus {
+  outline: none;
+}
+
 .password-toggle {
   margin: 0.2rem;
   width: 2.5rem;
