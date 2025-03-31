@@ -25,6 +25,10 @@ async function logIn(event) {
       localStorage.setItem("authToken", res.token)
     }
 
+    if(user.name){
+      localStorage.setItem("user", JSON.stringify(user))
+    }
+
     if (user.role === "admin") {
       window.location.href = "./admin/dashboard.html";
     } else if (user.role === "voter") {
