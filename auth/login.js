@@ -19,16 +19,24 @@ async function logIn(event) {
   try {
     const response = await axios.post(url, data);
     const res = response.data;
-    const user = res.user
+    const user = res.user;
+
+    if(res.token){
+      localStorage.setItem("authToken", res.token)
+    }
+
     if (user.role === "admin") {
-      window.location.replace = "/dashboard";
+      window.location.href = "./admin/dashboard.html";
     } else if (user.role === "voter") {
-      window.location.replace = "/vote";
+      window.location.href = "/vote";
     } else {
-      window.location.replace = "./login.html";
+      window.location.href = "./login.html";
     }
   } catch (error) {
     logStatus.innerHTML = error.response.data.message;
+    setTimeout(() => {
+      logStatus.innerHTML = ""
+    }, 5000);
   } finally {
     logBtn.disabled = false;
     logBtn.innerHTML = "Log In";

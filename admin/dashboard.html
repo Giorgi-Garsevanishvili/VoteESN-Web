@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./dashboard-css-js/dashboard.css">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <header>
+    <h2 class="page-title">Admin Dashboard</h2>
+    <div class="user-info"></div>
+    <div class="control-btn">
+      <button class="system"><img class="system-img" src="../img/admin/dashboard/settings-sliders.png" alt="settings"></button>
+      <button class="log-out" onclick="logOut()"><img class="log-out-img" src="../img/admin/dashboard/exit.png" alt="log-out"></button>
+    </div>
+  </header>
+  <main>
+    <div class="election-list"></div>
+  </main>
+  <footer></footer>
+  
+  <script src="./dashboard-css-js/dashboard.js"></script>
+</body>
+</html>
