@@ -1,3 +1,5 @@
+/* general styles */
+
 h1,
 h2,
 h3,
@@ -30,7 +32,12 @@ h5 {
   font-size: 1.25rem;
 }
 
-html, body {
+button {
+  cursor: pointer;
+}
+
+html,
+body {
   font-family: "Montserrat", sans-serif;
   display: flex;
   flex-direction: column;
@@ -39,16 +46,18 @@ html, body {
   padding: 0px;
 }
 
+/* header styles */
+
 header {
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: space-between;
   margin: 1.5rem auto;
   padding: 2rem;
   width: 95vw;
-  height: 1vw;
+  height: 0.1vw;
   background-color: rgb(0, 0, 0);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.392); 
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.392);
   border-radius: 3rem;
   color: white;
 }
@@ -61,7 +70,7 @@ header {
 
 .system-img,
 .log-out-img {
-  width: 2em;
+  width: 1.5em;
 }
 
 .system,
@@ -71,16 +80,15 @@ header {
   border-radius: 5em;
   padding: 1em;
   margin: 0.3em;
-  width: 5rem;
-  height: 5em;
-  transition: 0.2s;
+  width: 4rem;
+  height: 4em;
+  transition: 0.3s;
 }
 
 .system:hover,
 .log-out:hover {
-  border: 2px solid rgb(151, 146, 146);
+  border: 1px solid rgb(151, 146, 146);
   background-color: rgb(228, 228, 228);
-  transition: 0.2s;
 }
 
 footer {
@@ -89,7 +97,7 @@ footer {
   padding: 1rem;
   justify-content: start;
   margin-top: auto;
-  height: 0.5vw;
+  height: 0.05vw;
   background-color: gray;
 }
 
@@ -99,9 +107,84 @@ footer {
   align-items: center;
   background-color: white;
   color: black;
-  padding: 0.5rem;
+  padding: 0.15rem;
   border-radius: 5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
 }
 
+/*Main section styles*/
+
+main {
+  display: flex;
+  flex-direction: column;
+  width: 95vw;
+  margin: 0.5rem auto;
+  padding: 1.5rem;
+}
+
+.add-election-btn
+ {
+  width: 10rem;
+  height: 10rem;
+  border: none;
+  font-weight: bold;
+  background-color: transparent;
+  
+}
+
+.add-btn-img {
+  border-radius: 1.8rem;
+  padding: 0.2rem;
+  width: 8rem;
+  transition: 0.3s;
+}
+
+.add-btn-img:hover {
+  background-color: rgba(220, 217, 217, 0.537);
+}
+
+
+
+/* Election list  */
+
+.election-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.election-list {
+  display: flex;
+  padding: 1rem;
+  border-top: 2px solid black;
+}
+
+.election-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.3rem;
+  width: auto;
+  height: auto;
+  padding: 2rem;
+  border: 1px solid gray;
+  border-radius: 2rem;
+  transition: 0.2s;
+}
+
+.election-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.election-img {
+  
+  background-color: rgb(237, 236, 236);
+  margin-bottom: 1rem;
+  border-radius: 1.5rem;
+  width: 5rem;
+  height: 5rem;
+  padding: 0.2rem;
+}
