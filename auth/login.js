@@ -7,13 +7,22 @@ const password = document.querySelector(".password-input");
 const logStatus = document.querySelector(".log-status");
 const logBtn = document.querySelector(".login-btn");
 
-
-logBtn.addEventListener('click', async (event) => {
+logBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   await logIn(event);
-})
+});
 
+const token = localStorage.getItem("authToken");
+const errorStorage = localStorage.getItem("error");
 
+if (token) {
+  window.location.href = "./admin/dashboard.html";
+}
+
+if (errorStorage) {
+  message(errorStorage);
+  localStorage.clear();
+}
 
 async function logIn(event) {
   event.preventDefault();
@@ -27,8 +36,8 @@ async function logIn(event) {
     password: password.value.trim(),
   };
 
-  if(!data){
-    logStatus.innerHTML = "email and password must be presenter"
+  if (!data) {
+    logStatus.innerHTML = "email and password must be presenter";
   }
 
   try {
@@ -63,16 +72,16 @@ document
   .querySelector(".login-form")
   .addEventListener("keydown", async function (event) {
     if (event.key === "Enter") {
-     await logIn(event);
+      await logIn(event);
     }
   });
 
-  const togglePasswordBtn = document.querySelector('.show-password')
+const togglePasswordBtn = document.querySelector(".show-password");
 
-  togglePasswordBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    togglePassword();
-  })
+togglePasswordBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  togglePassword();
+});
 
 function togglePassword() {
   var passwordInput = document.getElementById("password");

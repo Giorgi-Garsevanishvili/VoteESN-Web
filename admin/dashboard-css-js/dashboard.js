@@ -1,10 +1,14 @@
 import { message } from "../../utils/message.js";
 
 const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
-
 const electionList = document.querySelector(".election-list");
-
 const logOutBtn = document.querySelector(".log-out");
+const addElectionBtn = document.querySelector(".add-election-btn");
+const addElection = document.querySelector(".add-election");
+const closeBtn = document.querySelector(".close-btn");
+const addOption = document.querySelector(".options");
+const addOptionBtn = document.querySelector(".add-option-btn");
+
 
 logOutBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -54,15 +58,57 @@ async function getElection() {
   }
 }
 
+async function createElection(params) {
+  const data = [
+    {
+      title: title,
+      topics: [
+        {
+          title: title,
+          options: [{ text: text }, { text: text }],
+        },
+      ],
+    },
+  ];
+}
+
+addElectionBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  addElection.classList.remove("hidden");
+  addElection.classList.add("show");
+});
+
+closeBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  addElection.classList.remove("show");
+  addElection.classList.add("hidden");
+});
+
+let inputCount = 2;
+addOptionBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let html = `
+  <div class="extra-options">
+  <input class="option-input-${
+    inputCount + 1
+  }" type="text" name="topic" placeholder="Add Option">
+  <button class="remove-option"><img class="remove-option-img" src="../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+  </div>
+  `;
+
+  
+  inputCount = inputCount + 1;
+  addOption.innerHTML += html;
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
   try {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      message(error.message);
-      setTimeout(() => {
-        localStorage.clear();
-        return (window.location.href = "../../login.html");
-      }, 5000);
+      localStorage.setItem("error", "Token is not proveded!");
+      return (window.location.href = "../../login.html");
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
