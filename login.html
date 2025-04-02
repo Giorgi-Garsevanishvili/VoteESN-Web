@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./auth/login.css" />
+    <link rel="stylesheet" href="./utils/message.css">
     <title>API Test</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
@@ -34,17 +35,17 @@
             class="password-input"
             placeholder="Password"
           />
-          <button class="show-password" onclick="togglePassword(event)">
+          <button class="show-password">
           <img class="password-toggle" src="../img/login/eye.png" alt="unvisible-password" />
         </button>
         </div>
         <div class="login-container">
-          <button class="login-btn" onclick="logIn(event)">Log In</button>
+          <button class="login-btn">Log In</button>
           <div class="log-status"></div>
         </div>
       </div>
     </form>
-
-    <script src="./auth/login.js"></script>
+    <div class="message hidden"></div>
+    <script type="module"  src="./auth/login.js"></script>
   </body>
 </html>

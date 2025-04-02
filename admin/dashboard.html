@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./dashboard-css-js/dashboard.css" />
+    <link rel="stylesheet" href="../utils/message.css">
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
@@ -21,7 +22,7 @@
             alt="settings"
           />
         </button>
-        <button class="log-out" onclick="logOut()">
+        <button class="log-out">
           <img
             class="log-out-img"
             src="../img/admin/dashboard/exit.png"
@@ -40,7 +41,7 @@
       </div>
     </main>
     <footer></footer>
-
-    <script src="./dashboard-css-js/dashboard.js"></script>
+    <div class="message hidden"></body>
+    <script type="module" src="./dashboard-css-js/dashboard.js"></script>
   </body>
 </html>
