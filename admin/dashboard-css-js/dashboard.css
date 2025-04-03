@@ -324,6 +324,7 @@ main {
 .submit-img {
   width: 4rem;
   height: 4rem;
+  margin: 0.3rem;
   border: none;
   border-radius: 1rem;
   transition: 0.3s;
@@ -344,4 +345,39 @@ main {
 
 .submit-btn:hover {
   background-color: rgb(167, 228, 75);
+}
+
+.button-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.yes-btn,
+.no-btn {
+  border: none;
+  color: white;
+  padding: 1rem;
+  margin: 0.2rem;
+  border-radius: 1rem;
+  transition: 0.3s;
+}
+
+.yes-btn{
+  background-color: rgb(52, 102, 52);
+}
+.no-btn {
+  background-color: rgb(92, 37, 37);
+}
+
+.yes-btn:hover,
+.no-btn:hover {
+  color: white;
+  background-color: gray;
+}
+
+.close-agree{
+  display: flex;
+  flex-direction: row;
 }

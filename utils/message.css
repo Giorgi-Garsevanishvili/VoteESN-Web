@@ -1,11 +1,12 @@
 .message {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: absolute;
   right: 0rem;
   top: 2rem;
-  padding: 1rem;
+  padding: 1.6rem;
   width: auto;
   height: 8rem;
   font-weight: 500;
@@ -15,14 +16,14 @@
   border-top-right-radius:0rem ;
   border-bottom-right-radius: 0rem;
   box-shadow: rgba(15, 15, 13, 0.319) 0px 5px 15px;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 .hidden {
   display: none;
   opacity: 0;
   transform: translateX(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.1s ease, transform 0.1s ease;
 }
 
 .show {

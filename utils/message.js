@@ -1,4 +1,4 @@
-export function message(text, style) {
+export function message(text, style, time) {
   const messageBox = document.querySelector('.message')
   messageBox.innerHTML = text
   const errorDiv = document.querySelector(".message");
@@ -13,8 +13,12 @@ export function message(text, style) {
     errorDiv.classList.add("error")
   }
 
+  if(!time){
+    time = 5000; 
+  }
+
   setTimeout(() => {
     errorDiv.classList.remove('show')
     errorDiv.classList.add('hidden')
-  }, 5000);
+  }, time);
 }

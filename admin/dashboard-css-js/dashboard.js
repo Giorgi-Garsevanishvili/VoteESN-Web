@@ -24,51 +24,85 @@ let electionData = {
 
 nextBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  const title = electionNameInput.value.trim();
+  message(
+    `After this step you want be able to make changes on current topics. If everything is correct press "Yes" button and continue.?<div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+    "OK",
+    30000
+  );
 
-  if (title === "") {
-    return message("Please add election name");
-  }
+  const yesBtn = document.querySelector(".yes-btn");
+  const noBtn = document.querySelector(".no-btn");
 
-  electionData.title = title;
+  yesBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const title = electionNameInput.value.trim();
 
-  let topicValue = topicInput.value.trim();
-
-  let optionInputs = document.querySelectorAll(".option-input");
-  let options = [];
-
-  optionInputs.forEach((input) => {
-    const text = input.value.trim();
-    if (text !== "") {
-      electionName.classList.add("hidden");
-      submitElectionBtn.classList.remove("hidden");
-      submitElectionBtn.classList.add("show");
-      options.push({ text });
+    if (title === "") {
+      return message("Please add election name");
     }
+
+    electionData.title = title;
+
+    let topicValue = topicInput.value.trim();
+
+    const optionInputs = document.querySelectorAll(".option-input");
+    let options = [];
+
+    optionInputs.forEach((input) => {
+      const text = input.value.trim();
+      if (text !== "") {
+        electionName.classList.add("hidden");
+        submitElectionBtn.classList.remove("hidden");
+        submitElectionBtn.classList.add("show");
+        options.push({ text });
+      }
+      message('Add New topic or Save Election', "OK", 3000)
+    });
+
+    if (options.length < 2 && topicValue === "") {
+      return message("Topic or at least 2 option is missing!");
+    }
+
+    topicInput.value = "";
+    optionInputs.forEach((input) => {
+      input.value = "";
+    });
+    extraOption.innerHTML = "";
+    electionData.topics.push({ title: topicValue, options: options });
   });
 
-  if (options.length < 2 && topicValue === "") {
-    return message("Topic or at least 2 option is missing!");
-  }
-
-  topicInput.value = "";
-  optionInputs.forEach((input) => {
-    input.value = "";
+  noBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    message("Next Step rejected, continue editing!", "error", 2000);
   });
-  extraOption.innerHTML = "";
-  console.log(electionData);
-
-  electionData.topics.push({ title: topicValue, options: options });
 });
 
-submitElectionBtn.addEventListener("click", async (event) => {
+submitElectionBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  await createElection();
-  message('Election Created Successfully!', "OK")
+  message(
+    `Are you sure to submit Election? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+    "OK",
+    30000
+  );
 
-  setTimeout(() => {
-    location.reload();
-  }, 5000)
+  const yesBtn = document.querySelector(".yes-btn");
+  const noBtn = document.querySelector(".no-btn");
+
+  yesBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    await createElection();
+    message("Election Created Successfully!", "OK");
+    submitElectionBtn.disabled = true;
+    setTimeout(() => {
+      submitElectionBtn.disabled = false;
+      location.reload();
+    }, 3000);
+  });
+
+  noBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    message("Submition rejected, continue editing!", "error", 2000);
+  });
 });
 
 logOutBtn.addEventListener("click", async (event) => {
@@ -121,22 +155,21 @@ async function getElection() {
 
 async function createElection(params) {
   try {
-    const token = localStorage.getItem('authToken')
+    const token = localStorage.getItem("authToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     };
-    
+
     if (!token) {
-      return message("Token is not provided!") ;
+      return message("Token is not provided!");
     }
     const response = await axios.post(createElectionUrl, electionData, config);
     console.log(response.data);
   } catch (error) {
     message(error.response.data.message);
-    
   }
 }
 
@@ -148,8 +181,34 @@ addElectionBtn.addEventListener("click", (event) => {
 
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  addElection.classList.remove("show");
-  addElection.classList.add("hidden");
+  message(
+    `After close, all information will be deleted! Would you like to close? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+    "OK",
+    30000
+  );
+
+  const yesBtn = document.querySelector(".yes-btn");
+  const noBtn = document.querySelector(".no-btn");
+
+  yesBtn.addEventListener("click", (event) => {
+    event.preventDefault;
+    addElection.classList.remove("show");
+    addElection.classList.add("hidden");
+
+    electionNameInput.value = "";
+    const optionInputs = document.querySelectorAll(".option-input");
+    topicInput.value = "";
+    optionInputs.forEach((input) => {
+      input.value = "";
+    });
+    extraOption.innerHTML = "";
+    message("Close Request Accepted!", "OK", 1000);
+  });
+
+  noBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    message("Close Request Rejected!", "Error", 1000);
+  });
 });
 
 let inputCount = 2;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./dashboard-css-js/dashboard.css" />
-    <link rel="stylesheet" href="../utils/message.css">
+    <link rel="stylesheet" href="../utils/message.css" />
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
@@ -13,26 +13,72 @@
       <div class="blur">
         <div class="content">
           <button class="close-btn">
-            <img class="close-img" src="../img/admin/dashboard/circle-xmark.png" alt="close"></button>
+            <img
+              class="close-img"
+              src="../img/admin/dashboard/circle-xmark.png"
+              alt="close"
+            />
+          </button>
           <div class="election-form">
             <h1>Add Election Info</h1>
             <form class="add-election-form">
               <div class="election-name">
                 <h4>Election Name</h4>
-                <input class="election-name-input" type="text" name="elName" placeholder="Add Election Name">
+                <input
+                  class="election-name-input"
+                  type="text"
+                  name="elName"
+                  placeholder="Add Election Name"
+                />
               </div>
-              <div class="topic ">
+              <div class="topic">
                 <h4>Topic</h4>
-                <input class="topic-input" type="text" name="topic" placeholder="Add Topic"></div>
-              <div class="options ">
-                <h4>Options</h4>
-                <input class="option-input-1 option-input" type="text" name="option" placeholder="Add Option">
-                <input class="option-input-2 option-input" type="text" name="option" placeholder="Add Option">
+                <input
+                  class="topic-input"
+                  type="text"
+                  name="topic"
+                  placeholder="Add Topic"
+                />
               </div>
-              <div class="extra-options "></div>
-              <button class="add-option-btn "><img class="add-option-img" src="../img/admin/dashboard/square-plus.png" alt="add option">Add Option</button>
-              <button class="next-btn"><img  class="next-img" src="../img/admin/dashboard/arrow-alt-circle-right (1).png" alt="next field"></button>
-              <button class="submit-btn hidden"><img class="submit-img" src="../img/admin/dashboard/floppy-disks.png" alt="submit election"></button>
+              <div class="options">
+                <h4>Options</h4>
+                <input
+                  class="option-input-1 option-input"
+                  type="text"
+                  name="option"
+                  placeholder="Add Option"
+                />
+                <input
+                  class="option-input-2 option-input"
+                  type="text"
+                  name="option"
+                  placeholder="Add Option"
+                />
+              </div>
+              <div class="extra-options"></div>
+              <button class="add-option-btn">
+                <img
+                  class="add-option-img"
+                  src="../img/admin/dashboard/square-plus.png"
+                  alt="add option"
+                />Add Option
+              </button>
+              <div class="button-box">
+                <button class="next-btn">
+                  <img
+                    class="next-img"
+                    src="../img/admin/dashboard/arrow-alt-circle-right (1).png"
+                    alt="next field"
+                  />
+                </button>
+                <button class="submit-btn hidden">
+                  <img
+                    class="submit-img"
+                    src="../img/admin/dashboard/floppy-disks.png"
+                    alt="submit election"
+                  />
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -61,7 +107,13 @@
       </div>
     </header>
     <main>
-      <button class="add-election-btn"><img src="../img/admin/dashboard/square-plus.png" class="add-btn-img" alt="add-election">ADD ELECTION</button>
+      <button class="add-election-btn">
+        <img
+          src="../img/admin/dashboard/square-plus.png"
+          class="add-btn-img"
+          alt="add-election"
+        />ADD ELECTION
+      </button>
       <div class="election-box">
         <div class="election-title">
           <h4>Elections</h4>
@@ -69,7 +121,7 @@
         <div class="election-list"></div>
       </div>
     </main>
-    <div class="message hidden"></body>
+    <div class="message hidden"></div>
     <script type="module" src="./dashboard-css-js/dashboard.js"></script>
   </body>
 </html>
