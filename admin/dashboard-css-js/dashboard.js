@@ -16,6 +16,16 @@ const electionName = document.querySelector(".election-name");
 const topicInput = document.querySelector(".topic-input");
 const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
+const oneElection = document.querySelector(".one-election");
+const contOneEl = document.querySelector(".cont-one-el");
+
+const token = localStorage.getItem("authToken");
+const config = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+};
 
 let electionData = {
   title: "",
@@ -56,7 +66,7 @@ nextBtn.addEventListener("click", (event) => {
         submitElectionBtn.classList.add("show");
         options.push({ text });
       }
-      message('Add New topic or Save Election', "OK", 3000)
+      message("Add New topic or Save Election", "OK", 3000);
     });
 
     if (options.length < 2 && topicValue === "") {
@@ -118,8 +128,6 @@ function logOut() {
 async function getElection() {
   try {
     electionList.innerHTML = `Loading...`;
-    const token = localStorage.getItem("authToken");
-
     if (!token) {
       electionList.innerHTML = "Token is not provided!";
     }
@@ -140,29 +148,106 @@ async function getElection() {
     allElections.forEach((election) => {
       let html = `<button class="election-btn">
     <img class="election-img" src="../../img/admin/dashboard/ballot.png" alt="election">
-    <h4>${election.title}</h4>
-    <h5>${election._id}</h5>
+    <h4 class="el-name">${election.title}</h4>
+    <h5 class="el-id">${election._id}</h5>
     </button>`;
-      electionList.innerHTML += html;
+      electionList.insertAdjacentHTML("afterbegin", html);
+    });
+
+    const elBtn = document.querySelectorAll(".election-btn");
+    elBtn.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const id = event.currentTarget.querySelector(".el-id").innerHTML;
+        getOneElection(id);
+      });
     });
   } catch (error) {
     electionList.innerHTML = error.message;
     message(error.message);
-    localStorage.clear();
-    return (window.location.href = "../../login.html");
+    // localStorage.clear();
+    // return (window.location.href = "../../login.html");
   }
+}
+
+async function getOneElection(id) {
+  const response = await axios.get(
+    `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+    config
+  );
+  const responseData = response.data.data;
+
+  oneElection.classList.remove("hidden");
+  oneElection.classList.add("show");
+
+  let topicsHTML = "";
+
+  responseData.topics.forEach((topic) => {
+    let optionHTML = "";
+
+    topic.options.forEach((option) => {
+      optionHTML += `
+        <input type="text" value="${option.text}" class="topic-option">
+      `;
+    });
+
+    topicsHTML += `
+    <h3 class="topic">Topic</h3>
+    <input type="text" value="${topic.title}" class="topic-title">
+    <div class="options">
+      <h4>Options:</h4>
+      ${optionHTML}
+    </div>
+  `;
+
+    let html = `
+        <button class="close-btn-one-el">
+          <img
+            class="close-img-one-el"
+            src="../img/admin/dashboard/circle-xmark.png"
+            alt="close"
+          />
+        </button>
+        <h3>${responseData.title}</h3>
+        <h5>ID: ${responseData._id}</h5>
+        <div class="TopicsBox">
+        ${topicsHTML}</div>
+  `;
+
+    contOneEl.innerHTML = "";
+    contOneEl.insertAdjacentHTML("afterbegin", html);
+  });
+
+  const closeBtnOneEl = document.querySelector('.close-btn-one-el')
+  closeBtnOneEl.addEventListener('click', (event) => {
+    event.preventDefault()
+    message(
+      `Any updates will be lost after close! would you like to close? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+  
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+  
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      oneElection.classList.remove("show");
+      oneElection.classList.add("hidden");
+      message("Individual Election Page closed!", "OK", 2000);
+    });
+  
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Tab closing rejected, continue editing!", "error", 2000);
+    });
+    
+  })
+
 }
 
 async function createElection(params) {
   try {
-    const token = localStorage.getItem("authToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    };
-
     if (!token) {
       return message("Token is not provided!");
     }

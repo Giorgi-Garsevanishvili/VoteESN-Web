@@ -17,6 +17,7 @@
   border-bottom-right-radius: 0rem;
   box-shadow: rgba(15, 15, 13, 0.319) 0px 5px 15px;
   transition: 0.1s;
+  z-index: 10001;
 }
 
 .hidden {

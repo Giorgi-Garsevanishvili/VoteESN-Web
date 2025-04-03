@@ -9,78 +9,79 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
+    <div class="one-election hidden">
+      <div class="cont-one-el scrollable"></div>
+    </div>
     <div class="add-election hidden">
-      <div class="blur">
-        <div class="content">
-          <button class="close-btn">
-            <img
-              class="close-img"
-              src="../img/admin/dashboard/circle-xmark.png"
-              alt="close"
-            />
-          </button>
-          <div class="election-form">
-            <h1>Add Election Info</h1>
-            <form class="add-election-form">
-              <div class="election-name">
-                <h4>Election Name</h4>
-                <input
-                  class="election-name-input"
-                  type="text"
-                  name="elName"
-                  placeholder="Add Election Name"
-                />
-              </div>
-              <div class="topic">
-                <h4>Topic</h4>
-                <input
-                  class="topic-input"
-                  type="text"
-                  name="topic"
-                  placeholder="Add Topic"
-                />
-              </div>
-              <div class="options">
-                <h4>Options</h4>
-                <input
-                  class="option-input-1 option-input"
-                  type="text"
-                  name="option"
-                  placeholder="Add Option"
-                />
-                <input
-                  class="option-input-2 option-input"
-                  type="text"
-                  name="option"
-                  placeholder="Add Option"
-                />
-              </div>
-              <div class="extra-options"></div>
-              <button class="add-option-btn">
+      <div class="content scrollable">
+        <button class="close-btn">
+          <img
+            class="close-img"
+            src="../img/admin/dashboard/circle-xmark.png"
+            alt="close"
+          />
+        </button>
+        <div class="election-form">
+          <h1>Add Election Info</h1>
+          <form class="add-election-form">
+            <div class="election-name">
+              <h4>Election Name</h4>
+              <input
+                class="election-name-input"
+                type="text"
+                name="elName"
+                placeholder="Add Election Name"
+              />
+            </div>
+            <div class="topic">
+              <h4>Topic</h4>
+              <input
+                class="topic-input"
+                type="text"
+                name="topic"
+                placeholder="Add Topic"
+              />
+            </div>
+            <div class="options">
+              <h4>Options</h4>
+              <input
+                class="option-input-1 option-input"
+                type="text"
+                name="option"
+                placeholder="Add Option"
+              />
+              <input
+                class="option-input-2 option-input"
+                type="text"
+                name="option"
+                placeholder="Add Option"
+              />
+            </div>
+            <div class="extra-options"></div>
+            <button class="add-option-btn">
+              <img
+                class="add-option-img"
+                src="../img/admin/dashboard/square-plus.png"
+                alt="add option"
+              />Add Option
+            </button>
+            <div class="button-box">
+              <button class="next-btn">
                 <img
-                  class="add-option-img"
-                  src="../img/admin/dashboard/square-plus.png"
-                  alt="add option"
-                />Add Option
+                  class="next-img"
+                  src="../img/admin/dashboard/arrow-alt-circle-right (1).png"
+                  alt="next field"
+                />
               </button>
-              <div class="button-box">
-                <button class="next-btn">
-                  <img
-                    class="next-img"
-                    src="../img/admin/dashboard/arrow-alt-circle-right (1).png"
-                    alt="next field"
-                  />
-                </button>
-                <button class="submit-btn hidden">
-                  <img
-                    class="submit-img"
-                    src="../img/admin/dashboard/floppy-disks.png"
-                    alt="submit election"
-                  />
-                </button>
-              </div>
-            </form>
-          </div>
+              <button class="submit-btn hidden">
+                <img
+                  class="submit-img"
+                  src="../img/admin/dashboard/floppy-disks.png"
+                  alt="submit election"
+                />
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
