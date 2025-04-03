@@ -1,14 +1,75 @@
 import { message } from "../../utils/message.js";
 
 const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
+const createElectionUrl =
+  "https://voteesn-api.onrender.com/api/v1/admin/election";
+
 const electionList = document.querySelector(".election-list");
 const logOutBtn = document.querySelector(".log-out");
 const addElectionBtn = document.querySelector(".add-election-btn");
 const addElection = document.querySelector(".add-election");
 const closeBtn = document.querySelector(".close-btn");
-const addOption = document.querySelector(".options");
+const extraOption = document.querySelector(".extra-options");
 const addOptionBtn = document.querySelector(".add-option-btn");
+const electionNameInput = document.querySelector(".election-name-input");
+const electionName = document.querySelector(".election-name");
+const topicInput = document.querySelector(".topic-input");
+const nextBtn = document.querySelector(".next-btn");
+const submitElectionBtn = document.querySelector(".submit-btn");
 
+let electionData = {
+  title: "",
+  topics: [],
+};
+
+nextBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const title = electionNameInput.value.trim();
+
+  if (title === "") {
+    return message("Please add election name");
+  }
+
+  electionData.title = title;
+
+  let topicValue = topicInput.value.trim();
+
+  let optionInputs = document.querySelectorAll(".option-input");
+  let options = [];
+
+  optionInputs.forEach((input) => {
+    const text = input.value.trim();
+    if (text !== "") {
+      electionName.classList.add("hidden");
+      submitElectionBtn.classList.remove("hidden");
+      submitElectionBtn.classList.add("show");
+      options.push({ text });
+    }
+  });
+
+  if (options.length < 2 && topicValue === "") {
+    return message("Topic or at least 2 option is missing!");
+  }
+
+  topicInput.value = "";
+  optionInputs.forEach((input) => {
+    input.value = "";
+  });
+  extraOption.innerHTML = "";
+  console.log(electionData);
+
+  electionData.topics.push({ title: topicValue, options: options });
+});
+
+submitElectionBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  await createElection();
+  message('Election Created Successfully!', "OK")
+
+  setTimeout(() => {
+    location.reload();
+  }, 5000)
+});
 
 logOutBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -59,17 +120,24 @@ async function getElection() {
 }
 
 async function createElection(params) {
-  const data = [
-    {
-      title: title,
-      topics: [
-        {
-          title: title,
-          options: [{ text: text }, { text: text }],
-        },
-      ],
-    },
-  ];
+  try {
+    const token = localStorage.getItem('authToken')
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    if (!token) {
+      return message("Token is not provided!") ;
+    }
+    const response = await axios.post(createElectionUrl, electionData, config);
+    console.log(response.data);
+  } catch (error) {
+    message(error.response.data.message);
+    
+  }
 }
 
 addElectionBtn.addEventListener("click", (event) => {
@@ -89,19 +157,24 @@ addOptionBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
   let html = `
-  <div class="extra-options">
+  <div class='extra-input'>
   <input class="option-input-${
     inputCount + 1
-  }" type="text" name="topic" placeholder="Add Option">
-  <button class="remove-option"><img class="remove-option-img" src="../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+  } option-input" type="text" name="topic" placeholder="Add Option">
+  <button class="remove-option" data><img class="remove-option-img" src="../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
   </div>
   `;
 
-  
   inputCount = inputCount + 1;
-  addOption.innerHTML += html;
+  extraOption.insertAdjacentHTML("beforeend", html);
+  const removeOptionBtn = document.querySelectorAll(".remove-option");
+  removeOptionBtn.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.target.closest(".extra-input").remove();
+    });
+  });
 });
-
 
 document.addEventListener("DOMContentLoaded", () => {
   try {

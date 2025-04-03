@@ -14,9 +14,7 @@
   border-radius: 20rem;
   border-top-right-radius:0rem ;
   border-bottom-right-radius: 0rem;
-  border: 2px solid rgb(255, 0, 0);
   box-shadow: rgba(15, 15, 13, 0.319) 0px 5px 15px;
-  border-right: none;
   transition: 0.2s;
 }
 
@@ -31,4 +29,14 @@
   display: flex;
   opacity: 1;
   transform: translateY(0);
+}
+
+.OK {
+  border: 2px solid rgb(28, 205, 49);
+  border-right: none;
+}
+
+.error {
+  border: 2px solid rgb(255, 0, 0);
+  border-right: none;
 }
