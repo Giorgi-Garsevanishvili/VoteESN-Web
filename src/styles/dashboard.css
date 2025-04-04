@@ -343,3 +343,16 @@ main {
   display: flex;
   flex-direction: row;
 }
+
+.added-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  font-size: 1.6rem;
+  color: rgb(68, 135, 42);
+  border: 0.5px solid black;
+  border-radius: 2rem;
+  padding: 1rem;
+}

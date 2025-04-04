@@ -14,6 +14,7 @@ const electionName = document.querySelector(".election-name");
 const topicInput = document.querySelector(".topic-input");
 const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
+const addedInfo = document.querySelector(".added-info");
 
 let electionData = {
   title: "",
@@ -72,6 +73,9 @@ nextBtn.addEventListener("click", (event) => {
           });
           extraOption.innerHTML = "";
           electionData.topics.push({ title: topicValue, options: options });
+
+          addedInfo.innerHTML = `🗳️ Election Name and ${electionData.topics.length} topic added`;
+
           console.log(electionData);
         }
       } else {
@@ -149,8 +153,11 @@ closeBtn.addEventListener("click", (event) => {
     optionInputs.forEach((input) => {
       input.value = "";
     });
+    submitElectionBtn.classList.remove("show");
+    submitElectionBtn.classList.add("hidden");
     electionName.classList.remove("show");
     extraOption.innerHTML = "";
+    addedInfo.innerHTML = 'Elections Form Is Clear'
     electionData = {
       title: "",
       topics: [],
