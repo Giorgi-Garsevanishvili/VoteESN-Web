@@ -1,10 +1,10 @@
-import { message } from "../utils/message.js";
+import { checkRole, token } from "../src/handlers/authHandler.js";
+import { message } from "../src/utils/message.js";
 
 const url = "https://voteesn-api.onrender.com/api/v1/auth/login";
 
 const email = document.querySelector(".email-input");
 const password = document.querySelector(".password-input");
-const logStatus = document.querySelector(".log-status");
 const logBtn = document.querySelector(".login-btn");
 
 logBtn.addEventListener("click", async (event) => {
@@ -12,11 +12,10 @@ logBtn.addEventListener("click", async (event) => {
   await logIn(event);
 });
 
-const token = localStorage.getItem("authToken");
 const errorStorage = localStorage.getItem("error");
 
-if (token) {
-  window.location.href = "./admin/dashboard.html";
+if(token){
+  checkRole();
 }
 
 if (errorStorage) {
@@ -36,8 +35,10 @@ async function logIn(event) {
     password: password.value.trim(),
   };
 
-  if (!data) {
-    logStatus.innerHTML = "email and password must be presenter";
+  if (!data.email || !data.password) {
+    logBtn.disabled = false;
+    logBtn.innerHTML = "Log In";
+    return message("Email and Password must be presented", "error", 4000);
   }
 
   try {
@@ -54,11 +55,11 @@ async function logIn(event) {
     }
 
     if (user.role === "admin") {
-      window.location.href = "./admin/dashboard.html";
+      window.location.href = "../src/views/dashboard.html";
     } else if (user.role === "voter") {
       window.location.href = "/vote";
     } else {
-      window.location.href = "./login.html";
+      window.location.href = "../../login.html";
     }
   } catch (error) {
     message(error.response.data.message);
@@ -89,11 +90,11 @@ function togglePassword() {
 
   if (passwordInput.type === "password") {
     eye.innerHTML =
-      '<img class="password-toggle" src="../img/login/view.png" alt="unvisible-password" />';
+      '<img class="password-toggle" src="../../img/login/view.png" alt="unvisible-password" />';
     passwordInput.type = "text";
   } else {
     passwordInput.type = "password";
     eye.innerHTML =
-      '<img class="password-toggle" src="../img/login/eye.png" alt="unvisible-password" />';
+      '<img class="password-toggle" src="../../img/login/eye.png" alt="unvisible-password" />';
   }
 }

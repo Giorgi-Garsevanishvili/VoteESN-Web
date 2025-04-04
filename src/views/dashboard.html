@@ -3,28 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./dashboard-css-js/dashboard.css" />
-    <link rel="stylesheet" href="../utils/message.css" />
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/message.css">
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div class="one-election hidden">
-      <div class="cont-one-el scrollable"></div>
+      <div class="cont-one-el"></div>
     </div>
     <div class="add-election hidden">
-      <div class="content scrollable">
+      <div class="content">
         <button class="close-btn">
           <img
             class="close-img"
-            src="../img/admin/dashboard/circle-xmark.png"
+            src="../../img/admin/dashboard/circle-xmark.png"
             alt="close"
           />
         </button>
-        <div class="election-form">
+        <div class="election-form show">
           <h1>Add Election Info</h1>
           <form class="add-election-form">
-            <div class="election-name">
+            <div class="election-name show">
               <h4>Election Name</h4>
               <input
                 class="election-name-input"
@@ -33,7 +34,7 @@
                 placeholder="Add Election Name"
               />
             </div>
-            <div class="topic">
+            <div class="topic show">
               <h4>Topic</h4>
               <input
                 class="topic-input"
@@ -42,7 +43,7 @@
                 placeholder="Add Topic"
               />
             </div>
-            <div class="options">
+            <div class="options show">
               <h4>Options</h4>
               <input
                 class="option-input-1 option-input"
@@ -58,25 +59,25 @@
               />
             </div>
             <div class="extra-options"></div>
-            <button class="add-option-btn">
+            <button class="add-option-btn show">
               <img
                 class="add-option-img"
-                src="../img/admin/dashboard/square-plus.png"
+                src="../../img/admin/dashboard/square-plus.png"
                 alt="add option"
               />Add Option
             </button>
-            <div class="button-box">
-              <button class="next-btn">
+            <div class="button-box show">
+              <button class="next-btn show">
                 <img
                   class="next-img"
-                  src="../img/admin/dashboard/arrow-alt-circle-right (1).png"
+                  src="../../img/admin/dashboard/arrow-alt-circle-right (1).png"
                   alt="next field"
                 />
               </button>
               <button class="submit-btn hidden">
                 <img
                   class="submit-img"
-                  src="../img/admin/dashboard/floppy-disks.png"
+                  src="../../img/admin/dashboard/floppy-disks.png"
                   alt="submit election"
                 />
               </button>
@@ -94,14 +95,14 @@
         <button class="system">
           <img
             class="system-img"
-            src="../img/admin/dashboard/settings-sliders.png"
+            src="../../img/admin/dashboard/settings-sliders.png"
             alt="settings"
           />
         </button>
         <button class="log-out">
           <img
             class="log-out-img"
-            src="../img/admin/dashboard/exit.png"
+            src="../../img/admin/dashboard/exit.png"
             alt="log-out"
           />
         </button>
@@ -110,7 +111,7 @@
     <main>
       <button class="add-election-btn">
         <img
-          src="../img/admin/dashboard/square-plus.png"
+          src="../../img/admin/dashboard/square-plus.png"
           class="add-btn-img"
           alt="add-election"
         />ADD ELECTION
@@ -123,6 +124,6 @@
       </div>
     </main>
     <div class="message hidden"></div>
-    <script type="module" src="./dashboard-css-js/dashboard.js"></script>
+    <script type="module" src="../../admin/dashboard.js"></script>
   </body>
 </html>

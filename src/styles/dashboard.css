@@ -1,52 +1,3 @@
-/* general styles */
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  margin: 0;
-  font-weight: 400;
-  line-height: 1.3;
-  text-transform: capitalize;
-}
-
-h1 {
-  margin-top: 0;
-  font-size: 3.052rem;
-}
-
-h2 {
-  font-size: 2.441rem;
-}
-
-h3 {
-  font-size: 1.953rem;
-}
-
-h4 {
-  font-size: 1.563rem;
-}
-
-h5 {
-  font-size: 1.25rem;
-}
-
-button {
-  cursor: pointer;
-}
-
-html,
-body {
-  font-family: "Montserrat", sans-serif;
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-}
-
 input {
   width: 28rem;
   height: 0.5rem;
@@ -206,7 +157,6 @@ main {
   height: 100vh;
   background: rgba(1, 1, 1, 0.2); /* Adjust transparency */
   backdrop-filter: blur(5px); /* Blur effect */
-  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000; /* Make sure it's on top */
@@ -235,7 +185,7 @@ main {
   margin: 10rem;
   border-radius: 2rem;
   padding: 3rem;
-  min-height: 30vw;
+  min-height: 10vw;
   max-height: 80vh;
   transition: 0.3s;
   overflow-y: auto;
@@ -264,7 +214,6 @@ main {
 .election-name,
 .election-form {
   margin: 0.5rem;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -278,7 +227,6 @@ main {
 }
 
 .add-option-btn {
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
@@ -327,7 +275,6 @@ main {
 
 .next-btn,
 .submit-btn {
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 2.3rem;

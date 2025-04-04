@@ -1,5 +1,4 @@
 .message {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -18,19 +17,6 @@
   box-shadow: rgba(15, 15, 13, 0.319) 0px 5px 15px;
   transition: 0.1s;
   z-index: 10001;
-}
-
-.hidden {
-  display: none;
-  opacity: 0;
-  transform: translateX(20px);
-  transition: opacity 0.1s ease, transform 0.1s ease;
-}
-
-.show {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .OK {
