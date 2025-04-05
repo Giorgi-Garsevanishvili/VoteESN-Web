@@ -107,11 +107,11 @@ submitElectionBtn.addEventListener("click", (event) => {
     try {
       await createElection();
       submitElectionBtn.disabled = true;
-      message("Election Created Successfully!", "OK");
+      message("Election Created Successfully!", "OK", 3000);
       setTimeout(() => {
         submitElectionBtn.disabled = false;
         location.reload();
-      }, 3000);
+      }, 2000);
     } catch (error) {
       message(error);
     }

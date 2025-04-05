@@ -130,38 +130,8 @@ export async function getOneElection(id) {
 
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
-
-      const updatedTitle = responseData.title;
-
-      const updateTopics = [];
-
-      const topicTitle = document.querySelectorAll(".topic-title");
-      const optionsGroup = document.querySelectorAll(".options");
-
-      topicTitle.forEach((topicTitleInput, index) => {
-        const optionInputs =
-          optionsGroup[index].querySelectorAll(".topic-option");
-
-        const options = [];
-        optionInputs.forEach((optionInputs) => {
-          options.push({ text: optionInputs.value });
-        });
-
-        updateTopics.push({
-          title: topicTitleInput.value,
-          options: options,
-        });
-      });
-
-      const updatedData = { title: updatedTitle, topics: updateTopics };
-
       try {
-        await axios.patch(
-          `https://voteesn-api.onrender.com/api/v1/admin/election/${responseData._id}`,
-          updatedData,
-          config
-        );
-
+        await updateElectionFunction(responseData._id, responseData.title);
         message("Election Successfully Updated!", "OK", 3000);
         deleteElectionBtn.disabled = true;
         updateElection.disabled = true;
@@ -196,18 +166,19 @@ export async function getOneElection(id) {
 
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
-      await axios.delete(
-        `https://voteesn-api.onrender.com/api/v1/admin/election/${responseData._id}`,
-        config
-      );
-      message("Election Successfully Deleted!", "OK", 3000);
-      updateElection.disabled = true;
-      deleteElectionBtn.disabled = true;
-      setTimeout(() => {
-        updateElection.disabled = false;
-        deleteElectionBtn.disabled = false;
-        location.reload();
-      }, 2000);
+      try {
+        await deleteElection(responseData._id);
+        message("Election Successfully Deleted!", "OK", 3000);
+        updateElection.disabled = true;
+        deleteElectionBtn.disabled = true;
+        setTimeout(() => {
+          updateElection.disabled = false;
+          deleteElectionBtn.disabled = false;
+          location.reload();
+        }, 2000);
+      } catch (error) {
+        message(error.message);
+      }
     });
 
     noBtn.addEventListener("click", (event) => {
@@ -242,7 +213,7 @@ export async function getOneElection(id) {
   });
 }
 
-export async function createElection(params) {
+export async function createElection() {
   try {
     if (!token) {
       return message("Token is not provided!");
@@ -251,4 +222,46 @@ export async function createElection(params) {
   } catch (error) {
     message(error.message);
   }
+}
+
+async function updateElectionFunction(id, title) {
+  const updatedTitle = title;
+
+  const updateTopics = [];
+
+  const topicTitle = document.querySelectorAll(".topic-title");
+  const optionsGroup = document.querySelectorAll(".options");
+
+  topicTitle.forEach((topicTitleInput, index) => {
+    const optionInputs = optionsGroup[index].querySelectorAll(".topic-option");
+
+    const options = [];
+    optionInputs.forEach((optionInputs) => {
+      options.push({ text: optionInputs.value });
+    });
+
+    updateTopics.push({
+      title: topicTitleInput.value,
+      options: options,
+    });
+  });
+
+  const updatedData = { title: updatedTitle, topics: updateTopics };
+
+  try {
+    await axios.patch(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+      updatedData,
+      config
+    );
+  } catch (error) {
+    message(error.message);
+  }
+}
+
+async function deleteElection(id) {
+  await axios.delete(
+    `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+    config
+  );
 }
