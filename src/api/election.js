@@ -1,8 +1,10 @@
 import { message } from "../utils/message.js";
 import { config, token } from "../handlers/authHandler.js";
+import { electionData } from "../../admin/dashboard.js";
 
 const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
-const createElectionUrl ="https://voteesn-api.onrender.com/api/v1/admin/election";
+const createElectionUrl =
+  "https://voteesn-api.onrender.com/api/v1/admin/election";
 
 const electionList = document.querySelector(".election-list");
 const oneElection = document.querySelector(".one-election");
@@ -81,6 +83,14 @@ export async function getOneElection(id) {
       <h4>Options:</h4>
       ${optionHTML}
     </div>
+    <div class="extra-options"></div>
+    <button class="add-option-btn show">
+              <img
+                class="add-option-img"
+                src="../../img/admin/dashboard/square-plus.png"
+                alt="add option"
+              />Add Option
+            </button>
   `;
 
     let html = `
@@ -93,12 +103,117 @@ export async function getOneElection(id) {
         </button>
         <h3>${responseData.title}</h3>
         <h5>ID: ${responseData._id}</h5>
-        <div class="TopicsBox">
+        <div class="topic show">
         ${topicsHTML}</div>
+        <div class="one-el-btns">
+          <button class="delete-el-btn">Delete Election</button>
+          <button class="update-el">Update Election</buttom>
+        </div>
   `;
 
     contOneEl.innerHTML = "";
     contOneEl.insertAdjacentHTML("afterbegin", html);
+  });
+
+  const updateElection = document.querySelector(".update-el");
+  updateElection.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to update the election? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const updatedTitle = responseData.title;
+
+      const updateTopics = [];
+
+      const topicTitle = document.querySelectorAll(".topic-title");
+      const optionsGroup = document.querySelectorAll(".options");
+
+      topicTitle.forEach((topicTitleInput, index) => {
+        const optionInputs =
+          optionsGroup[index].querySelectorAll(".topic-option");
+
+        const options = [];
+        optionInputs.forEach((optionInputs) => {
+          options.push({ text: optionInputs.value });
+        });
+
+        updateTopics.push({
+          title: topicTitleInput.value,
+          options: options,
+        });
+      });
+
+      const updatedData = { title: updatedTitle, topics: updateTopics };
+
+      try {
+        await axios.patch(
+          `https://voteesn-api.onrender.com/api/v1/admin/election/${responseData._id}`,
+          updatedData,
+          config
+        );
+
+        message("Election Successfully Updated!", "OK", 3000);
+        deleteElectionBtn.disabled = true;
+        updateElection.disabled = true;
+        setTimeout(() => {
+          deleteElectionBtn.disabled = false;
+          updateElection.disabled = false;
+          location.reload();
+        }, 2000);
+      } catch (error) {
+        message(error.message);
+      }
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Update Request Rejected! Continue Update", "error", 3000);
+    });
+  });
+
+  const deleteElectionBtn = document.querySelector(".delete-el-btn");
+  deleteElectionBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to delete the election? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      await axios.delete(
+        `https://voteesn-api.onrender.com/api/v1/admin/election/${responseData._id}`,
+        config
+      );
+      message("Election Successfully Deleted!", "OK", 3000);
+      updateElection.disabled = true;
+      deleteElectionBtn.disabled = true;
+      setTimeout(() => {
+        updateElection.disabled = false;
+        deleteElectionBtn.disabled = false;
+        location.reload();
+      }, 2000);
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Delete Request Rejected! Continue Update", "error", 3000);
+    });
   });
 
   const closeBtnOneEl = document.querySelector(".close-btn-one-el");
@@ -133,8 +248,7 @@ export async function createElection(params) {
       return message("Token is not provided!");
     }
     const response = await axios.post(createElectionUrl, electionData, config);
-    console.log(response.data);
   } catch (error) {
-    message(error.response.data.message);
+    message(error.message);
   }
 }

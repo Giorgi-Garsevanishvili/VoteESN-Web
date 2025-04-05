@@ -16,7 +16,7 @@ const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
 const addedInfo = document.querySelector(".added-info");
 
-let electionData = {
+export let electionData = {
   title: "",
   topics: [],
 };
@@ -75,9 +75,9 @@ nextBtn.addEventListener("click", (event) => {
           electionData.topics.push({ title: topicValue, options: options });
 
           addedInfo.innerHTML = `🗳️ Election Name and ${electionData.topics.length} topic added`;
-
-          console.log(electionData);
         }
+      } else if (electionData.topics.length >= 1) {
+        message("Add New topic or Save Election", "OK", 3000);
       } else {
         return message("Topic or at least 2 option is missing!");
       }
@@ -104,13 +104,17 @@ submitElectionBtn.addEventListener("click", (event) => {
 
   yesBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-    await createElection();
-    message("Election Created Successfully!", "OK");
-    submitElectionBtn.disabled = true;
-    setTimeout(() => {
-      submitElectionBtn.disabled = false;
-      location.reload();
-    }, 3000);
+    try {
+      await createElection();
+      submitElectionBtn.disabled = true;
+      message("Election Created Successfully!", "OK");
+      setTimeout(() => {
+        submitElectionBtn.disabled = false;
+        location.reload();
+      }, 3000);
+    } catch (error) {
+      message(error);
+    }
   });
 
   noBtn.addEventListener("click", (event) => {
@@ -157,11 +161,15 @@ closeBtn.addEventListener("click", (event) => {
     submitElectionBtn.classList.add("hidden");
     electionName.classList.remove("show");
     extraOption.innerHTML = "";
-    addedInfo.innerHTML = 'Elections Form Is Clear'
-    electionData = {
-      title: "",
-      topics: [],
-    };
+    addedInfo.innerHTML = "Elections Form Is Clear";
+
+    if (electionData.title !== "") {
+      electionData = {
+        title: "",
+        topics: [],
+      };
+    }
+
     message("Close Request Accepted!", "OK", 1000);
   });
 
@@ -171,29 +179,33 @@ closeBtn.addEventListener("click", (event) => {
   });
 });
 
-let inputCount = 2;
-addOptionBtn.addEventListener("click", (event) => {
-  event.preventDefault();
+addExtraInput();
 
-  let html = `
-  <div class='extra-input'>
-  <input class="option-input-${
-    inputCount + 1
-  } option-input" type="text" name="topic" placeholder="Add Option">
-  <button class="remove-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
-  </div>
-  `;
+export function addExtraInput() {
+  let inputCount = 2;
+  addOptionBtn.addEventListener("click", (event) => {
+    event.preventDefault();
 
-  inputCount = inputCount + 1;
-  extraOption.insertAdjacentHTML("beforeend", html);
-  const removeOptionBtn = document.querySelectorAll(".remove-option");
-  removeOptionBtn.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.target.closest(".extra-input").remove();
+    let html = `
+    <div class='extra-input'>
+    <input class="option-input-${
+      inputCount + 1
+    } option-input" type="text" name="topic" placeholder="Add Option">
+    <button class="remove-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+    </div>
+    `;
+
+    inputCount = inputCount + 1;
+    extraOption.insertAdjacentHTML("beforeend", html);
+    const removeOptionBtn = document.querySelectorAll(".remove-option");
+    removeOptionBtn.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.target.closest(".extra-input").remove();
+      });
     });
   });
-});
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   try {

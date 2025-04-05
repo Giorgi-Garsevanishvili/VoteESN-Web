@@ -356,3 +356,31 @@ main {
   border-radius: 2rem;
   padding: 1rem;
 }
+
+.delete-el-btn,
+.update-el {
+  font-size: 1rem;
+  color: white;
+  width: auto;
+  padding: 1.2rem;
+  border-radius: 3rem;
+  border: none;
+  margin: 0.2rem;
+  transition: 0.2s;
+}
+
+.delete-el-btn {
+  background-color: rgb(97, 17, 17);
+}
+
+.update-el {
+  background-color: rgb(27, 101, 10);
+}
+
+.delete-el-btn:hover,
+.update-el:hover {
+  opacity: 0.5;
+}
+
+.delete-el-btn:disabled,
+.update-el:disabled {opacity: 0.3;}
