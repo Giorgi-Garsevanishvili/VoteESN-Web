@@ -226,7 +226,8 @@ main {
   justify-content: center;
 }
 
-.add-option-btn {
+.add-option-btn,
+.add-option-btn-update {
   align-items: center;
   justify-content: center;
   padding: 1rem;
@@ -297,12 +298,14 @@ main {
 .submit-btn:hover,
 .remove-title:hover,
 .remove-option:hover,
-.add-option-btn:hover {
+.add-option-btn:hover,
+.add-option-btn-update:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 .next-btn:hover,
 .add-option-btn:hover,
+.add-option-btn-update:hover,
 .remove-title:hover,
 .remove-option:hover {
   background-color: rgb(244, 192, 95);

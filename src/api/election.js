@@ -1,6 +1,6 @@
 import { message } from "../utils/message.js";
 import { config, token } from "../handlers/authHandler.js";
-import { electionData } from "../../admin/dashboard.js";
+import { addExtraInput, electionData } from "../../admin/dashboard.js";
 
 const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
 const createElectionUrl =
@@ -89,8 +89,8 @@ export async function getOneElection(id) {
       <h4>Options:</h4>
       ${optionHTML}
     </div>
-    <div class="extra-options"></div>
-    <button class="add-option-btn show">
+    <div class="extra-options-update"></div>
+    <button class="add-option-btn-update show">
               <img
                 class="add-option-img"
                 src="../../img/admin/dashboard/square-plus.png"
@@ -120,6 +120,18 @@ export async function getOneElection(id) {
 
     contOneEl.innerHTML = "";
     contOneEl.insertAdjacentHTML("afterbegin", html);
+
+    const extraOptionUpdate = document.querySelectorAll(
+      ".extra-options-update"
+    );
+    const addOptionBtnUpdate = document.querySelectorAll(
+      ".add-option-btn-update"
+    );
+
+    addOptionBtnUpdate.forEach((btn, index) => {
+      const relatedBox = extraOptionUpdate[index];
+      addExtraInput(btn, relatedBox);
+    });
 
     const removeTitleBTN = document.querySelectorAll(".remove-title");
     removeTitleBTN.forEach((btn) => {
@@ -235,7 +247,7 @@ export async function getOneElection(id) {
     });
   });
 
-  return responseData
+  return responseData;
 }
 
 export async function createElection() {
@@ -256,13 +268,20 @@ async function updateElectionFunction(id, title) {
 
   const topicTitle = document.querySelectorAll(".topic-title");
   const optionsGroup = document.querySelectorAll(".options");
+  const extraOptions = document.querySelectorAll(".extra-options-update");
 
   topicTitle.forEach((topicTitleInput, index) => {
     const optionInputs = optionsGroup[index].querySelectorAll(".topic-option");
+    const extraOptionInput =
+      extraOptions[index].querySelectorAll(".option-input");
 
     const options = [];
     optionInputs.forEach((optionInputs) => {
       options.push({ text: optionInputs.value });
+    });
+
+    extraOptionInput.forEach((extraOptionInput) => {
+      options.push({ text: extraOptionInput.value });
     });
 
     updateTopics.push({
@@ -273,12 +292,12 @@ async function updateElectionFunction(id, title) {
 
   const updatedData = { title: updatedTitle, topics: updateTopics };
 
-  if (updatedData.topics.length < 1){
+  if (updatedData.topics.length < 1) {
     try {
-      await deleteElection(id)
-     return message('Election is empty, Successfully Deleted! ')
+      await deleteElection(id);
+      return message("Election is empty, Successfully Deleted! ");
     } catch (error) {
-      message(error.message)
+      message(error.message);
     }
   }
 

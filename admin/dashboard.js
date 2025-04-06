@@ -179,11 +179,11 @@ closeBtn.addEventListener("click", (event) => {
   });
 });
 
-addExtraInput();
+addExtraInput(addOptionBtn, extraOption);
 
-export function addExtraInput() {
+export function addExtraInput(target, box) {
   let inputCount = 2;
-  addOptionBtn.addEventListener("click", (event) => {
+  target.addEventListener("click", (event) => {
     event.preventDefault();
 
     let html = `
@@ -196,7 +196,7 @@ export function addExtraInput() {
     `;
 
     inputCount = inputCount + 1;
-    extraOption.insertAdjacentHTML("beforeend", html);
+    box.insertAdjacentHTML("beforeend", html);
     const removeOptionBtn = document.querySelectorAll(".remove-option");
     removeOptionBtn.forEach((btn) => {
       btn.addEventListener("click", (event) => {
