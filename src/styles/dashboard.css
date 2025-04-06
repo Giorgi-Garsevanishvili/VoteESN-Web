@@ -245,6 +245,7 @@ main {
   padding: 0.5rem;
 }
 
+.remove-title,
 .remove-option,
 .remove-option-img {
   display: flex;
@@ -294,6 +295,7 @@ main {
 
 .next-btn:hover,
 .submit-btn:hover,
+.remove-title:hover,
 .remove-option:hover,
 .add-option-btn:hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
@@ -301,6 +303,7 @@ main {
 
 .next-btn:hover,
 .add-option-btn:hover,
+.remove-title:hover,
 .remove-option:hover {
   background-color: rgb(244, 192, 95);
 }
@@ -384,3 +387,18 @@ main {
 
 .delete-el-btn:disabled,
 .update-el:disabled {opacity: 0.3;}
+
+
+.option-update-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.one-topic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

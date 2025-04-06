@@ -72,13 +72,19 @@ export async function getOneElection(id) {
 
     topic.options.forEach((option) => {
       optionHTML += `
+      <div class="option-update-box">
         <input type="text" value="${option.text}" class="topic-option show">
+        <button class="remove-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+        </div>
       `;
     });
 
-    topicsHTML += `
+    topicsHTML += `<div class="one-topic">
     <h3 class="topic show">Topic</h3>
-    <input type="text" value="${topic.title}" class="topic-title">
+      <div class="option-update-box">
+      <input type="text" value="${topic.title}" class="topic-title">
+      <button class="remove-title" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+    </div>
     <div class="options show">
       <h4>Options:</h4>
       ${optionHTML}
@@ -91,6 +97,7 @@ export async function getOneElection(id) {
                 alt="add option"
               />Add Option
             </button>
+            </div>
   `;
 
     let html = `
@@ -113,6 +120,23 @@ export async function getOneElection(id) {
 
     contOneEl.innerHTML = "";
     contOneEl.insertAdjacentHTML("afterbegin", html);
+
+    const removeTitleBTN = document.querySelectorAll(".remove-title");
+    removeTitleBTN.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.target.closest(".one-topic").remove();
+      });
+    });
+
+    const removeOptionBTN = document.querySelectorAll(".remove-option");
+    removeOptionBTN.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        event.target.closest(".option-update-box").remove();
+      });
+    });
   });
 
   const updateElection = document.querySelector(".update-el");
@@ -132,7 +156,6 @@ export async function getOneElection(id) {
       event.preventDefault();
       try {
         await updateElectionFunction(responseData._id, responseData.title);
-        message("Election Successfully Updated!", "OK", 3000);
         deleteElectionBtn.disabled = true;
         updateElection.disabled = true;
         setTimeout(() => {
@@ -211,6 +234,8 @@ export async function getOneElection(id) {
       message("Tab closing rejected, continue editing!", "error", 2000);
     });
   });
+
+  return responseData
 }
 
 export async function createElection() {
@@ -248,12 +273,22 @@ async function updateElectionFunction(id, title) {
 
   const updatedData = { title: updatedTitle, topics: updateTopics };
 
+  if (updatedData.topics.length < 1){
+    try {
+      await deleteElection(id)
+     return message('Election is empty, Successfully Deleted! ')
+    } catch (error) {
+      message(error.message)
+    }
+  }
+
   try {
     await axios.patch(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
       updatedData,
       config
     );
+    message("Election Successfully Updated!", "OK", 3000);
   } catch (error) {
     message(error.message);
   }
