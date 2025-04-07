@@ -17,15 +17,8 @@ const addTopicBtn = document.querySelector(".add-topic");
 let responseData = null;
 
 document.body.addEventListener("click", function (event) {
-  console.log("Clicked:", event.target);
   if (event.target.matches(".close-img-one-el")) {
     closeBTN();
-    console.log("YES clicked");
-  }
-
-  if (event.target.matches(".no-btn")) {
-    // Handle NO
-    console.log("NO clicked");
   }
 });
 
