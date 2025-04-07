@@ -161,6 +161,8 @@ main {
   align-items: center;
   z-index: 1000; /* Make sure it's on top */
 }
+
+
 .blur {
   display: flex;
   flex-direction: column;
@@ -175,7 +177,8 @@ main {
 }
 
 .content,
-.cont-one-el {
+.cont-one-el
+ {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -189,6 +192,13 @@ main {
   max-height: 80vh;
   transition: 0.3s;
   overflow-y: auto;
+}
+
+.one-el-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-btn,
@@ -363,6 +373,7 @@ main {
   padding: 1rem;
 }
 
+.add-topic,
 .delete-el-btn,
 .update-el {
   font-size: 1rem;
@@ -375,6 +386,10 @@ main {
   transition: 0.2s;
 }
 
+.add-topic {
+  background-color: rgb(136, 105, 47);
+}
+
 .delete-el-btn {
   background-color: rgb(97, 17, 17);
 }
@@ -383,11 +398,13 @@ main {
   background-color: rgb(27, 101, 10);
 }
 
+.add-topic:hover,
 .delete-el-btn:hover,
 .update-el:hover {
   opacity: 0.5;
 }
 
+.add-topic:disabled,
 .delete-el-btn:disabled,
 .update-el:disabled {opacity: 0.3;}
 
