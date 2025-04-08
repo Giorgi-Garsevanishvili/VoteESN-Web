@@ -11,16 +11,18 @@
   </head>
   <body>
     <div class="see-user-box hidden">
+      <h3 class="titles">Create User</h3>
       <div class="create-user-cont">
         <input class="name" type="text" placeholder="Name" />
         <input class="email" type="text" placeholder="Email" />
-        <input class="password" type="text" placeholder="Password"/>
+        <input class="password" type="text" placeholder="Password" />
         <select name="role" id="role">
           <option value="admin">Admin</option>
-          <option value="voter">Voter</option>
+          <option selected value="voter">Voter</option>
         </select>
         <button class="create-user-btn">Create User</button>
       </div>
+      <h3 class="titles">Users List</h3>
       <div class="user-content">
         <button class="close-btn-user">
           <img
@@ -29,11 +31,7 @@
             alt="close"
           />
         </button>
-        <div class="users-list">
-          <div>name</div>
-          <div>surname</div>
-          <div>role</div>
-        </div>
+        <div class="users-list"></div>
       </div>
     </div>
     <div class="one-election hidden">

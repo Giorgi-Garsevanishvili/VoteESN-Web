@@ -1,5 +1,5 @@
 input {
-  width: 28rem;
+  width: 11vw;
   height: 0.5rem;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -203,7 +203,7 @@ main {
 
 .user-content {
   justify-content: center;
-  margin: 2rem;
+  margin: 0rem;
   width: 75vw;
 }
 
@@ -444,8 +444,8 @@ main {
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  width: 75vw;
-  padding: 1rem;
+  width: auto;
+  padding: 2rem;
   border: 1px solid black;
 }
 
@@ -474,10 +474,62 @@ main {
   align-items: center;
   justify-content: center;
   width: 7vw;
-  height: 7vh;
+  height: 5vh;
   border: 1px solid black;
   border-radius: 0.7rem;
   font-size: 1rem;
 }
 
+.users-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
 
+.one-user {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.save-user,
+.delete-user,
+.edit-user {
+  width: 4vw;
+  height: 5vh;
+  border-radius: 0.5rem;
+  border: none;
+  transition: 0.2s;
+}
+
+.save-user {
+  background-color: green;
+  color: white;
+}
+
+.delete-user {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  background-color: rgb(153, 39, 39);
+  color: white;
+}
+
+.edit-user {
+  background-color: rgb(199, 131, 5);
+  color: white;
+}
+
+.save-user:hover,
+.delete-user:hover,
+.edit-user:hover {
+  border: 1px solid white;
+  opacity: 0.5;
+}
+
+.titles {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 2rem;
+  margin: 0.5rem;
+  border: 2px solid black;
+}
