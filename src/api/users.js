@@ -74,8 +74,12 @@ async function getUsers() {
         user.email
       }" type="text" placeholder="Email"/>
       <select name="role" disabled id="role">
-          <option value="admin">Admin</option>
-          <option value="voter">Voter</option>
+          <option value="admin" ${
+            user.role === "admin" ? "selected" : ""
+          }>Admin</option>
+          <option value="voter" ${
+            user.role === "voter" ? "selected" : ""
+          }>Voter</option>
         </select>
       <input class="password hidden" type="text" placeholder="Password"/>
       <button class="delete-user">Delete</button>
@@ -178,6 +182,7 @@ function saveUserListener() {
         }
 
         savebtn.disabled = true;
+        console.log(newUser);
         await updateUser(id, newUser);
         setTimeout(() => {
           savebtn.disabled = false;
