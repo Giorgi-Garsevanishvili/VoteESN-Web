@@ -152,41 +152,40 @@ main {
 
 /* add election */
 
+.see-user-box {
+  flex-direction: column;
+}
+
 .see-user-box,
 .add-election,
 .one-election {
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(1, 1, 1, 0.2); 
-  backdrop-filter: blur(5px); 
+  background: rgba(1, 1, 1, 0.2);
+  backdrop-filter: blur(5px);
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
-
 
 .blur {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position:relative;
+  position: relative;
   overflow: auto;
   margin: 0px;
   width: 100%;
   height: 100%;
-  
 }
-
-
 
 .user-content,
 .content,
-.cont-one-el
- {
+.cont-one-el {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -204,6 +203,8 @@ main {
 
 .user-content {
   justify-content: center;
+  margin: 2rem;
+  width: 75vw;
 }
 
 .one-el-form {
@@ -355,7 +356,7 @@ main {
   transition: 0.3s;
 }
 
-.yes-btn{
+.yes-btn {
   background-color: rgb(52, 102, 52);
 }
 .no-btn {
@@ -368,7 +369,7 @@ main {
   background-color: gray;
 }
 
-.close-agree{
+.close-agree {
   display: flex;
   flex-direction: row;
 }
@@ -419,10 +420,11 @@ main {
 
 .add-topic:disabled,
 .delete-el-btn:disabled,
-.update-el:disabled {opacity: 0.3;}
+.update-el:disabled {
+  opacity: 0.3;
+}
 
-
-.option-update-box{
+.option-update-box {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -435,3 +437,47 @@ main {
   align-items: center;
   justify-content: center;
 }
+
+.create-user-cont {
+  display: flex;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  width: 75vw;
+  padding: 1rem;
+  border: 1px solid black;
+}
+
+.create-user-btn {
+  background-color: rgb(146, 102, 20);
+  color: white;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.392);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7vw;
+  height: 7vh;
+  margin: 0.5rem;
+  border-radius: 2rem;
+  border: none;
+  transition: 0.2s;
+}
+
+.create-user-btn:hover {
+  background-color: rgb(233, 163, 33);
+  color: black;
+}
+
+#role {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7vw;
+  height: 7vh;
+  border: 1px solid black;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+}
+
+

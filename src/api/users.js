@@ -4,6 +4,12 @@ import { config } from "../handlers/authHandler.js";
 const userBtn = document.querySelector(".users-btn");
 const userBox = document.querySelector(".see-user-box");
 const closebtn = document.querySelector(".close-btn-user");
+const createUserBtn = document.querySelector(".create-user-btn");
+
+const name = document.querySelector(".name");
+const email = document.querySelector(".email");
+const password = document.querySelector(".password");
+const role = document.querySelector("#role");
 
 const usersUrl = `https://voteesn-api.onrender.com/api/v1/admin/system/users`;
 
@@ -24,6 +30,24 @@ closebtn.addEventListener("click", (event) => {
   message("User Page closed!", "OK", 2000);
 });
 
+createUserBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  let newUser = {
+    name: name.value.trim(),
+    email: email.value.trim(),
+    password: password.value.trim(),
+    role: role.value,
+  };
+
+  try {
+    await createUser(newUser);
+    getUsers();
+  } catch (error) {
+    message(error.message);
+    console.log(error);
+  }
+});
+
 async function getUsers() {
   try {
     const response = await axios.get(usersUrl, config);
@@ -32,6 +56,7 @@ async function getUsers() {
     if (users.length <= 0) {
       message("Users not found!");
     }
+    console.log(users);
 
     return users;
   } catch (error) {
@@ -39,12 +64,29 @@ async function getUsers() {
   }
 }
 
-async function createUser() {
+getUsers();
+
+async function createUser(newUser) {
+  console.log(newUser);
   try {
-    const response = await axios.post(usersUrl, newUser, config);
+    if (
+      newUser.name === "" ||
+      newUser.email === "" ||
+      newUser.password === "" ||
+      newUser.role === ""
+    ) {
+      message("All fields must be filled!");
+      return;
+    }
+    await axios.post(usersUrl, newUser, config);
     message("User Created!", "OK", 2000);
+    newUser = "";
+    name.value = "";
+    email.value = "";
+    password.value = "";
+    role.value = "voter";
   } catch (error) {
-    message(error.message);
+    message(error.response.data.message, "error", 3000);
   }
 }
 
