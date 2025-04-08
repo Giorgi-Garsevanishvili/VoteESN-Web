@@ -16,12 +16,6 @@ const addTopicBtn = document.querySelector(".add-topic");
 
 let responseData = null;
 
-document.body.addEventListener("click", function (event) {
-  if (event.target.matches(".close-img-one-el")) {
-    closeBTN();
-  }
-});
-
 export async function getElection() {
   try {
     electionList.innerHTML = `Loading...`;
@@ -365,25 +359,29 @@ function deleteElectionListener() {
 }
 
 function closeBTN() {
-  message(
-    `Any updates will be lost after close! would you like to close? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
-    "OK",
-    30000
-  );
-
-  const yesBtn = document.querySelector(".yes-btn");
-  const noBtn = document.querySelector(".no-btn");
-
-  yesBtn.addEventListener("click", async (event) => {
+  const closeBtn = document.querySelector(".close-btn-one-el");
+  closeBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    oneElection.classList.remove("show");
-    oneElection.classList.add("hidden");
-    message("Individual Election Page closed!", "OK", 2000);
-  });
+    message(
+      `Any updates will be lost after close! would you like to close? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
 
-  noBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    message("Tab closing rejected, continue editing!", "error", 2000);
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      oneElection.classList.remove("show");
+      oneElection.classList.add("hidden");
+      message("Individual Election Page closed!", "OK", 2000);
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Tab closing rejected, continue editing!", "error", 2000);
+    });
   });
 }
 
@@ -397,7 +395,7 @@ function addOption(extOpt, addOpt) {
 function addListeners() {
   updateElectionListener();
   deleteElectionListener();
-  // closeBTN();
+  closeBTN();
 }
 
 addTopicFunction();

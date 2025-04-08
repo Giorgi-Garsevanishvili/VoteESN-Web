@@ -179,7 +179,7 @@ closeBtn.addEventListener("click", (event) => {
   });
 });
 
-// addExtraInput(addOptionBtn, extraOption);
+ addExtraInput(addOptionBtn, extraOption);
 
 export function addExtraInput(target, box) {
   let inputCount = 2;

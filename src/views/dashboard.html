@@ -10,6 +10,22 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
+    <div class="see-user-box hidden">
+      <div class="user-content">
+        <button class="close-btn-user">
+          <img
+            class="close-img"
+            src="../../img/admin/dashboard/circle-xmark.png"
+            alt="close"
+          />
+        </button>
+        <div class="users-list">
+          <div>name</div>
+          <div>surname</div>
+          <div>role</div>
+        </div>
+      </div>
+    </div>
     <div class="one-election hidden">
       <div class="cont-one-el">
         <div class="one-el-form"></div>
@@ -117,13 +133,22 @@
       </div>
     </header>
     <main>
-      <button class="add-election-btn">
-        <img
-          src="../../img/admin/dashboard/square-plus.png"
-          class="add-btn-img"
-          alt="add-election"
-        />ADD ELECTION
-      </button>
+      <div class="main-buttons">
+        <button class="add-election-btn">
+          <img
+            src="../../img/admin/dashboard/square-plus.png"
+            class="add-btn-img"
+            alt="add-election"
+          />ADD ELECTION
+        </button>
+        <button class="users-btn">
+          <img
+            class="users-img"
+            src="../../img/admin/dashboard/user-pen.png"
+            alt="see users"
+          />USERS
+        </button>
+      </div>
       <div class="election-box">
         <div class="election-title">
           <h4>Elections</h4>
@@ -133,5 +158,6 @@
     </main>
     <div class="message hidden"></div>
     <script type="module" src="../../admin/dashboard.js"></script>
+    <script type="module" src="../api/users.js"></script>
   </body>
 </html>
