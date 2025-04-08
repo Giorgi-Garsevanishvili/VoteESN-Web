@@ -34,6 +34,10 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.3;
+}
+
 html,
 body {
   font-family: "Montserrat", sans-serif;

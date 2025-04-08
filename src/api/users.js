@@ -85,9 +85,9 @@ async function getUsers() {
       `;
       userListDOM.insertAdjacentHTML("beforeend", html);
     });
-    console.log(users);
     deleteUserListener();
     editUserListener();
+    saveUserListener();
     return users;
   } catch (error) {
     message(error.message);
@@ -150,8 +150,46 @@ function editUserListener() {
   });
 }
 
+function saveUserListener() {
+  const save = document.querySelectorAll(".save-user");
+
+  save.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      const oneUser = event.target.closest(".one-user");
+
+      const savebtn = oneUser.querySelector(".save-user");
+      const name = oneUser.querySelector(".name");
+      const email = oneUser.querySelector(".email");
+      const role = oneUser.querySelector("#role");
+      const password = oneUser.querySelector(".password");
+
+      const id = oneUser.querySelector(".user-id").value;
+      btn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        let newUser = {
+          name: name.value.trim(),
+          email: email.value.trim(),
+          role: role.value,
+        };
+
+        if (password.value !== "") {
+          newUser.password = password.value.trim();
+        }
+
+        savebtn.disabled = true;
+        await updateUser(id, newUser);
+        setTimeout(() => {
+          savebtn.disabled = false;
+          userListDOM.innerHTML = "";
+          getUsers();
+        }, 3000);
+      });
+    });
+  });
+}
+
 async function createUser(newUser) {
-  console.log(newUser);
   try {
     if (
       newUser.name === "" ||
@@ -186,7 +224,7 @@ async function deleteUser(id) {
   }
 }
 
-async function updateUser(id) {
+async function updateUser(id, data) {
   try {
     const response = await axios.patch(
       `https://voteesn-api.onrender.com/api/v1/admin/system/users/${id}`,
