@@ -264,6 +264,10 @@ main {
   border-radius: 50em;
 }
 
+.tool-name {
+  margin-top: 2rem;
+}
+
 .close-tool-img,
 .close-img,
 .close-img-one-el {
@@ -773,14 +777,6 @@ main {
   border: 2px solid black;
   border-radius: 2rem;
   margin: 2rem;
-}
-
-.tool-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 1.5rem;
-  width: 80vw;
 }
 
 .tool-cont {

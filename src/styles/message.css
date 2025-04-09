@@ -2,7 +2,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   right: 0rem;
   top: 2rem;
   padding: 1.6rem;
