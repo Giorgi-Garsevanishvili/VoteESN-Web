@@ -98,8 +98,17 @@ main {
   padding: 1.5rem;
 }
 
+.del-res-btn,
+.get-res-btn,
+.gen-qr-btn,
+.get-qr-btn,
+.del-qr-btn,
 .users-btn,
 .add-election-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 10rem;
   height: 10rem;
   border: none;
@@ -107,6 +116,11 @@ main {
   background-color: transparent;
 }
 
+.del-res-img,
+.get-res-img,
+.gen-qr-img,
+.get-qr-img,
+.del-qr-img,
 .users-img,
 .add-btn-img {
   border-radius: 1.8rem;
@@ -115,6 +129,11 @@ main {
   transition: 0.3s;
 }
 
+.del-res-img:hover,
+.get-res-img:hover,
+.gen-qr-img:hover,
+.get-qr-img:hover,
+.del-qr-img:hover,
 .users-img:hover,
 .add-btn-img:hover {
   border: 1px solid black;
@@ -231,6 +250,7 @@ main {
   justify-content: center;
 }
 
+.close-tool-btn,
 .close-btn-user,
 .close-btn,
 .close-btn-one-el {
@@ -244,6 +264,7 @@ main {
   border-radius: 50em;
 }
 
+.close-tool-img,
 .close-img,
 .close-img-one-el {
   width: 4rem;
@@ -456,7 +477,7 @@ main {
   justify-content: start;
   border-radius: 1rem;
   width: 80vw;
-  height:fit-content;
+  height: fit-content;
   padding: 2rem;
   overflow: auto;
   border: 1px solid black;
@@ -592,9 +613,6 @@ main {
     margin: 0px;
   }
 
-  .election-form {
-  }
-
   .content,
   .create-user-cont,
   .cont-one-el {
@@ -602,7 +620,7 @@ main {
     margin: 0px;
     width: 100vw;
     max-height: 95vh;
-    height: 90vh;
+    height: auto;
   }
 
   .user-content {
@@ -636,6 +654,26 @@ main {
   .save-user,
   .edit-user {
     width: 6rem;
+  }
+
+  .main-buttons {
+    flex-direction: column;
+  }
+
+  .res-box,
+  .access-box {
+    width: 90%;
+  }
+
+  .gen-qr-img,
+  .get-qr-img,
+  .del-qr-img,
+  .users-img,
+  .add-btn-img {
+    border-radius: 1.5rem;
+    padding: 0.2rem;
+    width: 5rem;
+    transition: 0.3s;
   }
 }
 
@@ -690,14 +728,12 @@ main {
   .create-user-cont {
     overflow: hidden;
   }
-  
 
-  .one-el-form input, 
+  .one-el-form input,
   .content input {
     max-width: 30vw;
     width: 27vw;
   }
-
 
   .delete-user,
   .save-user,
@@ -706,4 +742,42 @@ main {
   }
 }
 
+.main-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
 
+.res-box,
+.access-box {
+  margin: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 4rem;
+  padding: 1rem;
+}
+
+.tools-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 2rem;
+  margin: 2rem;
+}
+
+.tool-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem;
+  width: 80vw;
+}
+
+.close-tool-btn {
+  display: flex;
+  position: relative;
+  margin: 0px;
+}

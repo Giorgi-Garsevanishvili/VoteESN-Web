@@ -156,6 +156,53 @@
             alt="see users"
           />USERS
         </button>
+        <div class="access-box">
+          <button class="gen-qr-btn">
+            <img
+              class="gen-qr-img"
+              src="../../img/admin/dashboard/qr.png"
+            />Generate QR Codes
+          </button>
+          <button class="get-qr-btn">
+            <img
+              class="get-qr-img"
+              src="../../img/admin/dashboard/file-download.png"
+            />Download QR codes
+          </button>
+          <button class="del-qr-btn">
+            <img
+              class="del-qr-img"
+              src="../../img/admin/dashboard/trash.png"
+            />Delete QR Codes
+          </button>
+        </div>
+        <div class="res-box">
+          <button class="get-res-btn">
+            <img
+              class="get-res-img"
+              src="../../img/admin/dashboard/chart-pie.png"
+            />Get Results
+          </button>
+          <button class="del-res-btn">
+            <img
+              class="del-res-img"
+              src="../../img/admin/dashboard/document-circle-wrong.png"
+            />Delete Results
+          </button>
+        </div>
+      </div>
+      <div class="tools-box">
+        <div class="tool-bar">
+          <h3 class="tool-name">Generate QR Codes</h3>
+          <button class="close-tool-btn">
+            <img
+              class="close-tool-img"
+              src="../../img/admin/dashboard/circle-xmark.png"
+              alt="close-tool"
+            />
+          </button>
+        </div>
+        <div class="tool-cont"></div>
       </div>
       <div class="election-box">
         <div class="election-title">
@@ -165,6 +212,7 @@
       </div>
     </main>
     <div class="message hidden"></div>
+    <script type="module" src="../api/accessCodes.js"></script>
     <script type="module" src="../../admin/dashboard.js"></script>
     <script type="module" src="../api/users.js"></script>
   </body>
