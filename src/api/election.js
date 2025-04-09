@@ -16,6 +16,11 @@ const addTopicBtn = document.querySelector(".add-topic");
 
 let responseData = null;
 
+export async function getAllElection(elections) {
+  elections = await axios.get(getElectionUrl, config);
+  return elections;
+}
+
 export async function getElection() {
   try {
     electionList.innerHTML = `Loading...`;
