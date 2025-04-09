@@ -644,6 +644,12 @@ main {
     max-width: 55vw;
   }
 
+  .tools-box,
+  .tool-cont,
+  .generated {
+    flex-direction: column;
+  }
+
   .one-el-btns,
   .button-box {
     display: flex;
