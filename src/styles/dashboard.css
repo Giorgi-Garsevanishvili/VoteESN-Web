@@ -797,11 +797,17 @@ main {
   border-radius: 0.6rem;
 }
 
-.tool-cont button {
+.gen-qr,
+.clear-box {
   color: white;
   border: none;
   background-color: rgb(15, 114, 15);
   transition: 0.3s;
+  margin: 0.2rem;
+}
+
+.clear-box {
+  background-color: rgb(181, 108, 43);
 }
 
 .tool-cont button:hover {

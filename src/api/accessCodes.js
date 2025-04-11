@@ -16,7 +16,7 @@ const delResBtn = document.querySelector(".del-res.btn");
 genQRBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   toolContainer.innerHTML = "";
-  generated.innerHTML = ""
+  generated.innerHTML = "";
 
   const elections = await getAllElection();
   const allElections = elections.data.data.allElections;
@@ -38,6 +38,7 @@ genQRBtn.addEventListener("click", async (event) => {
     <input disabled class="election-id" placeholder="Election ID:" value="${firstElection._id}">
     <input class="voter-num" type="number" placeholder="Number of Voters">
     <button class="gen-qr">Generate Access Codes</button>
+    <button class="clear-box hidden">Clear</button>  
   `;
 
   toolContainer.insertAdjacentHTML("afterbegin", html);
@@ -45,6 +46,7 @@ genQRBtn.addEventListener("click", async (event) => {
   const genQr = document.querySelector(".gen-qr");
   const selector = document.querySelector(".election-selector");
   const electionID = document.querySelector(".election-id");
+  const clearBtn = document.querySelector(".clear-box");
 
   selector.addEventListener("change", (e) => {
     electionID.value = e.target.value;
@@ -70,6 +72,21 @@ genQRBtn.addEventListener("click", async (event) => {
         tokenOutput = `<textarea class="token-output">${el}</textarea>`;
         generated.insertAdjacentHTML("beforeend", tokenOutput);
       });
+      if (generated.innerHTML === "") {
+        clearBtn.classList.add("hidden");
+        clearBtn.classList.remove("show");
+      } else {
+        clearBtn.classList.add("show");
+        clearBtn.classList.remove("hidden");
+      }
+
+      clearBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        generated.innerHTML = ''
+        clearBtn.classList.add("hidden");
+        clearBtn.classList.remove("show");
+      })
     }
   });
 });
