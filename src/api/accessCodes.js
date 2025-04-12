@@ -5,6 +5,7 @@ import { getAllElection } from "./election.js";
 const toolTitle = document.querySelector(".tool-name");
 const toolContainer = document.querySelector(".tool-cont");
 const generated = document.querySelector(".generated");
+const tokCountBox = document.querySelector(".tok-count-box");
 
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
@@ -109,6 +110,12 @@ getQRBtn.addEventListener("click", async (event) => {
     `;
   });
 
+  let tokenCount = {
+    alltok: 0,
+    usedtok: 0,
+    validtok: 0,
+  };
+
   let html = `
     <select class="election-selector-get">${optionsHTML}</select>
     <input disabled class="election-id-get" placeholder="Election ID:" value="${firstElection._id}">
@@ -129,7 +136,14 @@ getQRBtn.addEventListener("click", async (event) => {
   const selector = document.querySelector(".election-selector-get");
 
   selector.addEventListener("change", (e) => {
+    generated.innerHTML = "";
     electionID.value = e.target.value;
+    downloadBtn.classList.remove("show");
+    downloadBtn.classList.add("hidden");
+    deleteBtn.classList.remove("show");
+    deleteBtn.classList.add("hidden");
+    tokCountBox.classList.remove("show");
+    tokCountBox.classList.add("hidden");
   });
 
   clearBtn.addEventListener("click", (event) => {
@@ -150,7 +164,6 @@ getQRBtn.addEventListener("click", async (event) => {
       );
 
       const tokens = response.data.tokens;
-      console.log(tokens);
 
       let tokensHTML = "";
       tokens.forEach((token) => {
@@ -168,12 +181,28 @@ getQRBtn.addEventListener("click", async (event) => {
 
       generated.insertAdjacentHTML("afterbegin", tokensHTML);
 
+      const allTok = document.querySelector(".tok-count");
+      const usedTok = document.querySelector(".tok-used");
+      const validTok = document.querySelector(".tok-valid");
+
+      tokenCount.alltok = tokens.length;
+      tokenCount.usedtok = tokens.filter((t) => t.used === true).length;
+      tokenCount.validtok = tokens.filter((t) => t.used === false).length;
+
+      allTok.value = `ALL: ${tokenCount.alltok}`;
+      usedTok.value = `USED: ${tokenCount.usedtok}`;
+      validTok.value = `VALID: ${tokenCount.validtok}`;
+
       if (tokens) {
+        tokCountBox.classList.remove("hidden");
+        tokCountBox.classList.add("show");
         downloadBtn.classList.remove("hidden");
         downloadBtn.classList.add("show");
         deleteBtn.classList.remove("hidden");
         deleteBtn.classList.add("show");
       } else {
+        tokCountBox.classList.remove("show");
+        tokCountBox.classList.add("hidden");
         downloadBtn.classList.remove("show");
         downloadBtn.classList.add("hidden");
         deleteBtn.classList.remove("show");
@@ -185,7 +214,16 @@ getQRBtn.addEventListener("click", async (event) => {
     }
   });
 
+  downloadBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
 
+    try {
+      const id = electionID.value;
+      await downloadQrCodes(id);
+    } catch (error) {
+      message(error);
+    }
+  });
 });
 
 async function generateQrCodes(data) {
@@ -235,7 +273,6 @@ async function downloadQrCodes(id) {
     const a = document.createElement("a");
 
     a.href = url;
-    console.log("Content-Disposition:", disposition);
     a.download = filename;
     document.body.appendChild(a);
     a.click();
@@ -244,8 +281,20 @@ async function downloadQrCodes(id) {
     window.URL.revokeObjectURL(url);
 
     message("File will download soon!", "OK", 3000);
-    console.log(response);
   } catch (error) {
     message(error.response.data.message);
+  }
+}
+
+async function deleteQrcodes(id) {
+  try {
+    const response = await axios.delete(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
+      config
+    );
+    message(response.data.msg);
+  } catch (error) {
+    message(error.response.data.message);
+    console.log(error);
   }
 }
