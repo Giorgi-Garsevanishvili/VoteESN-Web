@@ -313,7 +313,7 @@ getResBtn.addEventListener("click", async (event) => {
 
   let html = `
   <select class="election-selector-get">${optionsHTML}</select>
-  <input disabled class="election-id-get" placeholder="Election ID:" value="${firstElection._id}">
+  <input disabled class="election-id-get" value="${firstElection._id}">
   <button class="get-result">Get Results</button>
   <button class="download-result hidden">Download Full Report</button>
   <button class="delete-result hidden">Delete</button>  
@@ -499,6 +499,37 @@ getResBtn.addEventListener("click", async (event) => {
     } else {
       resBox.innerHTML = "No results to display!";
     }
+  });
+
+  downloadResultBTN.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const container = document.getElementById("charts");
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const selectedOption = selector.options[selector.selectedIndex];
+    const electionTitle = selectedOption.text;
+    const electionId = selectedOption.value;
+
+    const d = new Date();
+    const fullTitle = `Election Results: ${electionTitle} (ID: ${electionId}), REPORT REQUESTED AT: ${d}`;
+    const maxWidth = 180;
+    const lines = pdf.splitTextToSize(fullTitle, maxWidth);
+
+    pdf.setFontSize(18);
+    pdf.text(lines, 10, 20);
+
+    await html2canvas(container).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
+      pdf.save(`Election Report: ${electionTitle}`);
+    });
   });
 });
 
