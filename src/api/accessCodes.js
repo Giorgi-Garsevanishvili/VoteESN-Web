@@ -169,6 +169,8 @@ getQRBtn.addEventListener("click", async (event) => {
       deleteBtn.classList.add("hidden");
       tokCountBox.classList.remove("show");
       tokCountBox.classList.add("hidden");
+      clearBtn.classList.add("hidden");
+      clearBtn.classList.remove("show");
     });
 
     clearBtn.addEventListener("click", (event) => {
@@ -274,7 +276,20 @@ getQRBtn.addEventListener("click", async (event) => {
 
       yesBtn.addEventListener("click", async (event) => {
         event.preventDefault();
-        await deleteQrcodes(electionID.value);
+        try {
+          await deleteQrcodes(electionID.value);
+          getCodesBtn.disabled = true;
+          downloadBtn.disabled = true;
+          deleteBtn.disabled = true;
+          clearBtn.disabled = true;
+          setTimeout(() => {
+            getCodesBtn.disabled = false;
+            downloadBtn.disabled = false;
+            deleteBtn.disabled = false;
+            clearBtn.disabled = false;
+            location.reload();
+          }, 2000);
+        } catch (error) {}
       });
 
       noBtn.addEventListener("click", (event) => {
@@ -303,17 +318,18 @@ getResBtn.addEventListener("click", async (event) => {
   const electionResponse = await getAllElection();
   const allElections = electionResponse.data.data.allElections;
 
-  const firstElection = allElections[0];
+  if (allElections.length > 0) {
+    const firstElection = allElections[0];
 
-  let optionsHTML = "";
+    let optionsHTML = "";
 
-  allElections.forEach((election) => {
-    optionsHTML += `
+    allElections.forEach((election) => {
+      optionsHTML += `
   <option value="${election._id}">${election.title}</option>
   `;
-  });
+    });
 
-  let html = `
+    let html = `
   <select class="election-selector-get">${optionsHTML}</select>
   <input disabled class="election-id-get" value="${firstElection._id}">
   <button class="get-result">Get Results</button>
@@ -322,32 +338,33 @@ getResBtn.addEventListener("click", async (event) => {
   <button class="clear-box-result hidden">Clear</button>
 `;
 
-  toolContainer.insertAdjacentHTML("afterbegin", html);
+    toolContainer.insertAdjacentHTML("afterbegin", html);
 
-  const electionID = document.querySelector(".election-id-get");
-  const selector = document.querySelector(".election-selector-get");
+    const electionID = document.querySelector(".election-id-get");
+    const selector = document.querySelector(".election-selector-get");
 
-  const getResultBTN = document.querySelector(".get-result");
-  const downloadResultBTN = document.querySelector(".download-result");
-  const deleteResultBTN = document.querySelector(".delete-result");
-  const clearBTN = document.querySelector(".clear-box-result");
+    const getResultBTN = document.querySelector(".get-result");
+    const downloadResultBTN = document.querySelector(".download-result");
+    const deleteResultBTN = document.querySelector(".delete-result");
+    const clearBTN = document.querySelector(".clear-box-result");
 
-  getResultBTN.addEventListener("click", async (event) => {
-    event.preventDefault();
+    getResultBTN.addEventListener("click", async (event) => {
+      event.preventDefault();
 
-    resBox.innerHTML = "";
-    generated.innerHTML = "";
-    results = "";
+      resBox.innerHTML = "";
+      generated.innerHTML = "";
+      results = "";
 
-    await getResults(electionID.value);
+      await getResults(electionID.value);
 
-    if (results.length > 0) {
-      downloadResultBTN.classList.remove("hidden");
-      downloadResultBTN.classList.add("show");
-      deleteResultBTN.classList.remove("hidden");
-      deleteResultBTN.classList.add("show");
-      clearBTN.classList.remove("hidden");
-      clearBTN.classList.add("show");
+      if (results.length > 0) {
+        downloadResultBTN.classList.remove("hidden");
+        downloadResultBTN.classList.add("show");
+        deleteResultBTN.classList.remove("hidden");
+        deleteResultBTN.classList.add("show");
+        clearBTN.classList.remove("hidden");
+        clearBTN.classList.add("show");
+      }
 
       const flatAnswers = results.flat();
 
@@ -498,84 +515,87 @@ getResBtn.addEventListener("click", async (event) => {
 
         new Chart(canvas, config);
       });
-    } else {
-      resBox.innerHTML = "No results to display!";
-    }
-  });
+      downloadResultBTN.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const container = document.getElementById("charts");
 
-  downloadResultBTN.addEventListener("click", async (event) => {
-    event.preventDefault();
-    const container = document.getElementById("charts");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF("p", "mm", "a4");
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("p", "mm", "a4");
+        const selectedOption = selector.options[selector.selectedIndex];
+        const electionTitle = selectedOption.text;
+        const electionId = selectedOption.value;
 
-    const selectedOption = selector.options[selector.selectedIndex];
-    const electionTitle = selectedOption.text;
-    const electionId = selectedOption.value;
+        const d = new Date();
+        const fullTitle = `Election Results: ${electionTitle} (ID: ${electionId}), REPORT REQUESTED AT: ${d}`;
+        const maxWidth = 180;
+        const lines = pdf.splitTextToSize(fullTitle, maxWidth);
 
-    const d = new Date();
-    const fullTitle = `Election Results: ${electionTitle} (ID: ${electionId}), REPORT REQUESTED AT: ${d}`;
-    const maxWidth = 180;
-    const lines = pdf.splitTextToSize(fullTitle, maxWidth);
+        pdf.setFontSize(18);
+        pdf.text(lines, 10, 20);
 
-    pdf.setFontSize(18);
-    pdf.text(lines, 10, 20);
+        await html2canvas(container).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
 
-    await html2canvas(container).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
+          pdf.save(`Election Report: ${electionTitle}`);
+        });
+      });
 
-      pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
-      pdf.save(`Election Report: ${electionTitle}`);
+      clearBTN.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        generated.innerHTML = "";
+        clearBTN.classList.add("hidden");
+        clearBTN.classList.remove("show");
+        generated.innerHTML = "";
+        downloadResultBTN.classList.remove("show");
+        downloadResultBTN.classList.add("hidden");
+        deleteResultBTN.classList.remove("show");
+        deleteResultBTN.classList.add("hidden");
+        tokCountBox.classList.remove("show");
+        tokCountBox.classList.add("hidden");
+      });
+
+      deleteResultBTN.addEventListener("click", (event) => {
+        event.preventDefault;
+
+        message(
+          `Would you like to delete the Access Codes? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+          "OK",
+          30000
+        );
+
+        const yesBtn = document.querySelector(".yes-btn");
+        const noBtn = document.querySelector(".no-btn");
+
+        yesBtn.addEventListener("click", async (event) => {
+          event.preventDefault();
+          await deleteResult(electionID.value);
+          setTimeout(() => {
+            location.reload();
+          }, 3000);
+        });
+
+        noBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          message("Delete Request Rejected!", "error", 3000);
+        });
+      });
     });
-  });
-
-  clearBTN.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    generated.innerHTML = "";
-    clearBTN.classList.add("hidden");
-    clearBTN.classList.remove("show");
-    generated.innerHTML = "";
-    downloadResultBTN.classList.remove("show");
-    downloadResultBTN.classList.add("hidden");
-    deleteResultBTN.classList.remove("show");
-    deleteResultBTN.classList.add("hidden");
-    tokCountBox.classList.remove("show");
-    tokCountBox.classList.add("hidden");
-  });
-
-  deleteResultBTN.addEventListener("click", (event) => {
-    event.preventDefault;
-
-    message(
-      `Would you like to delete the Access Codes? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
-      "OK",
-      30000
-    );
-
-    const yesBtn = document.querySelector(".yes-btn");
-    const noBtn = document.querySelector(".no-btn");
-
-    yesBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-      await deleteResult(electionID.value);
-    });
-
-    noBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      message("Delete Request Rejected!", "error", 3000);
-    });
-  });
+  } else {
+    toolContainer.innerHTML = `<h4 class="tok-used">This action is not available! Please create Election.</h4>`;
+  }
 });
 
 async function generateQrCodes(data) {
   try {
     const genQr = document.querySelector(".gen-qr");
+    const clearBTN = document.querySelector(".clear-box");
     const voterNum = document.querySelector(".voter-num");
     const response = await axios.post(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${data.electionId}/generate-qr`,
@@ -584,9 +604,11 @@ async function generateQrCodes(data) {
     );
 
     genQr.disabled = true;
+    clearBTN.disabled = true;
     message("QR codes generated and saved", "OK", 3000);
     setTimeout(() => {
       genQr.disabled = false;
+      clearBTN.disabled = false;
       voterNum.value = "";
     }, 2000);
     return response;
@@ -635,25 +657,11 @@ async function downloadQrCodes(id) {
 
 export async function deleteQrcodes(id) {
   try {
-    const getCodesBtn = document.querySelector(".get-codes");
-    const downloadBtn = document.querySelector(".download-codes");
-    const deleteBtn = document.querySelector(".delete-codes");
     const response = await axios.delete(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
       config
     );
     message(response.data.msg, "OK");
-
-    getCodesBtn.disabled = true;
-    downloadBtn.disabled = true;
-    deleteBtn.disabled = true;
-
-    setTimeout(() => {
-      getCodesBtn.disabled = false;
-      downloadBtn.disabled = false;
-      deleteBtn.disabled = false;
-      location.reload();
-    }, 2000);
   } catch (error) {
     message(error.response.data.message);
     console.log(error);
@@ -674,7 +682,7 @@ async function getResults(id) {
   }
 }
 
-async function deleteResult(id) {
+export async function deleteResult(id) {
   try {
     const getResultBTN = document.querySelector(".get-result");
     const downloadResultBTN = document.querySelector(".download-result");
@@ -699,7 +707,6 @@ async function deleteResult(id) {
       downloadResultBTN.disabled = false;
       deleteResultBTN.disabled = false;
       clearBTN.disabled = false;
-      location.reload();
     }, 2000);
   } catch (error) {
     message(error.response.data.message);
