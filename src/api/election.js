@@ -1,6 +1,7 @@
 import { message } from "../utils/message.js";
 import { config, token } from "../handlers/authHandler.js";
 import { addExtraInput, electionData } from "../../admin/dashboard.js";
+import { deleteQrcodes } from "./accessCodes.js";
 
 const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
 const createElectionUrl =
@@ -343,6 +344,7 @@ function deleteElectionListener() {
       event.preventDefault();
       try {
         await deleteElection(responseData._id);
+        await deleteQrcodes(responseData._id)
         message("Election Successfully Deleted!", "OK", 3000);
         updateElection.disabled = true;
         deleteElectionBtn.disabled = true;
@@ -352,6 +354,8 @@ function deleteElectionListener() {
           location.reload();
         }, 2000);
       } catch (error) {
+        console.log(error);
+        
         message(error.message);
       }
     });
