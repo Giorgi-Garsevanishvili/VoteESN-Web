@@ -22,6 +22,7 @@ genQRBtn.addEventListener("click", async (event) => {
   getQRBtn.classList.remove("selected");
   getResBtn.classList.remove("selected");
 
+  resBox.innerHTML = "";
   toolContainer.innerHTML = "";
   generated.innerHTML = "";
   tokCountBox.classList.remove("show");
@@ -114,6 +115,7 @@ getQRBtn.addEventListener("click", async (event) => {
   getQRBtn.classList.add("selected");
   getResBtn.classList.remove("selected");
 
+  resBox.innerHTML = "";
   toolContainer.innerHTML = "";
   tokCountBox.classList.remove("show");
   tokCountBox.classList.add("hidden");
@@ -531,6 +533,44 @@ getResBtn.addEventListener("click", async (event) => {
       pdf.save(`Election Report: ${electionTitle}`);
     });
   });
+
+  clearBTN.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    generated.innerHTML = "";
+    clearBTN.classList.add("hidden");
+    clearBTN.classList.remove("show");
+    generated.innerHTML = "";
+    downloadResultBTN.classList.remove("show");
+    downloadResultBTN.classList.add("hidden");
+    deleteResultBTN.classList.remove("show");
+    deleteResultBTN.classList.add("hidden");
+    tokCountBox.classList.remove("show");
+    tokCountBox.classList.add("hidden");
+  });
+
+  deleteResultBTN.addEventListener("click", (event) => {
+    event.preventDefault;
+
+    message(
+      `Would you like to delete the Access Codes? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      await deleteResult(electionID.value);
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Delete Request Rejected!", "error", 3000);
+    });
+  });
 });
 
 async function generateQrCodes(data) {
@@ -628,6 +668,39 @@ async function getResults(id) {
     );
     const result = response.data.result;
     results = result;
+  } catch (error) {
+    message(error.response.data.message);
+    console.log(error);
+  }
+}
+
+async function deleteResult(id) {
+  try {
+    const getResultBTN = document.querySelector(".get-result");
+    const downloadResultBTN = document.querySelector(".download-result");
+    const deleteResultBTN = document.querySelector(".delete-result");
+    const clearBTN = document.querySelector(".clear-box-result");
+
+    const response = await axios.delete(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/results
+`,
+      config
+    );
+    message(response.data, "OK");
+    console.log(response);
+
+    getResultBTN.disabled = true;
+    downloadResultBTN.disabled = true;
+    deleteResultBTN.disabled = true;
+    clearBTN.disabled = true;
+
+    setTimeout(() => {
+      getResultBTN.disabled = false;
+      downloadResultBTN.disabled = false;
+      deleteResultBTN.disabled = false;
+      clearBTN.disabled = false;
+      location.reload();
+    }, 2000);
   } catch (error) {
     message(error.response.data.message);
     console.log(error);
