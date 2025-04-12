@@ -9,15 +9,15 @@ const tokCountBox = document.querySelector(".tok-count-box");
 
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
-const delQrBtn = document.querySelector(".del-qr-btn");
 
 const getResBtn = document.querySelector(".get-res-btn");
-const delResBtn = document.querySelector(".del-res.btn");
 
 genQRBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   toolContainer.innerHTML = "";
   generated.innerHTML = "";
+  tokCountBox.classList.remove("show");
+  tokCountBox.classList.add("hidden");
 
   const elections = await getAllElection();
   const allElections = elections.data.data.allElections;
@@ -95,6 +95,8 @@ genQRBtn.addEventListener("click", async (event) => {
 getQRBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   toolContainer.innerHTML = "";
+  tokCountBox.classList.remove("show");
+  tokCountBox.classList.add("hidden");
   generated.innerHTML = "";
   toolTitle.innerHTML = "Get Access Codes";
 
@@ -224,6 +226,29 @@ getQRBtn.addEventListener("click", async (event) => {
       message(error);
     }
   });
+
+  deleteBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to delete the Access Codes? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      await deleteQrcodes(electionID.value);
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Delete Request Rejected!", "error", 3000);
+    });
+  });
 });
 
 async function generateQrCodes(data) {
@@ -288,11 +313,25 @@ async function downloadQrCodes(id) {
 
 async function deleteQrcodes(id) {
   try {
+    const getCodesBtn = document.querySelector(".get-codes");
+    const downloadBtn = document.querySelector(".download-codes");
+    const deleteBtn = document.querySelector(".delete-codes");
     const response = await axios.delete(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
       config
     );
-    message(response.data.msg);
+    message(response.data.msg, "OK");
+
+    getCodesBtn.disabled = true;
+    downloadBtn.disabled = true;
+    deleteBtn.disabled = true;
+
+    setTimeout(() => {
+      getCodesBtn.disabled = false;
+      downloadBtn.disabled = false;
+      deleteBtn.disabled = false;
+      location.reload();
+    }, 2000);
   } catch (error) {
     message(error.response.data.message);
     console.log(error);
