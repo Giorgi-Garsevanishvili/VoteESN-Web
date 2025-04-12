@@ -109,11 +109,13 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 2rem;
   width: 10rem;
   height: 10rem;
   border: none;
   font-weight: bold;
   background-color: transparent;
+  transition: 0.2s;
 }
 
 .del-res-img,
@@ -802,7 +804,11 @@ main {
 .clear-box,
 .clear-box-get,
 .get-codes,
-.download-codes {
+.download-codes,
+.download-result,
+.get-result,
+.delete-result,
+.clear-box-result {
   color: white;
   border: none;
   background-color: rgb(15, 114, 15);
@@ -811,15 +817,18 @@ main {
 }
 
 .clear-box,
-.download-codes {
+.download-codes,
+.download-result {
   background-color: rgb(181, 108, 43);
 }
 
-.delete-codes {
+.delete-codes,
+.delete-result {
   background-color: rgb(133, 26, 26);
 }
 
-.clear-box-get {
+.clear-box-get,
+.clear-box-result {
   background-color: rgb(210, 162, 17);
 }
 
@@ -886,7 +895,7 @@ main {
 .tok-count-box input {
   font-size: 1.1rem;
   text-align: center;
-  text-justify:auto;
+  text-justify: auto;
   margin: 0.5rem;
   margin-bottom: 2rem;
   padding: 1rem;
@@ -907,4 +916,38 @@ main {
 .tok-count {
   background-color: rgb(55, 131, 198);
   color: white;
+}
+
+.selected {
+  border-bottom: 5px solid rgba(249, 146, 2, 0.864);
+}
+
+#charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.chart-container {
+  min-width: 20vw;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-container h4 {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.el-res {
+  font-size: 2rem;
+  margin: 2rem;
 }
