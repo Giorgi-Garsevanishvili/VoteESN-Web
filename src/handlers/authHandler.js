@@ -6,6 +6,14 @@ export const config = {
   },
 };
 
+export const configZIP = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/zip",
+  },
+  responseType: "blob",
+};
+
 export function checkAuth() {
   if (!token) {
     localStorage.setItem("error", "Token is not proveded!");
@@ -15,7 +23,7 @@ export function checkAuth() {
 
 export function checkRole() {
   const userInfo = JSON.parse(localStorage.getItem("user"));
-  
+
   if (userInfo.role === "admin") {
     window.location.href = "../src/views/dashboard.html";
   } else if (userInfo.role === "voter") {

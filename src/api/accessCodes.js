@@ -1,4 +1,4 @@
-import { config } from "../handlers/authHandler.js";
+import { config, configZIP } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 import { getAllElection } from "./election.js";
 
@@ -80,15 +80,112 @@ genQRBtn.addEventListener("click", async (event) => {
         clearBtn.classList.remove("hidden");
       }
 
-      clearBtn.addEventListener('click', (event) => {
+      clearBtn.addEventListener("click", (event) => {
         event.preventDefault();
 
-        generated.innerHTML = ''
+        generated.innerHTML = "";
         clearBtn.classList.add("hidden");
         clearBtn.classList.remove("show");
-      })
+      });
     }
   });
+});
+
+getQRBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  toolContainer.innerHTML = "";
+  generated.innerHTML = "";
+  toolTitle.innerHTML = "Get Access Codes";
+
+  const electionResponse = await getAllElection();
+  const allElections = electionResponse.data.data.allElections;
+
+  const firstElection = allElections[0];
+  let optionsHTML = "";
+
+  allElections.forEach((election) => {
+    optionsHTML += `
+    <option value="${election._id}">${election.title}</option>
+    `;
+  });
+
+  let html = `
+    <select class="election-selector-get">${optionsHTML}</select>
+    <input disabled class="election-id-get" placeholder="Election ID:" value="${firstElection._id}">
+    <button class="get-codes">Get Codes</button>
+    <button class="clear-box-get hidden">Clear</button>
+    <button class="download-codes hidden">Download</button>
+    <button class="delete-codes hidden">Delete</button>  
+  `;
+
+  toolContainer.insertAdjacentHTML("afterbegin", html);
+
+  const getCodesBtn = document.querySelector(".get-codes");
+  const downloadBtn = document.querySelector(".download-codes");
+  const deleteBtn = document.querySelector(".delete-codes");
+
+  const electionID = document.querySelector(".election-id-get");
+  const clearBtn = document.querySelector(".clear-box-get");
+  const selector = document.querySelector(".election-selector-get");
+
+  selector.addEventListener("change", (e) => {
+    electionID.value = e.target.value;
+  });
+
+  clearBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    generated.innerHTML = "";
+    clearBtn.classList.add("hidden");
+    clearBtn.classList.remove("show");
+  });
+
+  getCodesBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    generated.innerHTML = "";
+    try {
+      const response = await axios.get(
+        `https://voteesn-api.onrender.com/api/v1/admin/election/tokens/${electionID.value}`,
+        config
+      );
+
+      const tokens = response.data.tokens;
+      console.log(tokens);
+
+      let tokensHTML = "";
+      tokens.forEach((token) => {
+        const isUsed = token.used === false;
+        tokensHTML += `
+        <div class="token-list">
+          <h5>Token:</h5><input disabled class="token-display ${
+            isUsed ? "valid" : "invalid"
+          }" value="${token.token}">
+          <h5>Used:</h5><input disabled class="token-status ${
+            isUsed ? "valid" : "invalid"
+          }" value="${token.used}">
+        </div>`;
+      });
+
+      generated.insertAdjacentHTML("afterbegin", tokensHTML);
+
+      if (tokens) {
+        downloadBtn.classList.remove("hidden");
+        downloadBtn.classList.add("show");
+        deleteBtn.classList.remove("hidden");
+        deleteBtn.classList.add("show");
+      } else {
+        downloadBtn.classList.remove("show");
+        downloadBtn.classList.add("hidden");
+        deleteBtn.classList.remove("show");
+        deleteBtn.classList.add("hidden");
+      }
+    } catch (error) {
+      message(error.response.data.error);
+      console.log(error);
+    }
+  });
+
+
 });
 
 async function generateQrCodes(data) {
@@ -111,6 +208,44 @@ async function generateQrCodes(data) {
   } catch (error) {
     console.log(error);
 
+    message(error.response.data.message);
+  }
+}
+
+async function downloadQrCodes(id) {
+  try {
+    const response = await axios.get(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
+      configZIP
+    );
+
+    const disposition = response.headers["content-disposition"];
+    let filename = "qrcodes.zip";
+
+    if (disposition && disposition.includes("filename=")) {
+      const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+      if (match?.[1]) {
+        filename = match[1].replace(/['"]/g, "");
+      }
+    }
+
+    const blob = new Blob([response.data]);
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    console.log("Content-Disposition:", disposition);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+
+    message("File will download soon!", "OK", 3000);
+    console.log(response);
+  } catch (error) {
     message(error.response.data.message);
   }
 }

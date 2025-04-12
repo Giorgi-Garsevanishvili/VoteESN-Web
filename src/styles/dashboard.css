@@ -791,14 +791,18 @@ main {
 }
 
 .tool-cont select,
-.tool-cont button  {
+.tool-cont button {
   cursor: pointer;
   padding: 0.6rem;
   border-radius: 0.6rem;
 }
 
 .gen-qr,
-.clear-box {
+.delete-codes,
+.clear-box,
+.clear-box-get,
+.get-codes,
+.download-codes {
   color: white;
   border: none;
   background-color: rgb(15, 114, 15);
@@ -806,8 +810,17 @@ main {
   margin: 0.2rem;
 }
 
-.clear-box {
+.clear-box,
+.download-codes {
   background-color: rgb(181, 108, 43);
+}
+
+.delete-codes {
+  background-color: rgb(133, 26, 26);
+}
+
+.clear-box-get {
+  background-color: rgb(210, 162, 17);
 }
 
 .tool-cont button:hover {
@@ -824,7 +837,7 @@ main {
   text-align: center;
   font-size: 1rem;
   width: 30%;
-  resize: vertical; 
+  resize: vertical;
   overflow: auto;
   margin: 0.2rem;
   margin-bottom: 10px;
@@ -836,4 +849,34 @@ main {
   align-items: center;
   justify-content: center;
   width: 90%;
+}
+
+.token-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+}
+
+.token-display:disabled {
+  width: fit-content;
+  width: 17vw;
+}
+
+.token-status:disabled {
+  text-align: center;
+  width: fit-content;
+  width: 2vw;
+}
+
+.valid {
+  background-color: rgba(13, 186, 13, 0.452);
+  color: rgb(7, 7, 7);
+}
+
+.invalid {
+  background-color: rgba(192, 35, 35, 0.626);
+  color: rgb(0, 0, 0);
 }
