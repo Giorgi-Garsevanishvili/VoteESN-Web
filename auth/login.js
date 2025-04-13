@@ -14,7 +14,7 @@ logBtn.addEventListener("click", async (event) => {
 
 const errorStorage = localStorage.getItem("error");
 
-if(token){
+if (token) {
   checkRole();
 }
 
@@ -57,7 +57,7 @@ async function logIn(event) {
     if (user.role === "admin") {
       window.location.href = "../src/views/dashboard.html";
     } else if (user.role === "voter") {
-      window.location.href = "/vote";
+      window.location.href = "../src/views/vote.html";
     } else {
       window.location.href = "../../login.html";
     }

@@ -182,7 +182,6 @@ function saveUserListener() {
         }
 
         savebtn.disabled = true;
-        console.log(newUser);
         await updateUser(id, newUser);
         setTimeout(() => {
           savebtn.disabled = false;

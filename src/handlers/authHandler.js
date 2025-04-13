@@ -27,7 +27,7 @@ export function checkRole() {
   if (userInfo.role === "admin") {
     window.location.href = "../src/views/dashboard.html";
   } else if (userInfo.role === "voter") {
-    window.location.href = "../../voter.html";
+    window.location.href = "../src/views/vote.html";
   } else {
     window.location.href = "../../login.html";
   }

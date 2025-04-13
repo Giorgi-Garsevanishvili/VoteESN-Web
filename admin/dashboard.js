@@ -123,9 +123,9 @@ submitElectionBtn.addEventListener("click", (event) => {
   });
 });
 
-logOutBtn.addEventListener("click", async (event) => {
+logOutBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  await logOut();
+  logOut();
 });
 
 addElectionBtn.addEventListener("click", (event) => {
@@ -179,7 +179,7 @@ closeBtn.addEventListener("click", (event) => {
   });
 });
 
- addExtraInput(addOptionBtn, extraOption);
+addExtraInput(addOptionBtn, extraOption);
 
 export function addExtraInput(target, box) {
   let inputCount = 2;
@@ -207,13 +207,19 @@ export function addExtraInput(target, box) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   try {
     checkAuth();
     const user = JSON.parse(localStorage.getItem("user"));
-    const userInfo = document.querySelector(".user-info");
-    userInfo.innerHTML = `Session with admin: ${user.name}`;
-    getElection();
+    if (user.role === "admin") {
+      const userInfo = document.querySelector(".user-info");
+      userInfo.innerHTML = `Session with admin: ${user.name}`;
+      await getElection();
+    } else if (user.role === "user") {
+      return (window.location.href = "../views/vote.html");
+    } else {
+      return (window.location.href = "../../login.html");
+    }
   } catch (error) {
     message(error.message);
     setTimeout(() => {
