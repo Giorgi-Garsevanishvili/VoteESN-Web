@@ -4,16 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/voter.css" />
     <link rel="stylesheet" href="../styles/message.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Vote ESN</title>
   </head>
   <body>
+    <header>
+      <div class="header-left">
+        <div class="user-info"></div>
+      </div>
+      <div class="control-btn">
+        <button class="log-out">
+          <img
+            class="log-out-img"
+            src="../../img/admin/dashboard/exit.png"
+            alt="log-out"
+          />
+        </button>
+      </div>
+    </header>
     <main>
-      <div class="election-box"></div>
+      <div class="verify-box">
+        <video class="vidElem"></video>
+        <div class="overlay-text">
+          Please prepare your QR token and press "Start"
+        </div>
+      </div>
+      <div class="vid-btn">
+        <button class="start-scan">Start</button>
+        <button class="stop-scan hidden">Stop</button>
+      </div>
     </main>
-    <footer></footer>
     <div class="message hidden"></div>
     <script type="module" src="../api/vote.js"></script>
+    <script
+      type="module"
+      src="../../node_modules/qr-scanner/qr-scanner.min.js"
+    ></script>
   </body>
 </html>

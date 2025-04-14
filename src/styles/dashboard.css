@@ -66,16 +66,6 @@ header {
   background-color: rgb(228, 228, 228);
 }
 
-footer {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  justify-content: start;
-  margin-top: auto;
-  height: 0.05vw;
-  background-color: gray;
-}
-
 .user-info {
   display: flex;
   justify-content: center;
