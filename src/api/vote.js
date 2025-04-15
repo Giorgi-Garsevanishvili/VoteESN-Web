@@ -7,6 +7,7 @@ const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
 const logOutBtn = document.querySelector(".log-out");
 const verifyBox = document.querySelector(".vidElem");
+const buttonBox = document.querySelector('.vid-btn')
 const start = document.querySelector(".start-scan");
 const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
@@ -84,10 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       return (window.location.href = "../../login.html");
     }
   } catch (error) {
-    message(error.message);
+    message(error.response.data, "error", 6000);
+    overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
+    buttonBox.classList.add('hidden')
     setTimeout(() => {
       localStorage.clear();
       return (window.location.href = "../../login.html");
-    }, 5000);
+    }, 7000);
   }
 });

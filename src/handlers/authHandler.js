@@ -16,7 +16,7 @@ export const configZIP = {
 
 export function checkAuth() {
   if (!token) {
-    localStorage.setItem("error", "Token is not proveded!");
+    localStorage.setItem("error", "Token is not provided!");
     return (window.location.href = "../../login.html");
   }
 }
