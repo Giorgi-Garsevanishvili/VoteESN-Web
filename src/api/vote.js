@@ -3,12 +3,11 @@ import { logOut } from "../../auth/logout.js";
 import { checkAuth, config } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 
-
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
 const logOutBtn = document.querySelector(".log-out");
 const verifyBox = document.querySelector(".vidElem");
-const buttonBox = document.querySelector('.vid-btn')
+const buttonBox = document.querySelector(".vid-btn");
 const start = document.querySelector(".start-scan");
 const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
@@ -32,15 +31,19 @@ const qrScanner = new QrScanner(
   },
   {
     returnDetailedScanResult: true,
-    calculateScanRegion: (video) => {
-      const width = video.videoWidth * 0.5; // 50% of video width
-      const height = video.videoHeight * 0.5; // 50% of video height
-      const x = (video.videoWidth - width) / 2;
-      const y = (video.videoHeight - height) / 2;
-
-      return { x, y, width, height };
-    },
     highlightScanRegion: true,
+    calculateScanRegion: (video) => {
+      const width = video.videoWidth;
+      const height = video.videoHeight;
+      const size = Math.min(width, height) * 0.45;
+
+      return {
+        x: (width - size) / 2,
+        y: (height - size) / 2,
+        width: size,
+        height: size,
+      };
+    },
   }
 );
 
@@ -88,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     message(error.response.data, "error", 6000);
     overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
-    buttonBox.classList.add('hidden')
+    buttonBox.classList.add("hidden");
     setTimeout(() => {
       localStorage.clear();
       return (window.location.href = "../../login.html");

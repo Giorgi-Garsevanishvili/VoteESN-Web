@@ -68,7 +68,7 @@ main {
 }
 
 .vid-btn {
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .vidElem {
@@ -81,9 +81,6 @@ main {
 
 .overlay-text {
   position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translateX(-50%);
   color: white;
   background: rgba(0, 0, 0, 0.497);
   padding: 2.5rem;
@@ -192,6 +189,22 @@ main {
   .user-info {
     height: 2.5vh;
     font-size: 0.6rem;
+  } 
+
+  .vidElem {
+    width: 100%;
+    height: 70vh;
+    object-fit: cover;
+  }
+
+  .overlay-text {
+    position: absolute;
+    color: white;
+    background: rgba(0, 0, 0, 0.497);
+    padding: 2rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    font-size: 1.2rem;
   }
 }
 
