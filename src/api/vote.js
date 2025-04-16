@@ -1,4 +1,4 @@
-import QrScanner from "../../node_modules/qr-scanner/qr-scanner.min.js";
+import QrScanner from "../../lib/qr-scanner.min.js";
 import { logOut } from "../../auth/logout.js";
 import { checkAuth, config } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
