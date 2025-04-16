@@ -3,7 +3,6 @@ import { logOut } from "../../auth/logout.js";
 import { checkAuth, config } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 
-QrScanner.WORKER_PATH = "../../lib/qr-scanner-worker.min.js"
 
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
