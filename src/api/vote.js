@@ -89,6 +89,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return (window.location.href = "../../login.html");
     }
   } catch (error) {
+    console.log(error);
+    
     message(error.response.data, "error", 6000);
     overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
     buttonBox.classList.add("hidden");
