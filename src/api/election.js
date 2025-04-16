@@ -44,7 +44,7 @@ export async function getElection() {
 
     allElections.forEach((election) => {
       let html = `<button class="election-btn">
-    <img class="election-img" src="../../img/admin/dashboard/ballot.png" alt="election">
+    <img class="election-img" src="../../img/admin/dashboard/ballot.webp" alt="election">
     <h4 class="el-name">${election.title}</h4>
     <h5 class="el-id">${election._id}</h5>
     </button>`;
@@ -196,24 +196,24 @@ function addTopicFunction() {
     <h3 class="topic show">Topic</h3>
     <div class="option-update-box">
     <input type="text" placeholder="Add Topic" class="topic-title">
-    <button class="remove-title extra-title" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+    <button class="remove-title extra-title" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
     </div>
     <div class="options show">
     <h4>Options:</h4>
     <div class="option-update-box">
         <input type="text" placeholder="Add Option" class="topic-option show">
-        <button class="remove-option extra-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+        <button class="remove-option extra-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
         </div>
         <div class="option-update-box">
         <input type="text" placeholder="Add Option" class="topic-option show">
-        <button class="remove-option extra-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+        <button class="remove-option extra-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
       </div>
       </div>
       <div class="extra-options-update extOptUpdNew"></div>
       <button class="add-option-btn-update addOptUpdNew show">
       <img
       class="add-option-img"
-      src="../../img/admin/dashboard/square-plus.png"
+      src="../../img/admin/dashboard/square-plus.webp"
       alt="add option"
       />Add Option
           </button>
@@ -246,7 +246,7 @@ function renderOneElectionUpdate(response) {
       optionHTML += `
       <div class="option-update-box">
       <input type="text" value="${option.text}" class="topic-option show">
-      <button class="remove-option regular-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+      <button class="remove-option regular-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
       </div>
       `;
     });
@@ -255,7 +255,7 @@ function renderOneElectionUpdate(response) {
     <h3 class="topic show">Topic</h3>
     <div class="option-update-box">
     <input type="text" value="${topic.title}" class="topic-title">
-    <button class="remove-title regular-title" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+    <button class="remove-title regular-title" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
     </div>
     <div class="options show">
       <h4>Options:</h4>
@@ -265,7 +265,7 @@ function renderOneElectionUpdate(response) {
     <button class="add-option-btn-update addOptUpd show">
     <img
                 class="add-option-img"
-                src="../../img/admin/dashboard/square-plus.png"
+                src="../../img/admin/dashboard/square-plus.webp"
                 alt="add option"
                 />Add Option
                 </button>
@@ -276,7 +276,7 @@ function renderOneElectionUpdate(response) {
     <button class="close-btn-one-el">
     <img
     class="close-img-one-el"
-    src="../../img/admin/dashboard/circle-xmark.png"
+    src="../../img/admin/dashboard/circle-xmark.webp"
     alt="close"
     />
     </button>

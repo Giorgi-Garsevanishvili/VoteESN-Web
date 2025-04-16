@@ -191,7 +191,7 @@ export function addExtraInput(target, box) {
     <input class="option-input-${
       inputCount + 1
     } option-input" type="text" name="topic" placeholder="Add Option">
-    <button class="remove-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.png" alt="remove option"></button>
+    <button class="remove-option" data><img class="remove-option-img" src="../../img/admin/dashboard/circle-xmark.webp" alt="remove option"></button>
     </div>
     `;
 
