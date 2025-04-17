@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50vw ;
+  width: 50vw;
   margin: 3rem auto;
   padding: 2rem;
 }
@@ -20,18 +20,18 @@ input {
   transition: 0.5s;
 }
 
-input::placeholder{
+input::placeholder {
   color: #888;
 }
 
 input:hover {
-  border-color: #4e5cc6; 
+  border-color: #4e5cc6;
   transition: 0.5s;
 }
 
 input:focus {
-  border-color: #2047aa; 
-  box-shadow: 0 0 3px rgba(18, 32, 122, 0.464); 
+  border-color: #2047aa;
+  box-shadow: 0 0 3px rgba(18, 32, 122, 0.464);
 }
 
 .form-row {
@@ -59,7 +59,7 @@ input:focus {
 .welcome-text {
   width: 50vw;
   height: 0.5vw;
-  font-weight:bolder;
+  font-weight: bolder;
 }
 
 .login-form {
@@ -81,9 +81,9 @@ input:focus {
 }
 
 .show-password {
-  position:absolute;
+  position: absolute;
   top: 1.22rem;
-  right:0.7rem;
+  right: 0.7rem;
   border: none;
   background-color: transparent;
 }
@@ -132,7 +132,7 @@ input:focus {
   .user-info {
     height: 2.5vh;
     font-size: 0.6rem;
-  } 
+  }
 
   .vidElem {
     width: 100%;

@@ -574,176 +574,6 @@ main {
   border: 2px solid black;
 }
 
-@media (max-width: 1023px) {
-  h1 {
-    margin-top: 0;
-    font-size: 2.052rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 2.5rem;
-  }
-
-  h4 {
-    font-size: 1rem;
-  }
-
-  h5 {
-    font-size: 1rem;
-  }
-
-  header {
-    width: 80%;
-  }
-
-  .user-info {
-    display: none;
-  }
-
-  .add-election {
-    padding: 0px;
-    margin: 0px;
-  }
-
-  .content,
-  .create-user-cont,
-  .cont-one-el {
-    padding: 2rem;
-    margin: 0px;
-    width: 100vw;
-    max-height: 95vh;
-    height: auto;
-  }
-
-  .user-content {
-    max-height: 70%;
-  }
-
-  .create-user-cont {
-    height: auto;
-    width: auto;
-    flex-direction: column;
-    overflow: auto;
-  }
-
-  #role,
-  .create-user-btn {
-    width: auto;
-  }
-
-  input {
-    width: auto;
-    max-width: 55vw;
-  }
-
-  .tools-box,
-  .tool-cont,
-  .generated {
-    flex-direction: column;
-  }
-
-  .one-el-btns,
-  .button-box {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .delete-user,
-  .save-user,
-  .edit-user {
-    width: 6rem;
-  }
-
-  .main-buttons {
-    flex-direction: column;
-  }
-
-  .res-box,
-  .access-box {
-    width: 90%;
-  }
-
-  .gen-qr-img,
-  .get-qr-img,
-  .del-qr-img,
-  .users-img,
-  .add-btn-img {
-    border-radius: 1.5rem;
-    padding: 0.2rem;
-    width: 5rem;
-    transition: 0.3s;
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1439px) {
-  h1 {
-    margin-top: 0;
-    font-size: 3.052rem;
-  }
-
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 2.9rem;
-  }
-
-  h4 {
-    font-size: 2rem;
-  }
-
-  h5 {
-    font-size: 1.5rem;
-  }
-
-  header {
-    width: 90%;
-  }
-
-  .create-user-cont {
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    width: auto;
-    flex-direction: row;
-  }
-
-  #role,
-  .create-user-btn {
-    height: 2.5rem;
-    width: 7rem;
-  }
-
-  .create-user-cont input {
-    width: auto;
-  }
-
-  .users-list input {
-    width: auto;
-  }
-
-  .create-user-cont {
-    overflow: hidden;
-  }
-
-  .one-el-form input,
-  .content input {
-    max-width: 30vw;
-    width: 27vw;
-  }
-
-  .delete-user,
-  .save-user,
-  .edit-user {
-    width: 6rem;
-  }
-}
-
 .main-buttons {
   display: flex;
   align-items: center;
@@ -940,4 +770,283 @@ main {
 .el-res {
   font-size: 2rem;
   margin: 2rem;
+}
+
+/* Settings */
+
+.setting-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.toggle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 30vw;
+  margin: 1.5rem;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border: 2px solid rgb(107, 101, 101);
+  padding: 1rem;
+  border-radius: 2rem;
+  transition: 0.3s;
+}
+
+.toggle:hover {
+  background-color: rgb(107, 101, 101);
+  color: white;
+}
+
+.toggle-switch {
+  display: inline-block;
+  background: #ccc;
+  border-radius: 16px;
+  width: 58px;
+  height: 32px;
+  position: relative;
+  vertical-align: middle;
+  transition: 0.25s;
+  &:before,
+  &:after {
+    content: "";
+  }
+  &:before {
+    display: block;
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: left 0.25s;
+  }
+  .toggle:hover &:before {
+    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+  .toggle-checkbox:checked + & {
+    background: green;
+    &:before {
+      left: 30px;
+    }
+  }
+}
+
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+.toggle-label {
+  margin-left: 5px;
+  position: relative;
+  top: 2px;
+  user-select: none;
+  outline: none;
+}
+
+.ip-rest-cont,
+.trust-rest-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(107, 101, 101);
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+@media (max-width: 1023px) {
+  h1 {
+    margin-top: 0;
+    font-size: 2.052rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 2.5rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  h5 {
+    font-size: 1rem;
+  }
+
+  header {
+    width: 80%;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .add-election {
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .content,
+  .create-user-cont,
+  .cont-one-el {
+    padding: 2rem;
+    margin: 0px;
+    width: 100vw;
+    max-height: 95vh;
+    height: auto;
+  }
+
+  .user-content {
+    max-height: 70%;
+  }
+
+  .create-user-cont {
+    height: auto;
+    width: auto;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .toggle-label,
+  .toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    width: auto;
+  }
+
+  .setting-box,
+  .tools-box {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .res-box,
+  .access-box {
+    width: 60vw;
+  }
+
+  #role,
+  .create-user-btn {
+    width: auto;
+  }
+
+  input {
+    width: auto;
+    max-width: 55vw;
+  }
+
+  .tools-box,
+  .tool-cont,
+  .generated {
+    flex-direction: column;
+  }
+
+  .one-el-btns,
+  .button-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .delete-user,
+  .save-user,
+  .edit-user {
+    width: 6rem;
+  }
+
+  .main-buttons {
+    flex-direction: column;
+  }
+
+  .gen-qr-img,
+  .get-qr-img,
+  .del-qr-img,
+  .users-img,
+  .next-img,
+  .get-res-img,
+  .add-btn-img,
+  .election-img {
+    border-radius: 1.5rem;
+    padding: 0.2rem;
+    width: 4.5rem;
+    transition: 0.3s;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  h1 {
+    margin-top: 0;
+    font-size: 3.052rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 2.9rem;
+  }
+
+  h4 {
+    font-size: 2rem;
+  }
+
+  h5 {
+    font-size: 1.5rem;
+  }
+
+  header {
+    width: 90%;
+  }
+
+  .create-user-cont {
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    flex-direction: row;
+  }
+
+  #role,
+  .create-user-btn {
+    height: 2.5rem;
+    width: 7rem;
+  }
+
+  .create-user-cont input {
+    width: auto;
+  }
+
+  .users-list input {
+    width: auto;
+  }
+
+  .create-user-cont {
+    overflow: hidden;
+  }
+
+  .one-el-form input,
+  .content input {
+    max-width: 30vw;
+    width: 27vw;
+  }
+
+  .delete-user,
+  .save-user,
+  .edit-user {
+    width: 6rem;
+  }
 }
