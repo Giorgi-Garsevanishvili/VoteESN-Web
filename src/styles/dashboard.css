@@ -774,8 +774,9 @@ main {
 
 /* Settings */
 
-.setting-box {
+.settings-box {
   display: flex;
+  width: auto;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -787,7 +788,7 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 30vw;
+  width: 32vw;
   margin: 1.5rem;
   user-select: none;
   outline: none;
@@ -941,13 +942,41 @@ main {
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    width: auto;
+    width: 70%;
   }
 
-  .setting-box,
+  .ip-rest-cont,
+  .trust-rest-cont {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .ip-rest-cont input {
+    width: 70%;
+    font-size: 0.7rem;
+    overflow: scroll;
+  }
+
   .tools-box {
     flex-direction: column;
-    padding: 2rem;
+  }
+
+  .settings-box {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0px;
+    margin: 0px;
+    width: 95%;
+  }
+
+  .ip-res-box,
+  .trust-dev-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 75%;
   }
 
   .res-box,
@@ -965,10 +994,18 @@ main {
     max-width: 55vw;
   }
 
-  .tools-box,
   .tool-cont,
   .generated {
     flex-direction: column;
+  }
+
+  .tool-cont {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0px;
+    margin: 0px;
+    width: 95%;
   }
 
   .one-el-btns,
