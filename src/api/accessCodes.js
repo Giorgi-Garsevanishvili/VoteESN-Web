@@ -207,13 +207,19 @@ getQRBtn.addEventListener("click", async (event) => {
           const isUsed = token.used === false;
           tokensHTML += `
         <div class="token-list">
-          <h5>Token:</h5><input disabled class="token-display ${
-            isUsed ? "valid" : "invalid"
-          }" value="${token.token}">
-          <h5>Used:</h5><input disabled class="token-status ${
-            isUsed ? "valid" : "invalid"
-          }" value="${token.used}">
-        </div>`;
+          <div class="token-box">
+            <h5>Token:</h5><input disabled class="token-display ${
+              isUsed ? "valid" : "invalid"
+            }" value="${token.token}">
+            <h5>Used:</h5><input disabled class="token-status ${
+              isUsed ? "valid" : "invalid"
+            }" value="${token.used}">
+          </div>
+          <div class="mail-box">
+            <input class="mail-input" placeholder="Enter Email">
+            <button class="mail-button">Send Email</button>
+          </div>
+      </div>`;
         });
 
         generated.insertAdjacentHTML("afterbegin", tokensHTML);
