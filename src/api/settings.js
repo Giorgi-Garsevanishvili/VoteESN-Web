@@ -5,6 +5,8 @@ const systemBTn = document.querySelector(".system");
 const toolTitle = document.querySelector(".tool-name");
 const toolContainer = document.querySelector(".tool-cont");
 const generated = document.querySelector(".generated");
+const tokCountBox = document.querySelector(".tok-count-box");
+const resultBox = document.querySelector('.el-res')
 
 const settignsURL = `https://voteesn-api.onrender.com/api/v1/admin/voter/settings`;
 
@@ -39,6 +41,8 @@ systemBTn.addEventListener("click", async (event) => {
   generated.innerHTML = "";
   toolTitle.innerHTML = "System Settings";
   toolContainer.innerHTML = "";
+  tokCountBox.innerHTML = "";
+  resultBox.innerHTML = "s"
 
   let html = `
   <div class="settings-box">

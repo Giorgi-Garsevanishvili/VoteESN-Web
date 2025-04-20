@@ -205,6 +205,7 @@ getQRBtn.addEventListener("click", async (event) => {
         let tokensHTML = "";
         tokens.forEach((token) => {
           const isUsed = token.used === false;
+          const isSent = token.sent === false;
           tokensHTML += `
         <div class="token-list">
           <div class="token-box">
@@ -214,6 +215,9 @@ getQRBtn.addEventListener("click", async (event) => {
             <h5>Used:</h5><input disabled class="token-status ${
               isUsed ? "valid" : "invalid"
             }" value="${token.used}">
+            <h5>Sent:</h5><input disabled class="token-status ${
+              isSent ? "invalid" : "valid"
+            }" value="${token.sent}">
           </div>
           <div class="mail-box">
             <input class="mail-input" placeholder="Enter Email">
