@@ -15,6 +15,13 @@
   </head>
   <body>
     <div class="see-user-box hidden">
+      <button class="close-btn-user">
+        <img
+          class="close-img"
+          src="../../img/admin/dashboard/circle-xmark.webp"
+          alt="close"
+        />
+      </button>
       <h3 class="titles">Create User</h3>
       <div class="create-user-cont">
         <input class="name" type="text" placeholder="Name" />
@@ -28,13 +35,6 @@
       </div>
       <h3 class="titles">Users List</h3>
       <div class="user-content">
-        <button class="close-btn-user">
-          <img
-            class="close-img"
-            src="../../img/admin/dashboard/circle-xmark.webp"
-            alt="close"
-          />
-        </button>
         <div class="users-list"></div>
       </div>
     </div>
@@ -160,41 +160,38 @@
             alt="see users"
           />USERS
         </button>
-        <div class="access-box">
-          <button class="gen-qr-btn">
-            <img
-              class="gen-qr-img"
-              src="../../img/admin/dashboard/qr.webp"
-              alt="Generate QR Codes"
-            />Generate QR Codes
-          </button>
-          <button class="get-qr-btn">
-            <img
-              class="get-qr-img"
-              src="../../img/admin/dashboard/file-download.webp"
-              alt="GetCode"
-            />Get Access Codes
-          </button>
-        </div>
-        <div class="res-box">
-          <button class="get-res-btn">
-            <img
-              class="get-res-img"
-              src="../../img/admin/dashboard/chart-pie.webp"
-              alt="GetResults"
-            />Get Results
-          </button>
-        </div>
+
+        <button class="gen-qr-btn">
+          <img
+            class="gen-qr-img"
+            src="../../img/admin/dashboard/qr.webp"
+            alt="Generate QR Codes"
+          />Generate QR Codes
+        </button>
+        <button class="get-qr-btn">
+          <img
+            class="get-qr-img"
+            src="../../img/admin/dashboard/file-download.webp"
+            alt="GetCode"
+          />Get Access Codes
+        </button>
+        <button class="get-res-btn">
+          <img
+            class="get-res-img"
+            src="../../img/admin/dashboard/chart-pie.webp"
+            alt="GetResults"
+          />Get Results
+        </button>
       </div>
       <div class="tools-box">
-        <h3 class="tool-name">Tools Area</h3>
+        <h2 class="tool-name">All Set! Choose a Tool to Get Started ⚙️</h2>
         <div class="tool-cont"></div>
         <div class="tok-count-box hidden">
           <input disabled class="tok-count" value="" />
           <input disabled class="tok-used" value="" />
           <input disabled class="tok-valid" value="" />
         </div>
-        <div class="el-res"></div>
+        <div class="el-res hidden"></div>
         <div class="generated"></div>
       </div>
       <div class="election-box">

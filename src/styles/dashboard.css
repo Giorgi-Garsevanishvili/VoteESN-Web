@@ -27,9 +27,9 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1.5rem auto;
+  margin: 1.5rem;
   padding: 2rem;
-  width: 90vw;
+  width: 80%;
   height: 0.1vw;
   background-color: rgb(0, 0, 0);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.392);
@@ -83,9 +83,9 @@ header {
 main {
   display: flex;
   flex-direction: column;
-  width: 90%;
-  margin: 0.5rem auto;
-  padding: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 98%;
 }
 
 .get-res-btn,
@@ -132,6 +132,7 @@ main {
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  width: 98%;
 }
 
 .election-list {
@@ -210,23 +211,21 @@ main {
   align-items: center;
   justify-content: start;
   background-color: white;
-  max-width: 50vw;
-  margin: 8rem;
+  max-width: 70vw;
   border-radius: 2rem;
   padding: 3rem;
-  max-height: 80vh;
+  max-height: fit-content;
   transition: 0.3s;
   overflow: auto;
 }
 
 .user-content {
-  justify-content: start;
+  justify-content: center;
+  align-items: center;
   margin: 1rem;
-  padding: auto;
-  min-width: 70%;
-  max-width: 80%;
-  width: auto;
-  overflow-x: hidden;
+  max-width: 80vw;
+  max-height: none;
+  
 }
 
 .one-el-form {
@@ -237,28 +236,38 @@ main {
 }
 
 .close-tool-btn,
-.close-btn-user,
 .close-btn,
+.close-btn-user,
 .close-btn-one-el {
   padding: 0px;
   margin: 1rem;
   margin-right: -94%;
   margin-top: 0%;
   border: none;
-  width: 4rem;
-  height: 4rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50em;
 }
 
+.close-btn-user {
+  margin-right: 50%;
+  margin-left: 50%;
+  background-color: white;
+  width: 4rem;
+  height: 4rem;
+  margin-top: 4%;
+}
+
 .tool-name {
-  margin-top: 2rem;
+  margin: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .close-tool-img,
 .close-img,
 .close-img-one-el {
-  width: 4rem;
-  height: 4rem;
+  width: 2.5rem;
 }
 
 .options,
@@ -407,8 +416,8 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 0.5rem;
-  font-size: 1.6rem;
+  margin: 0.2rem;
+  font-size: 1.2rem;
   color: rgb(68, 135, 42);
   border: 0.5px solid black;
   border-radius: 2rem;
@@ -591,20 +600,14 @@ main {
 
 .main-buttons {
   display: flex;
-  align-items: center;
-  justify-content: start;
-}
-
-.res-box,
-.access-box {
-  margin: 0.5rem;
-  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  border: 2px solid black;
-  border-radius: 4rem;
-  padding: 0.9rem 3rem;
+  border-radius: 3rem;
+  border: 2px solid gray;
+  padding: 1.5rem;
 }
+
 
 .tools-box {
   display: flex;
@@ -614,6 +617,7 @@ main {
   border: 2px solid black;
   border-radius: 2rem;
   margin: 2rem;
+  width: 90%;
 }
 
 .tool-cont {
@@ -630,7 +634,7 @@ main {
 .tool-cont select,
 .tool-cont button {
   cursor: pointer;
-  padding: 0.6rem;
+  padding: 0.3rem;
   border-radius: 0.6rem;
 }
 
@@ -691,10 +695,10 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: auto;
   min-width: 30%;
-  max-width: 80%;
+  max-width: 100%;
 }
 
 .mail-box,
@@ -905,29 +909,88 @@ main {
 /* Media Queries */
 
 @media (max-width: 1023px) {
-  h1 {
-    margin-top: 0;
-    font-size: 2.052rem;
+
+  .token-display:disabled,
+  .token-status:disabled {
+    width: 55vw;
   }
 
-  h2 {
-    font-size: 2rem;
+
+  .create-user-cont  input,
+  .user-content input,
+  .add-election-form input,
+  .one-el-form input,
+  input {
+    max-width: none;
+    width: 55vw;
   }
 
-  h3 {
-    font-size: 2.5rem;
+  .user-content {
+    padding: 1.5rem;
+    overflow: hidden;
   }
 
-  h4 {
-    font-size: 1rem;
+  .create-user-cont button,
+  .one-user button {
+    margin: 0.3rem;
+    width: 30vw;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem;
   }
 
-  h5 {
-    font-size: 1rem;
+  .tok-count-box input{
+    font-size: 11px;
+    margin: 0.3rem;
+    max-width: 15vw;
+  }
+
+  .token-box {
+    flex-direction: column;
+  }
+
+
+  .users-list {
+    border: 1px solid gainsboro;
+    border-radius:1rem ;
+    padding: 1rem;
+    margin: 0px;
+    width: 98%;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+
+  .one-user {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    min-height: 25vh ;
+    border: 2px solid gray;
+    border-radius: 1rem;
+    width: 65vw;
+    flex-direction: column;
   }
 
   header {
     width: 80%;
+  }
+
+  .chart-container {
+    min-width: 0px;
+    padding: 0px;
+    width: 75vw;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .chart-container h4 {
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 16px;
   }
 
   .user-info {
@@ -948,14 +1011,22 @@ main {
   .cont-one-el {
     padding: 2rem;
     margin: 0px;
-    width: 100vw;
-    max-height: 95vh;
+    max-width: 98vw;
+    max-height: 98vh;
     height: auto;
+    min-width: 80vw;
   }
 
-  .user-content {
-    max-height: 70%;
+
+  .one-topic
+  .topic,
+  .one-el-form,
+  .election-form {
+    margin: 0px;
+    width: 98%;
   }
+
+
 
   .create-user-cont {
     height: auto;
@@ -1008,19 +1079,9 @@ main {
     width: 75%;
   }
 
-  .res-box,
-  .access-box {
-    width: 20vw;
-  }
-
   #role,
   .create-user-btn {
     width: auto;
-  }
-
-  input {
-    width: auto;
-    max-width: 55vw;
   }
 
   .tool-cont,
@@ -1053,10 +1114,8 @@ main {
   main {
     width: 95%;
     flex-direction: column;
-  }
-
-  .main-buttons {
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .gen-qr-img,
@@ -1069,33 +1128,12 @@ main {
   .election-img {
     border-radius: 0.5rem;
     padding: 0.2rem;
-    width: 3rem;
+    width: 4rem;
     transition: 0.3s;
   }
 }
 
 @media (min-width: 1024px) and (max-width: 1439px) {
-  h1 {
-    margin-top: 0;
-    font-size: 3.052rem;
-  }
-
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 2.9rem;
-  }
-
-  h4 {
-    font-size: 2rem;
-  }
-
-  h5 {
-    font-size: 1.5rem;
-  }
-
   header {
     width: 90%;
   }

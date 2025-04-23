@@ -7,14 +7,13 @@
   top: 2rem;
   padding: 1.6rem;
   width: auto;
-  height: 8rem;
+  height: 6rem;
   font-weight: 500;
-  font-size: 1.4rem;
   background-color: white;
   border-radius: 20rem;
   border-top-right-radius:0rem ;
   border-bottom-right-radius: 0rem;
-  box-shadow: rgba(15, 15, 13, 0.319) 0px 5px 15px;
+  box-shadow: rgba(164, 164, 146, 0.319) 0px 5px 15px;
   transition: 0.1s;
   z-index: 10001;
 }

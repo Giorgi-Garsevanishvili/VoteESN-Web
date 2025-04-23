@@ -212,12 +212,10 @@ getQRBtn.addEventListener("click", async (event) => {
             <h5>Token:</h5><input disabled class="token-display ${
               isUsed ? "valid" : "invalid"
             }" value="${token.token}">
-            <h5>Used:</h5><input disabled class="token-status ${
-              isUsed ? "valid" : "invalid"
-            }" value="${token.used}">
-            <h5>Sent:</h5><input disabled class="token-status ${
-              isSent ? "invalid" : "valid"
-            }" value="${token.sent}">
+            <h5>Used:</h5><input disabled class="token-status 
+            " value="${isUsed ? "❌" : "✅"}">
+            <h5>Sent:</h5><input disabled class="token-status 
+            " value="${isSent ? "❌" : "✅"}">
           </div>
           <div class="mail-box">
             <input class="mail-input" placeholder="Enter Email">
