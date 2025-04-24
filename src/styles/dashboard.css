@@ -214,7 +214,7 @@ main {
   max-width: 70vw;
   border-radius: 2rem;
   padding: 3rem;
-  max-height: fit-content;
+  max-height: 85vh;
   transition: 0.3s;
   overflow: auto;
 }
@@ -425,9 +425,9 @@ main {
 }
 
 .mail-box {
-  display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .mail-button {
@@ -701,7 +701,6 @@ main {
   max-width: 100%;
 }
 
-.mail-box,
 .token-box {
   display: flex;
   flex-direction: row;
@@ -916,6 +915,7 @@ main {
   }
 
 
+  .mail-box input,
   .create-user-cont  input,
   .user-content input,
   .add-election-form input,
@@ -946,6 +946,7 @@ main {
     max-width: 15vw;
   }
 
+  .mail-box,
   .token-box {
     flex-direction: column;
   }

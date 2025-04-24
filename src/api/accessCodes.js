@@ -232,7 +232,7 @@ getQRBtn.addEventListener("click", async (event) => {
             <h5>Sent:</h5><input disabled class="token-status mail-status
             " value="${isSent ? "❌" : "✅"}">
           </div>
-          <div class="mail-box">
+          <div class="mail-box ${isUsed ? "show" : "hidden"}">
             <input class="mail-input" placeholder="Enter Email">
             <button class="mail-button">Send Email</button>
           </div>

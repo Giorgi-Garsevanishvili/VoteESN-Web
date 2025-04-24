@@ -5,6 +5,8 @@ import { message } from "../utils/message.js";
 
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
+const voteMainBox = document.querySelector(".vote-box");
+const scanningBox = document.querySelector(".verify-box");
 const logOutBtn = document.querySelector(".log-out");
 const verifyBox = document.querySelector(".vidElem");
 const buttonBox = document.querySelector(".vid-btn");
@@ -37,6 +39,155 @@ ready(async () => {
   }
 });
 
+async function tokenValidation(token) {
+  const data = {
+    token,
+  };
+  const valUrl = `https://voteesn-api.onrender.com/api/v1/user/tokenvalidation`;
+  try {
+    const response = await axios.post(valUrl, data, config);
+    localStorage.setItem("electionID", response.data.data[0].electionId);
+    localStorage.setItem("voterToken", response.data.data[0].token);
+    message("Valid Token Presented!", "OK", 2000);
+    await getOneElection();
+  } catch (error) {
+    localStorage.removeItem("voterToken");
+    localStorage.removeItem("electionID");
+    message(error.response.data.message);
+  }
+}
+
+async function getOneElection() {
+  const electionID = localStorage.getItem("electionID");
+  const uniqueToken = localStorage.getItem("voterToken");
+  const oneElUrl = `https://voteesn-api.onrender.com/api/v1/user/voter/${electionID}?token=${uniqueToken}`;
+  try {
+    let electionData = {
+      title: "",
+      topics: [],
+    };
+
+    let answers = [];
+    const election = await axios.get(oneElUrl, config);
+    electionData.title = election.data.data.title;
+    electionData.topics.push(election.data.data.topics);
+
+    console.log(electionData);
+
+    verifyBox.classList.add("hidden");
+    overlayText.classList.add("hidden");
+    buttonBox.classList.add("hidden");
+    scanningBox.classList.remove("show");
+    scanningBox.classList.add("hidden");
+    voteMainBox.classList.remove("hidden");
+    voteMainBox.classList.add("show");
+
+    const voteBox = document.querySelector(".vote-submit-box");
+
+    voteBox.innerHTML = `
+        <h2>📜 Terms and Conditions</h2>
+        <p>By participating in this election, you agree to the following:</p>
+          <ul>
+            <li>Only registered users may vote.</li>
+            <li>Each person can vote only once per question.</li>
+            <li>Votes are confidential and final.</li>
+            <li>Attempts to manipulate results may lead to disqualification.</li>
+            <li>Make sure to submit before the deadline.</li>
+          </ul>
+        <button class="agree">Agree. Lets Start</button>
+    `;
+
+    const currentElection = document.querySelector("#current-el");
+    const agreeBtn = document.querySelector(".agree");
+    currentElection.innerHTML = electionData.title;
+
+    agreeBtn.addEventListener("click", (event) => {
+      renderOneQuestion();
+    });
+
+    function renderOneQuestion() {
+      let optionsHtml = "";
+
+      if (electionData.topics[0].length === 0) {
+        voteBox.innerHTML = `
+        <h5 class="thanks-message">Thanks for your participation. Just one last step – submit your vote!</h5>
+        <button class="submit-el-btn">Submit Answers!</buttom>`;
+
+        const submitElection = document.querySelector(".submit-el-btn");
+        submitElection.addEventListener("click", (event) => {
+          event.preventDefault();
+          const submitElURL = `https://voteesn-api.onrender.com/api/v1/user/voter/${electionID}?token=${uniqueToken}`;
+
+          try {
+            const response = axios.post(submitElURL, answers, config);
+            console.log(response);
+
+            message("Your answers Submited!", "OK", 3000);
+            setTimeout(() => {
+              localStorage.removeItem("voterToken");
+              localStorage.removeItem("electionID");
+              location.reload();
+            }, 2000);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+
+        return;
+      }
+
+      const topics = electionData.topics[0][0];
+
+      topics.options.forEach((option, index) => {
+        const id = `option-${index}`;
+        optionsHtml += `
+          <label for="${id}">
+            <input type="radio" id="${id}" name="topic-${topics._id}" value="${option.text}">  
+            <span>${option.text}</span>
+          </label>
+      `;
+      });
+
+      let oneQuestionHtml = `
+        <div class="question-box">
+          <h3>${electionData.topics[0][0].title}</h3>
+          <div class="radio-wrapper-19">${optionsHtml}</div>
+        </div>
+      <button class="next-topic">Next Topic</button>
+    `;
+
+      voteBox.innerHTML = oneQuestionHtml;
+
+      const nextTopicBtn = document.querySelector(".next-topic");
+      nextTopicBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const selectedInput = document.querySelector(
+          `input[name="topic-${topics._id}"]:checked`
+        );
+
+        if (!selectedInput) {
+          alert("Please select an option before continuing.");
+          return;
+        }
+
+        answers.push({
+          question: electionData.topics[0][0].title,
+          selectedOption: selectedInput.value,
+        });
+
+        electionData.topics[0].shift();
+        console.log(electionData);
+        console.log(answers);
+
+        renderOneQuestion();
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function runAuthFlow() {
   try {
     checkAuth();
@@ -64,7 +215,6 @@ async function runAuthFlow() {
 
 async function getElectionVoter() {
   const response = await axios.get(url, config);
-  console.log(response);
 }
 
 logOutBtn.addEventListener("click", (event) => {
@@ -74,9 +224,9 @@ logOutBtn.addEventListener("click", (event) => {
 
 const qrScanner = new QrScanner(
   verifyBox,
-  (result) => {
-    console.log(result.data);
+  async (result) => {
     stopScan();
+    await tokenValidation(result.data);
   },
   {
     returnDetailedScanResult: true,
