@@ -66,6 +66,8 @@ async function logIn(event) {
   } finally {
     logBtn.disabled = false;
     logBtn.innerHTML = "Log In";
+    email.value = "";
+    password.value = "";
   }
 }
 

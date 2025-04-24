@@ -9,10 +9,10 @@
       href="https://fonts.googleapis.com/css2?family=Macondo&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./src/styles/message.css"/>
-    <link rel="stylesheet" href="./src/styles/global.css">
-    <link rel="stylesheet" href="./src/styles/login.css">
-    <title>API Test</title>
+    <link rel="stylesheet" href="./src/styles/message.css" />
+    <link rel="stylesheet" href="./src/styles/global.css" />
+    <link rel="stylesheet" href="./src/styles/login.css" />
+    <title>voteESN</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
@@ -35,10 +35,15 @@
             id="password"
             class="password-input"
             placeholder="Password"
+            autocomplete="new-password"
           />
           <button class="show-password">
-          <img class="password-toggle" src="../img/login/eye.png" alt="unvisible-password" />
-        </button>
+            <img
+              class="password-toggle"
+              src="../img/login/eye.png"
+              alt="unvisible-password"
+            />
+          </button>
         </div>
         <div class="login-container">
           <button class="login-btn">Log In</button>
@@ -46,6 +51,6 @@
       </div>
     </form>
     <div class="message hidden"></div>
-    <script type="module"  src="./auth/login.js"></script>
+    <script type="module" src="./auth/login.js"></script>
   </body>
 </html>

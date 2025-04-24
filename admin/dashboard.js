@@ -1,7 +1,7 @@
 import { message } from "../src/utils/message.js";
 import { logOut } from "../auth/logout.js";
 import { createElection, getElection } from "../src/api/election.js";
-import { checkAuth } from "../src/handlers/authHandler.js";
+import { checkAuth, token } from "../src/handlers/authHandler.js";
 
 const logOutBtn = document.querySelector(".log-out");
 const addElectionBtn = document.querySelector(".add-election-btn");
@@ -20,6 +20,28 @@ export let electionData = {
   title: "",
   topics: [],
 };
+
+async function runAuthFlow() {
+  try {
+    checkAuth();
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === "admin") {
+      const userInfo = document.querySelector(".user-info");
+      userInfo.innerHTML = `Session with admin: ${user.name}`;
+      await getElection();
+    } else if (user.role === "user") {
+      return (window.location.href = "../views/vote.html");
+    } else {
+      return (window.location.href = "../../login.html");
+    }
+  } catch (error) {
+    message(error.message);
+    setTimeout(() => {
+      localStorage.clear();
+      return (window.location.href = "../../login.html");
+    }, 5000);
+  }
+}
 
 nextBtn.addEventListener("click", (event) => {
   event.preventDefault();
@@ -207,24 +229,5 @@ export function addExtraInput(target, box) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    checkAuth();
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.role === "admin") {
-      const userInfo = document.querySelector(".user-info");
-      userInfo.innerHTML = `Session with admin: ${user.name}`;
-      await getElection();
-    } else if (user.role === "user") {
-      return (window.location.href = "../views/vote.html");
-    } else {
-      return (window.location.href = "../../login.html");
-    }
-  } catch (error) {
-    message(error.message);
-    setTimeout(() => {
-      localStorage.clear();
-      return (window.location.href = "../../login.html");
-    }, 5000);
-  }
-});
+document.addEventListener("DOMContentLoaded", runAuthFlow);
+window.addEventListener("pageshow", runAuthFlow);
