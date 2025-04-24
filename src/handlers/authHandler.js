@@ -1,4 +1,5 @@
 export const token = localStorage.getItem("authToken");
+export const user = JSON.parse(localStorage.getItem("user"));
 export const config = {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -15,12 +16,11 @@ export const configZIP = {
 };
 
 export function checkAuth() {
-  if (!token) {
+  if (!token || !user) {
     localStorage.setItem(
       "error",
       "Authentication missing: token or user not found."
     );
-    window.location.href = "../../login.html";
     throw new Error("Authentication missing: token or user not found.");
   }
 }
