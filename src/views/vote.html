@@ -25,6 +25,10 @@
       </div>
     </header>
     <main>
+      <div class="tok-manual hidden">
+        <input class="manual-tok-inp" type="text" placeholder="Enter Token">
+        <button class="enter-tok">Submit</button>
+      </div>
       <div class="vote-box hidden">
         <h3 class="user-info" id="current-el"></h3>
         <div class="vote-submit-box"></div>
@@ -35,9 +39,11 @@
           Please prepare your QR token and press "Start"
         </div>
       </div>
-      <div class="vid-btn">
-        <button class="start-scan">Start</button>
-        <button class="stop-scan hidden">Stop</button>
+      <div class="vid-btn show">
+        <button class="start-scan">Start Scanner</button>
+        <button class="stop-scan hidden">Stop Scanner</button>
+        <button class="no-qr-btn">I don`t Have QR code</button>
+
       </div>
     </main>
     <div class="message hidden"></div>

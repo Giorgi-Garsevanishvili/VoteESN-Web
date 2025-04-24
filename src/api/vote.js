@@ -5,6 +5,10 @@ import { message } from "../utils/message.js";
 
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
+const tokenInput = document.querySelector(".tok-manual");
+const manualTokInput = document.querySelector(".manual-tok-inp");
+const submitTok = document.querySelector(".enter-tok");
+const noQrBtn = document.querySelector(".no-qr-btn");
 const voteMainBox = document.querySelector(".vote-box");
 const scanningBox = document.querySelector(".verify-box");
 const logOutBtn = document.querySelector(".log-out");
@@ -14,6 +18,29 @@ const start = document.querySelector(".start-scan");
 const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
 let result = "";
+
+submitTok.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const token = manualTokInput.value;
+  await tokenValidation(token);
+  manualTokInput.value = ''
+
+});
+
+noQrBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  start.classList.remove("hidden");
+  start.classList.add("show");
+  stop.classList.add("hidden");
+  scanningBox.classList.remove("show");
+  scanningBox.classList.add("hidden");
+  overlayText.classList.add("hidden");
+  tokenInput.classList.remove("hidden");
+  tokenInput.classList.add("show");
+  noQrBtn.classList.add('hidden')
+  noQrBtn.classList.remove('show')
+});
 
 ready(async () => {
   const isAuth = await runAuthFlow();
@@ -48,6 +75,10 @@ async function tokenValidation(token) {
     const response = await axios.post(valUrl, data, config);
     localStorage.setItem("electionID", response.data.data[0].electionId);
     localStorage.setItem("voterToken", response.data.data[0].token);
+    tokenInput.classList.remove('show')
+    tokenInput.classList.add('hidden')
+    buttonBox.classList.remove('show')
+    buttonBox.classList.add('hidden')
     message("Valid Token Presented!", "OK", 2000);
     await getOneElection();
   } catch (error) {
@@ -85,8 +116,8 @@ async function getOneElection() {
     const voteBox = document.querySelector(".vote-submit-box");
 
     voteBox.innerHTML = `
-        <h2>📜 Terms and Conditions</h2>
-        <p>By participating in this election, you agree to the following:</p>
+        <h1 class="terms">📜 Terms and Conditions</h1>
+        <h5 class="terms">By participating in this election, you agree to the following:</h5>
           <ul>
             <li>Only registered users may vote.</li>
             <li>Each person can vote only once per question.</li>
@@ -248,8 +279,14 @@ const qrScanner = new QrScanner(
 
 function startScan() {
   overlayText.classList.add("hidden");
+  start.classList.remove("show");
   start.classList.add("hidden");
+  scanningBox.classList.add("show");
   stop.classList.remove("hidden");
+  tokenInput.classList.remove("show");
+  tokenInput.classList.add("hidden");
+  noQrBtn.classList.add('show')
+  noQrBtn.classList.remove('hidden')
   qrScanner.start();
 }
 

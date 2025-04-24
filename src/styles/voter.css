@@ -67,6 +67,7 @@ main {
 }
 
 .vid-btn {
+  flex-direction: row;
   margin-top: 2rem;
 }
 
@@ -89,6 +90,9 @@ main {
   pointer-events: none;
 }
 
+
+.tok-manual button,
+.no-qr-btn,
 .vote-submit-box button,
 .start-scan,
 .stop-scan {
@@ -120,6 +124,16 @@ main {
   font-size: 1.2rem;
   margin: 0.5rem;
 }
+
+.tok-manual button {
+  margin: 0.7rem;
+  color: white;
+  background-color: #444034;
+}
+
+
+.tok-manual button:focus,
+.no-qr-btn:focus,
 .vote-submit-box button:focus,
 .start-scan:focus,
 .stop-scan:focus {
@@ -127,6 +141,9 @@ main {
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
 }
 
+
+.tok-manual button:hover,
+.no-qr-btn:hover,
 .vote-submit-box button:hover,
 .start-scan:hover {
   box-shadow: rgba(0, 255, 55, 0.4) 0 4px 8px,
@@ -140,6 +157,9 @@ main {
   transform: translateY(-2px);
 }
 
+
+.tok-manual button:active,
+.no-qr-btn:active
 .vote-submit-box button:active,
 .start-scan:active,
 .stop-scan:active {
@@ -165,12 +185,13 @@ main {
   padding: 0.5rem;
 }
 
+.terms,
 .thanks-message {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   padding: 0.5rem;
 }
 
@@ -199,6 +220,14 @@ main {
     outline: 0;
     border-color: #2260ff;
     box-shadow: 0 0 0 4px #b5c9fc;
+  }
+
+  .tok-manual input{
+    padding: 0.8rem;
+    border-radius: 1rem;
+    max-width: 20vw;
+    min-width: 16vw;
+    width: auto;
   }
   
   .radio-wrapper-19 {
@@ -268,9 +297,19 @@ main {
     margin: 2rem;
   }
 
+
+  .tok-manual {
+    flex-direction: column;
+  }
+
+  .tok-manual input,
   input {
     width: auto;
-    max-width: 55vw;
+    max-width: 70vw;
+  }
+
+  .vid-btn {
+    flex-direction: column;
   }
 
   .user-info {
