@@ -15,6 +15,21 @@ const getResBtn = document.querySelector(".get-res-btn");
 
 let results = "";
 
+async function sendTokens(to, token) {
+  let data = {
+    to,
+    token,
+  };
+  const url = `https://voteesn-api.onrender.com/api/v1/admin/election/email`;
+  try {
+    const response = await axios.post(url, data, config);
+    message(response.data.message, "OK", 3000);
+    console.log(response);
+  } catch (error) {
+    message(error.response.data.message);
+  }
+}
+
 genQRBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -214,7 +229,7 @@ getQRBtn.addEventListener("click", async (event) => {
             }" value="${token.token}">
             <h5>Used:</h5><input disabled class="token-status 
             " value="${isUsed ? "❌" : "✅"}">
-            <h5>Sent:</h5><input disabled class="token-status 
+            <h5>Sent:</h5><input disabled class="token-status mail-status
             " value="${isSent ? "❌" : "✅"}">
           </div>
           <div class="mail-box">
@@ -225,6 +240,32 @@ getQRBtn.addEventListener("click", async (event) => {
         });
 
         generated.insertAdjacentHTML("afterbegin", tokensHTML);
+
+        const sendBtn = document.querySelectorAll(".mail-button");
+
+        sendBtn.forEach((btn) => {
+          btn.addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            const emailRegex =
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            const targetBox = event.target.closest(".token-list");
+            const emailBox = targetBox.querySelector(".mail-input");
+            const targetToken = targetBox.querySelector(".token-display").value;
+            const recipient = targetBox.querySelector(".mail-input").value;
+            const mailStatus = targetBox.querySelector(".mail-status");
+
+            if (!emailRegex.test(recipient)) {
+              message("Please enter a valid email address.", "error", 2000);
+              return;
+            }
+
+            await sendTokens(recipient, targetToken);
+            mailStatus.value = "✅";
+            emailBox.value = "";
+          });
+        });
 
         const allTok = document.querySelector(".tok-count");
         const usedTok = document.querySelector(".tok-used");

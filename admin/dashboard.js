@@ -56,7 +56,7 @@ async function runAuthFlow() {
     setTimeout(() => {
       localStorage.clear();
       return (window.location.href = "../../login.html");
-    }, 2000);
+    }, 1000);
     return false;
   }
 }
