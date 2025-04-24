@@ -1,5 +1,4 @@
 export const token = localStorage.getItem("authToken");
-export const user = JSON.parse(localStorage.getItem("user"));
 export const config = {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -16,6 +15,9 @@ export const configZIP = {
 };
 
 export function checkAuth() {
+  const token = localStorage.getItem("authToken");
+  const user = JSON.parse(localStorage.getItem("user"));
+
   if (!token || !user) {
     localStorage.setItem(
       "error",

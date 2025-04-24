@@ -25,9 +25,6 @@ export async function getAllElection(elections) {
 export async function getElection() {
   try {
     electionList.innerHTML = `Loading...`;
-    if (!token) {
-      electionList.innerHTML = "Token is not provided!";
-    }
 
     const election = await axios.get(getElectionUrl, {
       headers: { Authorization: `Bearer ${token}` },
