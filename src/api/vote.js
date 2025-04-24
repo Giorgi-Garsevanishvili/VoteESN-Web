@@ -13,6 +13,55 @@ const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
 let result = "";
 
+ready(async () => {
+  const isAuth = await runAuthFlow();
+
+  if (!isAuth) return;
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user.role === "voter") {
+    const userInfo = document.querySelector(".user-info");
+    userInfo.innerHTML = `Session with: ${user.name}`;
+    try {
+      await getElectionVoter();
+    } catch (error) {
+      message(error.response.data);
+      overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
+      buttonBox.classList.add("hidden");
+      setTimeout(() => {
+        localStorage.clear();
+        return (window.location.href = "../../login.html");
+      }, 4000);
+    }
+  }
+});
+
+async function runAuthFlow() {
+  try {
+    checkAuth();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.role) throw new Error("User not authenticated");
+
+    if (user.role === "admin") {
+      window.location.href = "../views/dashboard.html";
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    message(error.message);
+    overlayText.innerHTML = `<h3 class="error-message"">${error.message} <p>System will log you out in few seconds.</p></h3>`;
+    buttonBox.classList.add("hidden");
+    setTimeout(() => {
+      localStorage.clear();
+      return (window.location.href = "../../login.html");
+    }, 4000);
+    return false;
+  }
+}
+
 async function getElectionVoter() {
   const response = await axios.get(url, config);
   console.log(response);
@@ -75,28 +124,17 @@ function stopScan() {
   qrScanner.stop();
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    checkAuth();
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.role === "voter") {
-      const userInfo = document.querySelector(".user-info");
-      userInfo.innerHTML = `Session with: ${user.name}`;
-      await getElectionVoter();
-    } else if (user.role === "admin") {
-      return (window.location.href = "../views/dashboard.html");
-    } else {
-      return (window.location.href = "../../login.html");
-    }
-  } catch (error) {
-    console.log(error);
-    
-    message(error.response.data, "error", 6000);
-    overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
-    buttonBox.classList.add("hidden");
-    setTimeout(() => {
-      localStorage.clear();
-      return (window.location.href = "../../login.html");
-    }, 7000);
+function ready(callback) {
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
   }
-});
+
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) callback();
+  });
+}

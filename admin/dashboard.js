@@ -45,7 +45,7 @@ async function runAuthFlow() {
 
     if (!user || !user.role) throw new Error("User not authenticated");
 
-    if (user.role === "user") {
+    if (user.role === "voter") {
       window.location.href = "../views/vote.html";
       return false;
     }
