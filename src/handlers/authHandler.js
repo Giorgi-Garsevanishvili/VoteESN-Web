@@ -16,8 +16,12 @@ export const configZIP = {
 
 export function checkAuth() {
   if (!token) {
-    localStorage.setItem("error", "Token is not provided!");
-    return (window.location.href = "../../login.html");
+    localStorage.setItem(
+      "error",
+      "Authentication missing: token or user not found."
+    );
+    window.location.href = "../../login.html";
+    throw new Error("Authentication missing: token or user not found.");
   }
 }
 
