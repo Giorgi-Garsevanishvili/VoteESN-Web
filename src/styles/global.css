@@ -1,3 +1,16 @@
+/*
+
+Device | Width Range (px) | Notes
+Mobile | 320 – 576 | Single-column, hamburger menu
+Tablet | 577 – 768 | Two-column layouts emerge
+Large Tablet / Small Desktop | 769 – 1024 | 3-column grid possible
+Desktop | 1025 – 1440 | Full-feature, multi-panel UI
+Extra-Large Desktop | 1441+ | Ultra-wide dashboards
+
+*/
+
+
+
 h1,
 h2,
 h3,
@@ -9,6 +22,13 @@ h5 {
   text-transform: capitalize;
 }
 
+iframe {
+ display: flex;
+ max-height: 6rem;
+ margin: 0.5rem;
+ padding: 0;
+ border: none;
+}
 
 button {
   cursor: pointer;
@@ -20,15 +40,19 @@ button:disabled {
 
 html,
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Orbitron", sans-serif;
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
   margin: 0px;
   padding: 0px;
+  background-color: #f9f9f9;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.030) 2px, transparent 0);
+  background-size: 24px 24px;
+  letter-spacing: 0.5px;
 }
 
 .hidden {

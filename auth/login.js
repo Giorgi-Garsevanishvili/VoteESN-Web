@@ -92,11 +92,11 @@ function togglePassword() {
 
   if (passwordInput.type === "password") {
     eye.innerHTML =
-      '<img class="password-toggle" src="../../img/login/view.png" alt="unvisible-password" />';
+      '<img class="password-toggle" src="../../img/login/eye.svg" alt="unvisible-password" />';
     passwordInput.type = "text";
   } else {
     passwordInput.type = "password";
     eye.innerHTML =
-      '<img class="password-toggle" src="../../img/login/eye.png" alt="unvisible-password" />';
+      '<img class="password-toggle" src="../../img/login/eye-closed.svg" alt="unvisible-password" />';
   }
 }

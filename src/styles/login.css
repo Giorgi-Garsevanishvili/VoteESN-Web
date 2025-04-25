@@ -1,17 +1,28 @@
-.welcome-text,
 .login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50vw;
+  width: 35vw;
   margin: 3rem auto;
-  padding: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(234, 231, 223, 0.352);
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 input {
+  font-family: "Orbitron", sans-serif;
   border: 0.1rem solid gray;
   border-radius: 2rem;
+  font-weight: 400;
   font-size: 1.5rem;
   width: 100%;
   height: 2em;
@@ -40,44 +51,52 @@ input:focus {
   margin: 1rem auto;
 }
 
+
 .login-btn {
-  width: 7vw;
-  height: 8vh;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
   border-radius: 1rem;
   border: 0.12rem solid gray;
-  background-color: #423f47;
+  background-color: #07082b;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   transition: 0.5s;
 }
 
 .login-btn:hover {
-  background-color: #298cd3;
+  background-color: #1f5b86;
   transition: 0.5s;
 }
 
 .welcome-text {
-  width: 50vw;
-  height: 0.5vw;
-  font-weight: bolder;
+  margin: 2rem;
+}
+
+.welcome-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem;
+  padding: 3rem;
+  height: fit-content;
+  border-radius: 3rem;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  background-color: rgba(234, 231, 223, 0.352);
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
 .login-form {
   border-radius: 2rem;
-  box-shadow: rgba(60, 51, 1, 0.319) 0px 5px 15px;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .login-container {
   display: flex;
   align-items: center;
   justify-content: start;
-}
-
-.log-status {
-  font-style: italic;
-  font-size: 1.5rem;
-  color: red;
-  margin: 2rem;
 }
 
 .show-password {
@@ -96,36 +115,65 @@ input:focus {
   width: 2.2rem;
 }
 
+footer {
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 0.7rem;
+  padding: 1.5rem 1rem; 
+  margin-top: auto;
+  width: 100vw; 
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #ddd;
+  text-align: center;
+  box-sizing: border-box; 
+}
+footer p {
+  text-align: center;
+  margin: 0rem;
+  max-width: 50rem;
+  margin-inline: auto;
+  line-height: 1.7;
+}
+
+
 @media (max-width: 1023px) {
 
-  .login-btn {
-    width: 35vw;
-    height: 8vh;
+  .login-form,
+  .welcome-box {
+    margin: 1rem;
+    padding: 5rem;
+  }
+
+  .login-container {
+    margin-top: 1rem;
+    justify-content: center;
+  }
+  
+
+  .welcome-box {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .welcome-text {
+    margin: 0.6rem;
+  }
+
+  main {
+    flex-direction: column;
   }
 
   input {
     width: auto;
-    max-width: 55vw;
+    max-width: 70vw;
     font-size: 1rem;
   }
 
-  .vidElem {
-    width: 100%;
-    height: 70vh;
-    object-fit: cover;
+  footer {
+    font-size: 0.65rem;
   }
 
-  .overlay-text {
-    position: absolute;
-    color: white;
-    background: rgba(0, 0, 0, 0.497);
-    padding: 2rem;
-    margin: 1rem;
-    border-radius: 1rem;
-    font-size: 1.2rem;
-  }
   .password-toggle {
     width: 1.5rem;
   }
 }
-

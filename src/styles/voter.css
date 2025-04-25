@@ -58,6 +58,7 @@ main {
   justify-content: center;
   margin: 0.5rem auto;
   width: 90%;
+  flex-grow: 1;
 }
 
 .verify-box {

@@ -1,5 +1,5 @@
 import { message } from "../utils/message.js";
-import { config, token } from "../handlers/authHandler.js";
+import { config } from "../handlers/authHandler.js";
 
 const systemBTn = document.querySelector(".system");
 const toolTitle = document.querySelector(".tool-name");
