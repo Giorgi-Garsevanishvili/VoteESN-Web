@@ -93,36 +93,40 @@ nextBtn.addEventListener("click", (event) => {
       if (text !== "") {
         options.push({ text });
       }
-
-      if (
-        options.length >= 2 &&
-        topicInput.value !== "" &&
-        electionData.title !== ""
-      ) {
-        electionName.classList.remove("show");
-        electionName.classList.add("hidden");
-        submitElectionBtn.classList.remove("hidden");
-        submitElectionBtn.classList.add("show");
-
-        if (options.length < 2) {
-          return message("At least 2 options is required");
-        } else {
-          topicInput.value = "";
-          optionInputs.forEach((input) => {
-            input.value = "";
-          });
-          extraOption.innerHTML = "";
-          electionData.topics.push({ title: topicValue, options: options });
-
-          addedInfo.innerHTML = `🗳️ Election Name and ${electionData.topics.length} topic added`;
-        }
-      } else if (electionData.topics.length >= 1) {
-        message("Add New topic or Save Election", "OK", 3000);
-      } else {
-        return message("Topic or at least 2 option is missing!");
-      }
-      message("Add New topic or Save Election", "OK", 3000);
     });
+
+    if (
+      options.length >= 2 &&
+      topicInput.value !== "" &&
+      electionData.title !== ""
+    ) {
+      electionName.classList.remove("show");
+      electionName.classList.add("hidden");
+      submitElectionBtn.classList.remove("hidden");
+      submitElectionBtn.classList.add("show");
+
+      if (options.length < 2) {
+        return message("At least 2 options is required");
+      } else {
+        topicInput.value = "";
+        optionInputs.forEach((input) => {
+          input.value = "";
+        });
+        extraOption.innerHTML = "";
+        electionData.topics.push({ title: topicValue, options });
+
+        addedInfo.innerHTML = `🗳️ Election Name and ${electionData.topics.length} topic added`;
+      }
+    } else if (electionData.topics.length >= 1) {
+      message("Add New topic or Save Election", "OK", 3000);
+    } else {
+      return message("Topic or at least 2 option is missing!");
+    }
+    message("Add New topic or Save Election", "OK", 3000);
+    console.log(options);
+
+    
+    
   });
 
   noBtn.addEventListener("click", (event) => {
