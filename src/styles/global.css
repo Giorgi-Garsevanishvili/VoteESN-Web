@@ -9,6 +9,9 @@ Extra-Large Desktop | 1441+ | Ultra-wide dashboards
 
 */
 
+a, button, input, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
 
 
 h1,

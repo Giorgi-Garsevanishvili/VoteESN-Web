@@ -41,7 +41,7 @@ export async function getElection() {
 
     allElections.forEach((election) => {
       let html = `<button class="election-btn">
-    <img class="election-img" src="../../img/admin/dashboard/ballot.webp" alt="election">
+    <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
     <h4 class="el-name">${election.title}</h4>
     <h5 class="el-id">${election._id}</h5>
     </button>`;
