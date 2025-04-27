@@ -6,10 +6,10 @@ header {
   padding: 2rem;
   width: 90vw;
   height: 0.1vw;
-  background-color: rgb(92, 79, 79);
+  background-color: #34495e;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.392);
   border-radius: 3rem;
-  color: rgb(152, 130, 121);
+  color: #7f8c8d;
 }
 
 .control-btn {
@@ -24,7 +24,7 @@ header {
 
 .log-out {
   border: none;
-  background-color: rgb(242, 232, 232);
+  background-color: #ecf0f1;
   border-radius: 5em;
   padding: 1em;
   margin: 0.3em;
@@ -35,15 +35,15 @@ header {
 
 .log-out:hover {
   border: 1px solid rgb(151, 146, 146);
-  background-color: rgb(228, 228, 228);
+  background-color: #bdc3c7;
 }
 
 .user-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(187, 145, 145);
-  color: rgb(255, 255, 255);
+  background-color: #ecf0f1;
+  color: #34495e;
   padding: 0.7rem;
   height: 2vh;
   border-radius: 5rem;
@@ -82,8 +82,8 @@ main {
 
 .overlay-text {
   position: absolute;
-  color: white;
-  background: rgba(0, 0, 0, 0.497);
+  color: #ecf0f1;
+  background: #8a9298;
   padding: 2.5rem;
   border-radius: 1rem;
   font-size: 2rem;
@@ -99,13 +99,13 @@ main {
 .stop-scan {
   align-items: center;
   appearance: none;
-  background-color: #fcfcfd;
+  background-color: #ecf0f1;
   border-radius: 5px;
   border-width: 0;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
   box-sizing: border-box;
-  color: #36395a;
+  color: #34495e;
   cursor: pointer;
   font-family: "JetBrains Mono", monospace;
   justify-content: center;
@@ -128,7 +128,7 @@ main {
 
 .tok-manual button {
   margin: 0.7rem;
-  color: white;
+  color: #ecf0f1;
   background-color: #444034;
 }
 
@@ -173,7 +173,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(142, 36, 36);
+  background-color: #d35400;
   border-radius: 1rem;
   padding: 1rem;
 }
@@ -219,8 +219,8 @@ main {
 
   .radio-wrapper-19 input[type="radio"]:focus {
     outline: 0;
-    border-color: #2260ff;
-    box-shadow: 0 0 0 4px #b5c9fc;
+    border-color: #7f8c8d;
+    box-shadow: 0 0 0 4px #bdc3c7;
   }
 
   .tok-manual input{
@@ -250,22 +250,22 @@ main {
   }
   
   .radio-wrapper-19 input[type="radio"]:checked + span {
-    box-shadow: 0 0 0 0.0625em #0043ed;
-    background-color: #dee7ff;
+    box-shadow: 0 0 0 0.0625em #041e6081;
+    background-color: #baddf4;
     z-index: 1;
-    color: #0043ed;
+    color: #021324;
   }
   
   .radio-wrapper-19 label span {
     display: block;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #ecf0f1;
     padding: 0.375em .75em;
     position: relative;
     margin-left: .0625em;
     box-shadow: 0 0 0 0.0625em #b5bfd9;
     letter-spacing: .05em;
-    color: #3e4963;
+    color: #34495e;
     text-align: center;
     transition: background-color .5s ease;
   }

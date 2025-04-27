@@ -8,9 +8,9 @@ const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
 const resBox = document.querySelector(".el-res");
 
+const homeBtn = document.querySelector(".election-home-btn");
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
-
 const getResBtn = document.querySelector(".get-res-btn");
 
 let results = "";
@@ -36,12 +36,14 @@ genQRBtn.addEventListener("click", async (event) => {
   genQRBtn.classList.add("selected");
   getQRBtn.classList.remove("selected");
   getResBtn.classList.remove("selected");
+  homeBtn.classList.remove('selected')
 
   resBox.innerHTML = "";
   toolContainer.innerHTML = "";
   generated.innerHTML = "";
   tokCountBox.classList.remove("show");
   tokCountBox.classList.add("hidden");
+  toolContainer.scrollIntoView()
 
   const elections = await getAllElection();
   const allElections = elections.data.data.allElections;
@@ -129,6 +131,9 @@ getQRBtn.addEventListener("click", async (event) => {
   genQRBtn.classList.remove("selected");
   getQRBtn.classList.add("selected");
   getResBtn.classList.remove("selected");
+  homeBtn.classList.remove('selected')
+
+  toolContainer.scrollIntoView()
 
   resBox.innerHTML = "";
   toolContainer.innerHTML = "";
@@ -296,7 +301,6 @@ getQRBtn.addEventListener("click", async (event) => {
         }
       } catch (error) {
         message(error.response.data.error);
-        console.log(error);
       }
     });
 
@@ -354,9 +358,12 @@ getQRBtn.addEventListener("click", async (event) => {
 getResBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
+  homeBtn.classList.remove('selected')
   genQRBtn.classList.remove("selected");
   getQRBtn.classList.remove("selected");
   getResBtn.classList.add("selected");
+
+  toolContainer.scrollIntoView()
 
   toolContainer.innerHTML = "";
   tokCountBox.classList.remove("show");

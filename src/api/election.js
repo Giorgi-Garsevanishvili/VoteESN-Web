@@ -7,13 +7,24 @@ const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
 const createElectionUrl =
   "https://voteesn-api.onrender.com/api/v1/admin/election";
 
-const electionList = document.querySelector(".election-list");
+const toolContainer = document.querySelector(".tool-cont");
 const oneElection = document.querySelector(".one-election");
 const contOneEl = document.querySelector(".one-el-form");
 const addTopic = document.querySelector(".add-topic");
 const updateElection = document.querySelector(".update-el");
 const deleteElectionBtn = document.querySelector(".delete-el-btn");
 const addTopicBtn = document.querySelector(".add-topic");
+const homeBtn = document.querySelector(".election-home-btn");
+
+const toolTitle = document.querySelector(".tool-name");
+const generated = document.querySelector(".generated");
+const tokCountBox = document.querySelector(".tok-count-box");
+const resultBox = document.querySelector(".el-res");
+
+const genQRBtn = document.querySelector(".gen-qr-btn");
+const getQRBtn = document.querySelector(".get-qr-btn");
+const getResBtn = document.querySelector(".get-res-btn");
+
 
 let responseData = null;
 
@@ -22,9 +33,25 @@ export async function getAllElection(elections) {
   return elections;
 }
 
+homeBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  generated.innerHTML = "";
+  toolTitle.innerHTML = "Home";
+  toolContainer.innerHTML = "";
+  tokCountBox.classList.add('hidden')
+  tokCountBox.classList.remove('show')
+  resultBox.innerHTML = "";
+  homeBtn.classList.add('selected')
+  genQRBtn.classList.remove("selected");
+  getQRBtn.classList.remove("selected");
+  getResBtn.classList.remove("selected");
+  await getElection();
+  toolContainer.scrollIntoView()
+});
+
 export async function getElection() {
   try {
-    electionList.innerHTML = `Loading...`;
+    toolContainer.innerHTML = `Loading...`;
 
     const election = await axios.get(getElectionUrl, {
       headers: { Authorization: `Bearer ${token}` },
@@ -34,18 +61,20 @@ export async function getElection() {
     const allElections = electionData.allElections;
 
     if (allElections.length >= 1) {
-      electionList.innerHTML = "";
+      toolContainer.innerHTML = "";
     } else if (allElections.length < 1) {
-      electionList.innerHTML = "No elections to display";
+      toolContainer.innerHTML = "No elections to display";
     }
 
     allElections.forEach((election) => {
       let html = `<button class="election-btn">
-    <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
-    <h4 class="el-name">${election.title}</h4>
-    <h5 class="el-id">${election._id}</h5>
-    </button>`;
-      electionList.insertAdjacentHTML("afterbegin", html);
+      <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
+      <div class="el-btn-info">
+        <h4 class="el-name">${election.title}</h4>
+        <h5 class="el-id">${election._id}</h5>
+      </div>
+      </button>`;
+      toolContainer.insertAdjacentHTML("afterbegin", html);
     });
 
     const elBtn = document.querySelectorAll(".election-btn");
@@ -57,7 +86,7 @@ export async function getElection() {
       });
     });
   } catch (error) {
-    electionList.innerHTML = error.message;
+    toolContainer.innerHTML = error.message;
     message(error.message);
     localStorage.clear();
     return (window.location.href = "../../login.html");

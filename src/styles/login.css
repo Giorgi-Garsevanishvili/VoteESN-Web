@@ -6,9 +6,9 @@
   width: 35vw;
   margin: 3rem auto;
   padding: 1.5rem;
-  background-color: rgba(234, 231, 223, 0.352);
-  border-bottom: 1px solid gray;
-  border-right: 1px solid gray;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
 }
 
 main {
@@ -83,9 +83,9 @@ input:focus {
   height: fit-content;
   border-radius: 3rem;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: rgba(234, 231, 223, 0.352);
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
 }
 
 .login-form {

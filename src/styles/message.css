@@ -9,7 +9,7 @@
   width: auto;
   height: 6rem;
   font-weight: 500;
-  background-color: white;
+  background-color: #eef5f6;
   border-radius: 20rem;
   border-top-right-radius:0rem ;
   border-bottom-right-radius: 0rem;
@@ -19,11 +19,11 @@
 }
 
 .OK {
-  border: 2px solid rgb(28, 205, 49);
+  border: 2px solid #27ae60;
   border-right: none;
 }
 
 .error {
-  border: 2px solid rgb(255, 0, 0);
+  border: 2px solid #e74c3c;
   border-right: none;
 }

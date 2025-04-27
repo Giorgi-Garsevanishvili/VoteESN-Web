@@ -1,9 +1,14 @@
 input {
-  height: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem;
   margin: 0.2rem;
   font-size: 0.85rem;
+  background-color: #edf0f1;
+  color: #7f8c8d;
+}
+
+select {
+  background-color: #edf0f1;
 }
 
 .add-election-form input,
@@ -31,10 +36,19 @@ header {
   padding: 2rem;
   width: 80%;
   height: 0.1vw;
-  background-color: rgb(0, 0, 0);
+  background-color: #34495e;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.392);
   border-radius: 3rem;
-  color: white;
+  color: #ecf0f1;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  outline: none; /* Remove focus outline */
+  user-select: none; /* Prevent selection */
 }
 
 .control-btn {
@@ -45,34 +59,37 @@ header {
 
 .system-img,
 .log-out-img {
-  width: 1.5em;
+  width: 1rem;
 }
 
 .system,
 .log-out {
   border: none;
-  background-color: white;
+  background-color: #ecf0f1;
   border-radius: 5em;
   padding: 1em;
   margin: 0.3em;
-  width: 4rem;
-  height: 4em;
+  width: 3rem;
+  height: auto;
   transition: 0.3s;
 }
 
 .system:hover,
 .log-out:hover {
-  border: 1px solid rgb(151, 146, 146);
-  background-color: rgb(228, 228, 228);
+  transition: 0.3s;
+  background-color: #bdc3c7;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
 }
 
 .user-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
-  color: black;
-  padding: 0.15rem;
+  background-color: #ecf0f1;
+  color: #34495e;
+  margin: 0.2rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 5rem;
   font-size: 0.9rem;
   font-weight: 400;
@@ -89,6 +106,14 @@ main {
   flex-grow: 1;
 }
 
+.tools-box,
+.tool-cont,
+.tool-name,
+.generated {
+  transition: 0.3s;
+}
+
+.election-home-btn,
 .get-res-btn,
 .gen-qr-btn,
 .get-qr-btn,
@@ -103,48 +128,35 @@ main {
   height: 7rem;
   border: none;
   margin: 0.2rem;
-  font-weight: bold;
+  font-weight: 600;
   background-color: transparent;
   transition: 0.3s;
 }
 
+.election-home-img,
 .get-res-img,
 .gen-qr-img,
 .get-qr-img,
 .users-img,
 .add-btn-img {
-  border-radius: 0.5rem;
   padding: 0.3rem;
   width: 3rem;
   transition: 0.3s;
   margin: 0.3rem;
 }
 
+.election-home-btn:hover,
 .get-res-btn:hover,
 .gen-qr-btn:hover,
 .get-qr-btn:hover,
 .users-btn:hover,
 .add-election-btn:hover {
   background-color: rgb(220, 221, 229);
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  border-left: 1px solid #bdc3c7;
+  border-top: 1px solid #bdc3c7;
 }
 
 /* Election list  */
-
-.election-box {
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
-  width: 98%;
-}
-
-.election-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1rem;
-  border-top: 2px solid black;
-}
 
 .election-btn {
   display: flex;
@@ -154,25 +166,25 @@ main {
   margin: 0.3rem;
   width: auto;
   height: auto;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   transition: 0.3s;
   border: none;
+  color: #34495e;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: rgba(234, 231, 223, 0.536);
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  background-color: #bdc3c7;
+  border-bottom: 1px solid #bdc3c7;
+  border-right: 1px solid #bdc3c7;
 }
 
 .election-btn:hover {
-  background-color: rgb(220, 221, 229);
+  background-color: #e5f1f3;
 }
 
 .election-img {
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  width: 5vw;
+  margin: 0.5rem;
+  width: 3.5vw;
   height: auto;
   padding: 0.2rem;
 }
@@ -217,7 +229,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  background-color: white;
+  background-color: #ecf0f1;
   max-width: 70vw;
   border-radius: 2rem;
   padding: 3rem;
@@ -230,7 +242,7 @@ main {
   justify-content: center;
   align-items: center;
   margin: 1rem;
-  max-width: 80vw;
+  max-width: 100vw;
   max-height: none;
 }
 
@@ -258,7 +270,7 @@ main {
 .close-btn-user {
   margin-right: 50%;
   margin-left: 50%;
-  background-color: white;
+  background-color: #ecf0f1;
   width: 4rem;
   height: 4rem;
   margin-top: 4%;
@@ -268,6 +280,8 @@ main {
   margin: 1rem;
   align-items: center;
   justify-content: center;
+  outline: none; /* Remove focus outline */
+  user-select: none; /* Prevent selection */
 }
 
 .close-tool-img,
@@ -305,7 +319,7 @@ main {
   height: 4rem;
   border-radius: 0.5rem;
   transition: 0.3s;
-  border: 0.2px solid gray;
+  border: 0.2px solid #bdc3c7;
 }
 
 .add-option-img {
@@ -354,7 +368,7 @@ main {
 .submit-btn,
 .submit-img {
   width: 4rem;
-  height: 4rem;
+  height: 3rem;
   margin: 0.3rem;
   border: none;
   border-radius: 1rem;
@@ -375,11 +389,11 @@ main {
 .add-option-btn-update:hover,
 .remove-title:hover,
 .remove-option:hover {
-  background-color: rgb(244, 192, 95);
+  background-color: #f39c12;
 }
 
 .submit-btn:hover {
-  background-color: rgb(167, 228, 75);
+  background-color: #27ae60;
 }
 
 .button-box {
@@ -392,7 +406,7 @@ main {
 .yes-btn,
 .no-btn {
   border: none;
-  color: white;
+  color: #ecf0f1;
   padding: 1rem;
   margin: 0.2rem;
   border-radius: 1rem;
@@ -400,16 +414,16 @@ main {
 }
 
 .yes-btn {
-  background-color: rgb(52, 102, 52);
+  background-color: #27ae60;
 }
 .no-btn {
-  background-color: rgb(92, 37, 37);
+  background-color: #d35400;
 }
 
 .yes-btn:hover,
 .no-btn:hover {
-  color: white;
-  background-color: gray;
+  color: #ecf0f1;
+  background-color: #34495e;
 }
 
 .close-agree {
@@ -424,10 +438,12 @@ main {
   justify-content: center;
   margin: 0.2rem;
   font-size: 1.2rem;
-  color: rgb(68, 135, 42);
+  color: #2ecc71;
   border: 0.5px solid black;
   border-radius: 2rem;
   padding: 1rem;
+  outline: none; /* Remove focus outline */
+  user-select: none; /* Prevent selection */
 }
 
 .mail-box {
@@ -455,7 +471,7 @@ main {
 .delete-el-btn,
 .update-el {
   font-size: 1rem;
-  color: white;
+  color: #ecf0f1;
   width: auto;
   padding: 1.2rem;
   border-radius: 3rem;
@@ -465,15 +481,15 @@ main {
 }
 
 .add-topic {
-  background-color: rgb(136, 105, 47);
+  background-color: #f39c12;
 }
 
 .delete-el-btn {
-  background-color: rgb(97, 17, 17);
+  background-color: #d35400;
 }
 
 .update-el {
-  background-color: rgb(27, 101, 10);
+  background-color: #27ae60;
 }
 
 .add-topic:hover,
@@ -498,7 +514,7 @@ main {
 
 .create-user-cont {
   display: flex;
-  background-color: white;
+  background-color: #ecf0f1;
   align-items: center;
   justify-content: start;
   border-radius: 1rem;
@@ -506,37 +522,35 @@ main {
   height: fit-content;
   padding: 2rem;
   overflow: auto;
-  border: 1px solid black;
+  border: 1px solid #7f8c8d;
 }
 
 .create-user-btn {
-  background-color: rgb(146, 102, 20);
-  color: white;
+  background-color: #27ae60;
+  color: #ecf0f1;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.392);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 7vw;
-  height: 7vh;
+  padding: 0.7rem;
   margin: 0.5rem;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   border: none;
   transition: 0.2s;
 }
 
 .create-user-btn:hover {
-  background-color: rgb(233, 163, 33);
-  color: black;
+  background-color: #27ae5fa0;
+  color: #224c77;
 }
 
 #role {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 7vw;
-  height: 5vh;
+  padding: 0.4rem;
   border: 1px solid black;
-  border-radius: 0.7rem;
+  border-radius: 0.4rem;
   font-size: 1rem;
 }
 
@@ -546,7 +560,7 @@ main {
   justify-content: start;
   align-items: start;
   margin-top: 2rem;
-  width: 100%;
+  width:fit-content;
   min-height: 14rem;
   overflow: hidden;
 }
@@ -555,8 +569,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: start;
-  max-width: 95vw;
-  width: 95%;
+  max-width: 100vw;
   padding: 0.5rem;
   margin: 0.5rem;
   overflow: auto;
@@ -565,43 +578,43 @@ main {
 .save-user,
 .delete-user,
 .edit-user {
-  width: 4vw;
-  height: 5vh;
+  padding: 0.7rem;
   border-radius: 0.5rem;
   border: none;
   transition: 0.2s;
 }
 
 .save-user {
-  background-color: green;
-  color: white;
+  background-color: #27ae60;
+  color: #f7fafa;
 }
 
 .delete-user {
   margin-left: 1rem;
   margin-right: 0.5rem;
-  background-color: rgb(153, 39, 39);
-  color: white;
+  background-color: #d35400;
+  color: #f7fafa;
 }
 
 .edit-user {
-  background-color: rgb(199, 131, 5);
-  color: white;
+  background-color: #f4d03f;
+  color: #34495e;
 }
 
 .save-user:hover,
 .delete-user:hover,
 .edit-user:hover {
-  border: 1px solid white;
   opacity: 0.5;
 }
 
 .titles {
-  background-color: white;
+  background-color: #ecf0f1;
   padding: 1rem;
   border-radius: 2rem;
   margin: 0.5rem;
-  border: 2px solid black;
+  border: 1px solid #34495e;
+  outline: none; /* Remove focus outline */
+  user-select: none; /* Prevent selection */
 }
 
 .main-buttons {
@@ -610,12 +623,13 @@ main {
   align-items: center;
   justify-content: center;
   border-radius: 3rem;
+  margin-top: 0;
   padding: 2rem;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: rgba(234, 231, 223, 0.352);
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
 }
 
 .tools-box {
@@ -628,9 +642,9 @@ main {
   width: 90%;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: rgba(234, 231, 223, 0.352);
-  border-left: 1px solid gray;
-  border-top: 1px solid gray;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
 }
 
 .tool-cont {
@@ -638,6 +652,7 @@ main {
   align-items: center;
   justify-content: center;
   margin: 1.5rem;
+  transition: 0.3s;
 }
 
 .tool-cont input {
@@ -647,7 +662,7 @@ main {
 .tool-cont select,
 .tool-cont button {
   cursor: pointer;
-  padding: 0.3rem;
+  padding: 0.6rem;
   border-radius: 0.6rem;
 }
 
@@ -661,9 +676,9 @@ main {
 .get-result,
 .delete-result,
 .clear-box-result {
-  color: white;
+  color: #ecf0f1;
   border: none;
-  background-color: rgb(15, 114, 15);
+  background-color: #27ae60;
   transition: 0.3s;
   margin: 0.2rem;
 }
@@ -671,17 +686,18 @@ main {
 .clear-box,
 .download-codes,
 .download-result {
-  background-color: rgb(181, 108, 43);
+  background-color: #f39c12;
 }
 
 .delete-codes,
 .delete-result {
-  background-color: rgb(133, 26, 26);
+  background-color: #d35400;
 }
 
 .clear-box-get,
 .clear-box-result {
-  background-color: rgb(210, 162, 17);
+  color: #3b5e81;
+  background-color: #f4d03f;
 }
 
 .tool-cont button:hover {
@@ -727,7 +743,8 @@ main {
   padding: 0.5rem;
   margin: 1rem;
   border: 1px solid rgb(184, 180, 180);
-  background-color: rgb(241, 241, 241);
+  color: #34495e;
+  background-color: #d6dce0;
   border-radius: 2rem;
 }
 
@@ -743,17 +760,17 @@ main {
 }
 
 .valid {
-  background-color: rgba(13, 186, 13, 0.452);
-  color: rgb(7, 7, 7);
+  background-color: #27ae60;
+  color: #34495e;
 }
 
 .invalid {
-  background-color: rgba(192, 35, 35, 0.626);
-  color: rgb(0, 0, 0);
+  background-color: #d35400;
+  color: #34495e;
 }
 
 .tok-count-box input {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   text-align: center;
   text-justify: auto;
   margin: 0.5rem;
@@ -764,18 +781,18 @@ main {
 }
 
 .tok-valid {
-  background-color: rgb(57, 158, 57);
-  color: white;
+  background-color: #27ae60;
+  color: #ecf0f1;
 }
 
 .tok-used {
-  background-color: red;
-  color: white;
+  background-color: #d35400;
+  color: #ecf0f1;
 }
 
 .tok-count {
-  background-color: rgb(55, 131, 198);
-  color: white;
+  background-color: #34495e;
+  color: #ecf0f1;
 }
 
 .selected {
@@ -831,7 +848,7 @@ main {
   align-items: center;
   justify-content: space-between;
   width: 32vw;
-  margin: 1.5rem;
+  margin: 0.5rem;
   user-select: none;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -842,8 +859,8 @@ main {
 }
 
 .toggle:hover {
-  background-color: rgb(107, 101, 101);
-  color: white;
+  background-color: #34495e;
+  color: #ecf0f1;
 }
 
 .toggle-switch {
@@ -900,8 +917,8 @@ main {
   align-items: center;
   justify-content: center;
   border: 1px solid rgb(107, 101, 101);
-  border-radius: 0.5rem;
-  padding: 2rem;
+  border-radius: 0.7rem;
+  padding: 1rem;
 }
 
 .ip-rest-cont input {
@@ -914,14 +931,14 @@ main {
   padding: 1.2rem;
   margin: 0.5rem;
   border: none;
-  color: white;
-  background-color: green;
+  color: #ecf0f1;
+  background-color: #27ae60;
   transition: 0.3s;
 }
 
 /* Media Queries */
 
-@media (max-width: 1023px) {
+@media (max-width: 900px) {
   .token-display:disabled,
   .token-status:disabled {
     width: 55vw;
@@ -1014,19 +1031,23 @@ main {
     margin: 0px;
   }
 
-  .election-list {
-    justify-content: center;
+  .close-btn-one-el,
+  .close-btn {
+    margin-top: 7%;
+    margin-right: -70%;
   }
 
-  .content,
-  .create-user-cont,
-  .cont-one-el {
+  .create-user-cont
+   {
     padding: 2rem;
     margin: 0px;
-    max-width: 98vw;
-    max-height: 98vh;
-    height: auto;
-    min-width: 80vw;
+  }
+  .cont-one-el,
+  .content {
+    padding: 2rem;
+    margin: 0px;
+    min-height: 100vh;
+    min-width: 100vw;
   }
 
   .one-topic .topic,
@@ -1103,7 +1124,6 @@ main {
     align-items: center;
     justify-content: start;
     padding: 0px;
-    margin: 0px;
     width: 95%;
   }
 
@@ -1130,33 +1150,40 @@ main {
     flex-direction: column;
   }
 
+  .election-home-img,
   .gen-qr-img,
   .get-qr-img,
   .users-img,
-  .next-img,
   .get-res-img,
   .add-btn-img,
   .election-img {
-    border-radius: 0.5rem;
     padding: 0.2rem;
     width: 1rem;
     transition: 0.3s;
   }
 
-
+  .election-home-btn,
   .get-res-btn,
   .users-btn,
   .add-election-btn,
   .gen-qr-btn,
   .get-qr-btn {
     flex-direction: row;
-    width: 17rem;
+    width: 80vw;
     height: 3rem;
     margin: 0.5rem;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-    background-color: rgba(234, 231, 223, 0.352);
-    border-left: 1px solid gray;
-    border-top: 1px solid gray;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    background-color: #ecf0f186;
+    border-left: 1px solid #7f8c8d;
+    border-top: 1px solid #7f8c8d;
+  }
+
+  .election-btn {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 75vw;
   }
 
   .main-buttons {
@@ -1170,50 +1197,6 @@ main {
     padding-bottom: 0;
     border-right: 0.3rem solid #34495eaa;
     background-color: rgb(220, 221, 229);
-    border-bottom:none ;
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1439px) {
-  header {
-    width: 90%;
-  }
-
-  .create-user-cont {
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    width: auto;
-    flex-direction: row;
-  }
-
-  #role,
-  .create-user-btn {
-    height: 2.5rem;
-    width: 7rem;
-  }
-
-  .create-user-cont input {
-    width: auto;
-  }
-
-  .users-list input {
-    width: auto;
-  }
-
-  .create-user-cont {
-    overflow: hidden;
-  }
-
-  .one-el-form input,
-  .content input {
-    max-width: 30vw;
-    width: 27vw;
-  }
-
-  .delete-user,
-  .save-user,
-  .edit-user {
-    width: 6rem;
+    border-bottom: none;
   }
 }

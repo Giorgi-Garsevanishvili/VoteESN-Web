@@ -11,6 +11,14 @@
     <style>
       /* Branding and Footer Styling */
       
+
+      * {
+        -webkit-user-select: none; /* Disable text selection in webkit browsers */
+        -moz-user-select: none; /* Disable text selection in Firefox */
+        -ms-user-select: none; /* Disable text selection in IE/Edge */
+        user-select: none; /* Disable text selection in modern browsers */
+      }
+
       html,
       body {
         margin: 0;
@@ -32,6 +40,7 @@
         margin: 0;
         position: relative;
         display: inline-block;
+        user-select: none;
       }
 
       .tm-logo {
@@ -48,6 +57,7 @@
         font-size: 0.7rem;
         color: #7f8c8d;
         margin: 5px 0;
+        user-select: none;
       }
 
       .name-link {
@@ -55,6 +65,7 @@
         font-size: 0.65rem;
         color: #7f8c8d;
         margin-top: 5px;
+        user-select: none;
       }
 
       .name-link a {
@@ -63,6 +74,8 @@
         color: #2980b9;
         text-decoration: none;
         font-weight: 500;
+        outline: none; /* Remove focus outline */
+        user-select: none; /* Prevent selection */
       }
 
       .name-link a:hover {
@@ -76,6 +89,7 @@
         color: #7f8c8d;
         margin: 5px 0;
         font-weight: 500;
+        user-select: none;
       }
 
       #year {

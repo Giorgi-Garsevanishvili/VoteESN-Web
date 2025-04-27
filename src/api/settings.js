@@ -41,8 +41,10 @@ systemBTn.addEventListener("click", async (event) => {
   generated.innerHTML = "";
   toolTitle.innerHTML = "System Settings";
   toolContainer.innerHTML = "";
-  tokCountBox.innerHTML = "";
-  resultBox.innerHTML = "s"
+  resultBox.innerHTML = ""
+  tokCountBox.classList.add('hidden')
+  tokCountBox.classList.remove('show')
+  toolContainer.scrollIntoView()
 
   let html = `
   <div class="settings-box">
