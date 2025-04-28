@@ -173,7 +173,7 @@ main {
   color: #34495e;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: #bdc3c7;
+  background-color: #d7e2ec;
   border-bottom: 1px solid #bdc3c7;
   border-right: 1px solid #bdc3c7;
 }
@@ -455,11 +455,17 @@ main {
 .mail-button {
   border: none;
   width: auto;
+  color: #010c16;
   background: orange;
   font-size: 0.8rem;
   padding: 0.6rem;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   margin: 0.5rem;
+  transition: 0.3s;
+}
+
+.mail-button:hover {
+  opacity: 0.5;
 }
 
 .mail-box input {
@@ -560,7 +566,7 @@ main {
   justify-content: start;
   align-items: start;
   margin-top: 2rem;
-  width:fit-content;
+  width: fit-content;
   min-height: 14rem;
   overflow: hidden;
 }
@@ -751,6 +757,19 @@ main {
 .token-display:disabled {
   width: fit-content;
   width: 17vw;
+}
+
+.reveal-token {
+  border-radius: 0.3rem;
+  border: none;
+  background-color: transparent;
+}
+
+.token-box input {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .token-status:disabled {
@@ -1037,8 +1056,7 @@ main {
     margin-right: -70%;
   }
 
-  .create-user-cont
-   {
+  .create-user-cont {
     padding: 2rem;
     margin: 0px;
   }

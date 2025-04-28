@@ -36,14 +36,14 @@ genQRBtn.addEventListener("click", async (event) => {
   genQRBtn.classList.add("selected");
   getQRBtn.classList.remove("selected");
   getResBtn.classList.remove("selected");
-  homeBtn.classList.remove('selected')
+  homeBtn.classList.remove("selected");
 
   resBox.innerHTML = "";
   toolContainer.innerHTML = "";
   generated.innerHTML = "";
   tokCountBox.classList.remove("show");
   tokCountBox.classList.add("hidden");
-  toolContainer.scrollIntoView()
+  toolContainer.scrollIntoView();
 
   const elections = await getAllElection();
   const allElections = elections.data.data.allElections;
@@ -131,9 +131,9 @@ getQRBtn.addEventListener("click", async (event) => {
   genQRBtn.classList.remove("selected");
   getQRBtn.classList.add("selected");
   getResBtn.classList.remove("selected");
-  homeBtn.classList.remove('selected')
+  homeBtn.classList.remove("selected");
 
-  toolContainer.scrollIntoView()
+  toolContainer.scrollIntoView();
 
   resBox.innerHTML = "";
   toolContainer.innerHTML = "";
@@ -226,18 +226,26 @@ getQRBtn.addEventListener("click", async (event) => {
         tokens.forEach((token) => {
           const isUsed = token.used === false;
           const isSent = token.sent === false;
+
+          const realToken = token.token;
+
           tokensHTML += `
         <div class="token-list">
           <div class="token-box">
-            <h5>Token:</h5><input disabled class="token-display ${
+            <h5>Token:</h5><input type="password" disabled class="token-display ${
               isUsed ? "valid" : "invalid"
-            }" value="${token.token}">
+            }" value="${realToken}">
             <h5>Used:</h5><input disabled class="token-status 
             " value="${isUsed ? "❌" : "✅"}">
             <h5>Sent:</h5><input disabled class="token-status mail-status
             " value="${isSent ? "❌" : "✅"}">
+            <button class="reveal-token"><img
+                class="reveal-token-img"
+                src="../../img/login/eye-closed.svg"
+                alt="reveal token"
+              /></button>
           </div>
-          <div class="mail-box ${isUsed ? "show" : "hidden"}">
+          <div class="mail-box ${isSent ? "show" : "hidden"}">
             <input class="mail-input" placeholder="Enter Email">
             <button class="mail-button">Send Email</button>
           </div>
@@ -247,6 +255,36 @@ getQRBtn.addEventListener("click", async (event) => {
         generated.insertAdjacentHTML("afterbegin", tokensHTML);
 
         const sendBtn = document.querySelectorAll(".mail-button");
+
+        const revealBTN = document.querySelectorAll(".reveal-token");
+
+        revealBTN.forEach((btn) => {
+          btn.addEventListener("click", (event) => {
+            event.preventDefault();
+            const targetBox = event.target.closest(".token-list");
+            const targetToken = targetBox.querySelector(".token-display");
+            const btn = targetBox.querySelector(".reveal-token");
+
+            
+
+            targetToken.type =
+              targetToken.type === "password" ? "text" : "password";
+
+            if (targetToken.type === `password`) {
+              btn.innerHTML = `<img
+                  class="reveal-token-img"
+                  src="../../img/login/eye-closed.svg"
+                  alt="reveal token"
+                />`;
+            } else {
+              btn.innerHTML = `<img
+                  class="reveal-token-img"
+                  src="../../img/login/eye.svg"
+                  alt="reveal token"
+                />`;
+            }
+          });
+        });
 
         sendBtn.forEach((btn) => {
           btn.addEventListener("click", async (event) => {
@@ -260,6 +298,7 @@ getQRBtn.addEventListener("click", async (event) => {
             const targetToken = targetBox.querySelector(".token-display").value;
             const recipient = targetBox.querySelector(".mail-input").value;
             const mailStatus = targetBox.querySelector(".mail-status");
+            const oneEachSendBTN = targetBox.querySelector(".mail-button");
 
             if (!emailRegex.test(recipient)) {
               message("Please enter a valid email address.", "error", 2000);
@@ -269,6 +308,8 @@ getQRBtn.addEventListener("click", async (event) => {
             await sendTokens(recipient, targetToken);
             mailStatus.value = "✅";
             emailBox.value = "";
+            emailBox.classList.add("hidden");
+            oneEachSendBTN.classList.add("hidden");
           });
         });
 
@@ -358,12 +399,12 @@ getQRBtn.addEventListener("click", async (event) => {
 getResBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
-  homeBtn.classList.remove('selected')
+  homeBtn.classList.remove("selected");
   genQRBtn.classList.remove("selected");
   getQRBtn.classList.remove("selected");
   getResBtn.classList.add("selected");
 
-  toolContainer.scrollIntoView()
+  toolContainer.scrollIntoView();
 
   toolContainer.innerHTML = "";
   tokCountBox.classList.remove("show");
