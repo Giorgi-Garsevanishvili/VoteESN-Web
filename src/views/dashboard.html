@@ -6,12 +6,22 @@
     <link rel="stylesheet" href="../styles/global.css" />
     <link rel="stylesheet" href="../styles/dashboard.css" />
     <link rel="stylesheet" href="../styles/message.css" />
-    <title>Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <title>Qirvex™ | Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Qirvex™" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <meta
+      name="description"
+      content="Administrator dashboard for managing elections, users, and results in the Qirvex™ system."
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0" defer></script>
   </head>
   <body>
     <div class="see-user-box hidden">
@@ -157,14 +167,14 @@
           <img
             src="../../img/admin/dashboard/square-plus.webp"
             class="add-btn-img"
-            alt="add-election"
+            alt="add election"
           />ADD ELECTION
         </button>
         <button class="users-btn">
           <img
             class="users-img"
             src="../../img/admin/dashboard/member-list.webp"
-            alt="see users"
+            alt="Users list"
           />USERS
         </button>
 
@@ -172,26 +182,26 @@
           <img
             class="gen-qr-img"
             src="../../img/admin/dashboard/qr.webp"
-            alt="Generate QR Codes"
+            alt="Generate Codes"
           />Generate QR Codes
         </button>
         <button class="get-qr-btn">
           <img
             class="get-qr-img"
             src="../../img/admin/dashboard/file-download.webp"
-            alt="GetCode"
+            alt="Get Code"
           />Get Access Codes
         </button>
         <button class="get-res-btn">
           <img
             class="get-res-img"
             src="../../img/admin/dashboard/dashboard-monitor.webp"
-            alt="GetResults"
+            alt="Get Results"
           />Get Results
         </button>
       </div>
       <div class="tools-box">
-        <h2 class="tool-name">Election Home</h2>
+        <h3 class="tool-name">Election Home</h3>
         <div class="tool-cont"></div>
         <div class="tok-count-box hidden">
           <input disabled class="tok-count" value="" />
@@ -203,8 +213,13 @@
       </div>
     </main>
     <div class="message hidden"></div>
-    <iframe src="../../Qirvex-Branding-Kit/footer-compnent.html"></iframe>
-    <footer style="font-size: 0.8rem; margin: 0.3rem;">Uicons by <a href="https://www.flaticon.com/uicons">Flaticon</a></footer>
+    <iframe
+      title="Qirvex-Branding"
+      src="../../Qirvex-Branding-Kit/footer-compnent.html"
+    ></iframe>
+    <footer style="font-size: 0.8rem; margin: 0.3rem">
+      Uicons by <a href="https://www.flaticon.com/uicons">Flaticon</a>
+    </footer>
     <script type="module" src="../api/accessCodes.js"></script>
     <script type="module" src="../../admin/dashboard.js"></script>
     <script type="module" src="../api/settings.js"></script>

@@ -92,7 +92,7 @@ export async function getElection() {
       let html = `<button class="election-btn">
       <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
       <div class="el-btn-info">
-        <h4 class="el-name">${election.title}</h4>
+        <h5 class="el-name">${election.title}</h5>
         <h5 class="el-id">${election._id}</h5>
       </div>
       </button>`;

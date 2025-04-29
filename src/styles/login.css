@@ -118,7 +118,7 @@ input:focus {
 footer {
   background-color: #f0f0f0;
   color: #333;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   padding: 1.5rem 1rem; 
   margin-top: auto;
   width: 100vw; 
@@ -170,7 +170,7 @@ footer p {
   }
 
   footer {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
   }
 
   .password-toggle {
