@@ -1,6 +1,6 @@
 import QrScanner from "../../lib/qr-scanner.min.js";
 import { logOut } from "../../auth/logout.js";
-import { checkAuth, config } from "../handlers/authHandler.js";
+import { checkAuth, getAuthConfig } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
@@ -19,12 +19,33 @@ const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
 let result = "";
 
+async function getElAuth() {
+  try {
+    const { config } = getAuthConfig();
+    await axios.get(url, config);
+  } catch (error) {
+    throw new Error("Authentication faild!");
+  }
+}
+
+setInterval(async () => {
+  try {
+    await getElAuth();
+  } catch (error) {
+    setTimeout(() => {
+      window.location.href = "../../login.html";
+    }, 2000);
+    message(error.message);
+    localStorage.clear();
+    return message("Authentication Faild!");
+  }
+}, 5000);
+
 submitTok.addEventListener("click", async (event) => {
   event.preventDefault();
   const token = manualTokInput.value;
   await tokenValidation(token);
-  manualTokInput.value = ''
-
+  manualTokInput.value = "";
 });
 
 noQrBtn.addEventListener("click", (event) => {
@@ -38,8 +59,8 @@ noQrBtn.addEventListener("click", (event) => {
   overlayText.classList.add("hidden");
   tokenInput.classList.remove("hidden");
   tokenInput.classList.add("show");
-  noQrBtn.classList.add('hidden')
-  noQrBtn.classList.remove('show')
+  noQrBtn.classList.add("hidden");
+  noQrBtn.classList.remove("show");
 });
 
 ready(async () => {
@@ -72,13 +93,14 @@ async function tokenValidation(token) {
   };
   const valUrl = `https://voteesn-api.onrender.com/api/v1/user/tokenvalidation`;
   try {
+    const { config } = getAuthConfig();
     const response = await axios.post(valUrl, data, config);
     localStorage.setItem("electionID", response.data.data[0].electionId);
     localStorage.setItem("voterToken", response.data.data[0].token);
-    tokenInput.classList.remove('show')
-    tokenInput.classList.add('hidden')
-    buttonBox.classList.remove('show')
-    buttonBox.classList.add('hidden')
+    tokenInput.classList.remove("show");
+    tokenInput.classList.add("hidden");
+    buttonBox.classList.remove("show");
+    buttonBox.classList.add("hidden");
     message("Valid Token Presented!", "OK", 2000);
     await getOneElection();
   } catch (error) {
@@ -93,6 +115,7 @@ async function getOneElection() {
   const uniqueToken = localStorage.getItem("voterToken");
   const oneElUrl = `https://voteesn-api.onrender.com/api/v1/user/voter/${electionID}?token=${uniqueToken}`;
   try {
+    const { config } = getAuthConfig();
     let electionData = {
       title: "",
       topics: [],
@@ -102,8 +125,6 @@ async function getOneElection() {
     const election = await axios.get(oneElUrl, config);
     electionData.title = election.data.data.title;
     electionData.topics.push(election.data.data.topics);
-
-    console.log(electionData);
 
     verifyBox.classList.add("hidden");
     overlayText.classList.add("hidden");
@@ -150,8 +171,8 @@ async function getOneElection() {
           const submitElURL = `https://voteesn-api.onrender.com/api/v1/user/voter/${electionID}?token=${uniqueToken}`;
 
           try {
-            const response = axios.post(submitElURL, answers, config);
-            console.log(response);
+            const { config } = getAuthConfig();
+            axios.post(submitElURL, answers, config);
 
             message("Your answers Submited!", "OK", 3000);
             setTimeout(() => {
@@ -208,8 +229,6 @@ async function getOneElection() {
         });
 
         electionData.topics[0].shift();
-        console.log(electionData);
-        console.log(answers);
 
         renderOneQuestion();
       });
@@ -245,7 +264,8 @@ async function runAuthFlow() {
 }
 
 async function getElectionVoter() {
-  const response = await axios.get(url, config);
+  const { config } = getAuthConfig();
+  await axios.get(url, config);
 }
 
 logOutBtn.addEventListener("click", (event) => {
@@ -285,8 +305,8 @@ function startScan() {
   stop.classList.remove("hidden");
   tokenInput.classList.remove("show");
   tokenInput.classList.add("hidden");
-  noQrBtn.classList.add('show')
-  noQrBtn.classList.remove('hidden')
+  noQrBtn.classList.add("show");
+  noQrBtn.classList.remove("hidden");
   qrScanner.start();
 }
 

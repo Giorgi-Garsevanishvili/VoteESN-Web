@@ -4,7 +4,7 @@ input {
   margin: 0.2rem;
   font-size: 0.85rem;
   background-color: #edf0f1;
-  color: #7f8c8d;
+  color: #0a3c43;
 }
 
 select {
@@ -271,8 +271,8 @@ main {
   margin-right: 50%;
   margin-left: 50%;
   background-color: #ecf0f1;
-  width: 4rem;
-  height: 4rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-top: 4%;
 }
 
@@ -974,18 +974,20 @@ main {
   }
 
   .user-content {
-    padding: 1.5rem;
+    width: 100%;
+    padding: 0px;
+    margin: 0;
+    margin-bottom: 0px;
     overflow: hidden;
   }
 
   .create-user-cont button,
   .one-user button {
     margin: 0.3rem;
-    width: 30vw;
     height: auto;
     align-items: center;
     justify-content: center;
-    padding: 0.7rem;
+    padding: 0.5rem;
   }
 
   .tok-count-box input {
@@ -1001,10 +1003,12 @@ main {
 
   .users-list {
     border: 1px solid gainsboro;
+    align-items: center;
     border-radius: 1rem;
     padding: 1rem;
     margin: 0px;
-    width: 98%;
+    width: 100%;
+    height: 100%;
     overflow: scroll;
     overflow-x: hidden;
   }
@@ -1013,8 +1017,8 @@ main {
     display: flex;
     align-items: center;
     padding: 1rem;
-    min-height: 25vh;
-    border: 2px solid gray;
+    min-height: fit-content;
+    border: 2px solid rgba(128, 128, 128, 0.249);
     border-radius: 1rem;
     width: 65vw;
     flex-direction: column;
@@ -1026,7 +1030,7 @@ main {
 
   .chart-container {
     min-width: 0px;
-    padding: 0px;
+    padding: 0.5rem;
     width: 75vw;
     border-radius: 12px;
     background-color: #f9f9f9;
@@ -1038,7 +1042,7 @@ main {
   .chart-container h4 {
     text-align: center;
     margin-bottom: 12px;
-    font-size: 16px;
+    font-size: 0.8rem;
   }
 
   .user-info {
@@ -1056,9 +1060,28 @@ main {
     margin-right: -70%;
   }
 
+  .close-btn-user {
+    display: block;
+    position: absolute;
+    top: 0.5%;
+    right: 2%;
+    margin: 0;
+  }
+
+  .titles {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    margin: 0.3rem;
+  }
+
   .create-user-cont {
-    padding: 2rem;
-    margin: 0px;
+    min-height: fit-content;
+    width: 100%;
+    flex-direction: column;
+    overflow: auto;
+    height: fit-content;
+    padding: 0.5rem 0rem;
+    margin: 0.5rem 0rem;
   }
   .cont-one-el,
   .content {
@@ -1072,14 +1095,7 @@ main {
   .one-el-form,
   .election-form {
     margin: 0px;
-    width: 98%;
-  }
-
-  .create-user-cont {
-    height: auto;
-    width: auto;
-    flex-direction: column;
-    overflow: auto;
+    width: 100%;
   }
 
   .toggle-label,
@@ -1164,10 +1180,6 @@ main {
     justify-content: center;
   }
 
-  .main-buttons {
-    flex-direction: column;
-  }
-
   .election-home-img,
   .gen-qr-img,
   .get-qr-img,
@@ -1205,9 +1217,11 @@ main {
   }
 
   .main-buttons {
+    flex-direction: column;
     border: none;
     background-color: transparent;
     box-shadow: none;
+    padding: 0;
   }
 
   .selected {

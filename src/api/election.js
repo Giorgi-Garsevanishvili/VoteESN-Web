@@ -1,5 +1,5 @@
 import { message } from "../utils/message.js";
-import { config, token } from "../handlers/authHandler.js";
+import { getAuthConfig } from "../handlers/authHandler.js";
 import { addExtraInput, electionData } from "../../admin/dashboard.js";
 import { deleteQrcodes, deleteResult } from "./accessCodes.js";
 
@@ -25,10 +25,33 @@ const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
 const getResBtn = document.querySelector(".get-res-btn");
 
-
 let responseData = null;
 
+async function getElAuth() {
+  try {
+    const { config } = getAuthConfig();
+    await axios.get(getElectionUrl, config);
+  } catch (error) {
+    throw new Error("Authentication faild!");
+  }
+}
+
+setInterval(async () => {
+  try {
+    await getElAuth();
+  } catch (error) {
+    setTimeout(() => {
+      window.location.href = "../../login.html";
+    }, 2000);
+    toolContainer.innerHTML = error.message;
+    message(error.message);
+    localStorage.clear();
+    return message("Authentication Faild!");
+  }
+}, 5000);
+
 export async function getAllElection(elections) {
+  const { config } = getAuthConfig();
   elections = await axios.get(getElectionUrl, config);
   return elections;
 }
@@ -38,24 +61,23 @@ homeBtn.addEventListener("click", async (event) => {
   generated.innerHTML = "";
   toolTitle.innerHTML = "Home";
   toolContainer.innerHTML = "";
-  tokCountBox.classList.add('hidden')
-  tokCountBox.classList.remove('show')
+  tokCountBox.classList.add("hidden");
+  tokCountBox.classList.remove("show");
   resultBox.innerHTML = "";
-  homeBtn.classList.add('selected')
+  homeBtn.classList.add("selected");
   genQRBtn.classList.remove("selected");
   getQRBtn.classList.remove("selected");
   getResBtn.classList.remove("selected");
   await getElection();
-  toolContainer.scrollIntoView()
+  toolContainer.scrollIntoView();
 });
 
 export async function getElection() {
   try {
+    const { config } = getAuthConfig();
     toolContainer.innerHTML = `Loading...`;
 
-    const election = await axios.get(getElectionUrl, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const election = await axios.get(getElectionUrl, config);
     const response = election.data;
     const electionData = response.data;
     const allElections = electionData.allElections;
@@ -94,6 +116,7 @@ export async function getElection() {
 }
 
 export async function getOneElection(id) {
+  const { config, token } = getAuthConfig();
   const response = await axios.get(
     `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
     config
@@ -106,10 +129,8 @@ export async function getOneElection(id) {
 
 export async function createElection() {
   try {
-    if (!token) {
-      return message("Token is not provided!");
-    }
-    const response = await axios.post(createElectionUrl, electionData, config);
+    const { config } = getAuthConfig();
+    await axios.post(createElectionUrl, electionData, config);
   } catch (error) {
     message(error.message);
   }
@@ -167,6 +188,7 @@ async function updateElectionFunction(id, title) {
   }
 
   try {
+    const { config } = getAuthConfig();
     await axios.patch(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
       updatedData,
@@ -191,6 +213,7 @@ async function updateElectionFunction(id, title) {
 }
 
 async function deleteElection(id) {
+  const { config } = getAuthConfig();
   await axios.delete(
     `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
     config

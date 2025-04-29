@@ -1,18 +1,25 @@
-export const token = localStorage.getItem("authToken");
-export const config = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  },
-};
+export function getAuthConfig() {
+  const token = localStorage.getItem("authToken");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
+  return { config, token };
+}
 
-export const configZIP = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/zip",
-  },
-  responseType: "blob",
-};
+export function getAuthConfigZip() {
+  const token = localStorage.getItem("authToken");
+  const configZIP = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/zip",
+    },
+    responseType: "blob",
+  };
+  return configZIP;
+}
 
 export function checkAuth() {
   const token = localStorage.getItem("authToken");

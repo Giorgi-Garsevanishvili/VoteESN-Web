@@ -123,10 +123,6 @@ nextBtn.addEventListener("click", (event) => {
       return message("Topic or at least 2 option is missing!");
     }
     message("Add New topic or Save Election", "OK", 3000);
-    console.log(options);
-
-    
-    
   });
 
   noBtn.addEventListener("click", (event) => {

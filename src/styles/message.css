@@ -27,3 +27,22 @@
   border: 2px solid #e74c3c;
   border-right: none;
 }
+
+@media (max-width: 900px) {
+
+  .OK {
+    border: 1px solid #27ae60;
+    border-right: none;
+  }
+  
+  .error {
+    border: 1px solid #e74c3c;
+    border-right: none;
+  }
+
+  .message {
+    font-size: 0.9rem;
+    height: 4rem;
+    max-width: 85vw;
+  }
+}

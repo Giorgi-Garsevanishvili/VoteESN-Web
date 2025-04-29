@@ -1,4 +1,4 @@
-import { config, configZIP } from "../handlers/authHandler.js";
+import { getAuthConfig, getAuthConfigZip } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 import { getAllElection } from "./election.js";
 
@@ -14,6 +14,7 @@ const getQRBtn = document.querySelector(".get-qr-btn");
 const getResBtn = document.querySelector(".get-res-btn");
 
 let results = "";
+let stats = {};
 
 async function sendTokens(to, token) {
   let data = {
@@ -22,9 +23,9 @@ async function sendTokens(to, token) {
   };
   const url = `https://voteesn-api.onrender.com/api/v1/admin/election/email`;
   try {
+    const { config } = getAuthConfig();
     const response = await axios.post(url, data, config);
     message(response.data.message, "OK", 3000);
-    console.log(response);
   } catch (error) {
     message(error.response.data.message);
   }
@@ -212,6 +213,7 @@ getQRBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       generated.innerHTML = "";
       try {
+        const { config } = getAuthConfig();
         const response = await axios.get(
           `https://voteesn-api.onrender.com/api/v1/admin/election/tokens/${electionID.value}`,
           config
@@ -264,8 +266,6 @@ getQRBtn.addEventListener("click", async (event) => {
             const targetBox = event.target.closest(".token-list");
             const targetToken = targetBox.querySelector(".token-display");
             const btn = targetBox.querySelector(".reveal-token");
-
-            
 
             targetToken.type =
               targetToken.type === "password" ? "text" : "password";
@@ -440,6 +440,22 @@ getResBtn.addEventListener("click", async (event) => {
     const electionID = document.querySelector(".election-id-get");
     const selector = document.querySelector(".election-selector-get");
 
+    selector.addEventListener("change", (e) => {
+      resBox.innerHTML = "";
+      results = "";
+      stats = {};
+      generated.innerHTML = "";
+      electionID.value = e.target.value;
+      downloadResultBTN.classList.remove("show");
+      downloadResultBTN.classList.add("hidden");
+      deleteResultBTN.classList.remove("show");
+      deleteResultBTN.classList.add("hidden");
+      tokCountBox.classList.remove("show");
+      tokCountBox.classList.add("hidden");
+      clearBTN.classList.remove("show");
+      clearBTN.classList.add("hidden");
+    });
+
     const getResultBTN = document.querySelector(".get-result");
     const downloadResultBTN = document.querySelector(".download-result");
     const deleteResultBTN = document.querySelector(".delete-result");
@@ -452,7 +468,11 @@ getResBtn.addEventListener("click", async (event) => {
       generated.innerHTML = "";
       results = "";
 
-      await getResults(electionID.value);
+      try {
+        await getResults(electionID.value);
+      } catch (error) {
+        return;
+      }
 
       if (results.length > 0) {
         downloadResultBTN.classList.remove("hidden");
@@ -469,8 +489,6 @@ getResBtn.addEventListener("click", async (event) => {
         return str.trim().toLowerCase();
       }
 
-      let stats = {};
-
       flatAnswers.forEach(({ question, selectedOption }) => {
         const qKey = normalize(question);
         const aKey = normalize(selectedOption);
@@ -484,22 +502,6 @@ getResBtn.addEventListener("click", async (event) => {
         }
 
         stats[qKey][aKey]++;
-      });
-
-      selector.addEventListener("change", (e) => {
-        resBox.innerHTML = "";
-        results = "";
-        stats = {};
-        generated.innerHTML = "";
-        electionID.value = e.target.value;
-        downloadResultBTN.classList.remove("show");
-        downloadResultBTN.classList.add("hidden");
-        deleteResultBTN.classList.remove("show");
-        deleteResultBTN.classList.add("hidden");
-        tokCountBox.classList.remove("show");
-        tokCountBox.classList.add("hidden");
-        clearBTN.classList.remove("show");
-        clearBTN.classList.add("hidden");
       });
 
       let html = `<div id="charts"></div>`;
@@ -612,35 +614,102 @@ getResBtn.addEventListener("click", async (event) => {
 
         new Chart(canvas, config);
       });
+
       downloadResultBTN.addEventListener("click", async (event) => {
         event.preventDefault();
-        const container = document.getElementById("charts");
 
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF("p", "mm", "a4");
 
+        const logoUrl = "../../img/admin/dashboard/Qirvex-stamp.png";
+
         const selectedOption = selector.options[selector.selectedIndex];
         const electionTitle = selectedOption.text;
         const electionId = selectedOption.value;
+        const timestamp = new Date().toLocaleString();
 
-        const d = new Date();
-        const fullTitle = `Election Results: ${electionTitle} (ID: ${electionId}), REPORT REQUESTED AT: ${d}`;
-        const maxWidth = 180;
-        const lines = pdf.splitTextToSize(fullTitle, maxWidth);
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const systemTAG = `voteESN Election System Report`;
+        const tagWidth = pdf.getTextWidth(systemTAG);
+        const cx = (pageWidth - tagWidth) / 2;
 
-        pdf.setFontSize(18);
-        pdf.text(lines, 10, 20);
+        let y = 15;
 
-        await html2canvas(container).then((canvas) => {
-          const imgData = canvas.toDataURL("image/png");
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(16);
+        pdf.text(systemTAG, cx, y);
+        y += 10;
+        pdf.text(
+          `Election Report: ${electionTitle} (ID: ${electionId})`,
+          10,
+          y
+        );
+        y += 7;
+        pdf.setFontSize(10);
+        pdf.setFont("helvetica", "normal");
+        pdf.text(`Generated at: ${timestamp}`, 10, y);
+        y += 10;
 
-          const imgProps = pdf.getImageProperties(imgData);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        const logoImg = new Image();
+        logoImg.crossOrigin = "Anonymous";
+        logoImg.src = logoUrl;
 
-          pdf.addImage(imgData, "PNG", 0, 30, pdfWidth, pdfHeight);
-          pdf.save(`Election Report: ${electionTitle}`);
-        });
+        logoImg.onload = async () => {
+          pdf.addImage(logoImg, "PNG", 160, 30, 40, 10);
+
+          for (const question in stats) {
+            const counts = stats[question];
+            const totalVotes = Object.values(counts).reduce(
+              (sum, count) => sum + count,
+              0
+            );
+            let rowHeight = 6;
+
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(12);
+            pdf.text(question, 10, y);
+            y += 7;
+
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(10);
+
+            const answers = Object.keys(counts);
+            const rows = answers.map((answer) => {
+              const count = counts[answer];
+              const percentage = totalVotes
+                ? ((count / totalVotes) * 100).toFixed(1) + "%"
+                : "0.0%";
+              return [answer, count.toString(), percentage];
+            });
+
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(11);
+
+            pdf.text("Answer", 10, y);
+            pdf.text("Votes", 50, y);
+            pdf.text("Percentage", 90, y);
+            y += rowHeight;
+
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(10);
+
+            rows.forEach((row) => {
+              row.forEach((text, index) => {
+                pdf.text(text, 10 + index * 40, y);
+              });
+              y += rowHeight;
+            });
+
+            y += 6;
+
+            if (y + rowHeight * (rows.length + 2) > 280) {
+              pdf.addPage();
+              y = 20;
+            }
+          }
+
+          pdf.save(`Election_Report_${electionId}.pdf`);
+        };
       });
 
       clearBTN.addEventListener("click", (event) => {
@@ -691,6 +760,7 @@ getResBtn.addEventListener("click", async (event) => {
 
 async function generateQrCodes(data) {
   try {
+    const { config } = getAuthConfig();
     const genQr = document.querySelector(".gen-qr");
     const clearBTN = document.querySelector(".clear-box");
     const voterNum = document.querySelector(".voter-num");
@@ -711,16 +781,16 @@ async function generateQrCodes(data) {
     return response;
   } catch (error) {
     console.log(error);
-
     message(error.response.data.message);
   }
 }
 
 async function downloadQrCodes(id) {
   try {
+    const { config } = getAuthConfig();
     const response = await axios.get(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
-      configZIP
+      config
     );
 
     const disposition = response.headers["content-disposition"];
@@ -754,6 +824,7 @@ async function downloadQrCodes(id) {
 
 export async function deleteQrcodes(id) {
   try {
+    const { config } = getAuthConfig();
     const response = await axios.delete(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
       config
@@ -767,6 +838,7 @@ export async function deleteQrcodes(id) {
 
 async function getResults(id) {
   try {
+    const { config } = getAuthConfig();
     const response = await axios.get(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/results`,
       config
@@ -775,7 +847,7 @@ async function getResults(id) {
     results = result;
   } catch (error) {
     message(error.response.data.message);
-    console.log(error);
+    throw new Error(error);
   }
 }
 
@@ -786,13 +858,13 @@ export async function deleteResult(id) {
     const deleteResultBTN = document.querySelector(".delete-result");
     const clearBTN = document.querySelector(".clear-box-result");
 
+    const { config } = getAuthConfig();
     const response = await axios.delete(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/results
 `,
       config
     );
     message(response.data, "OK");
-    console.log(response);
 
     getResultBTN.disabled = true;
     downloadResultBTN.disabled = true;

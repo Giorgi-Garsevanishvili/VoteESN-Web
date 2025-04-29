@@ -1,4 +1,4 @@
-import { checkRole, token } from "../src/handlers/authHandler.js";
+import { checkRole, getAuthConfig } from "../src/handlers/authHandler.js";
 import { message } from "../src/utils/message.js";
 
 const url = "https://voteesn-api.onrender.com/api/v1/auth/login";
@@ -13,6 +13,7 @@ logBtn.addEventListener("click", async (event) => {
 });
 
 const errorStorage = localStorage.getItem("error");
+const { token } = getAuthConfig();
 
 if (token) {
   checkRole();

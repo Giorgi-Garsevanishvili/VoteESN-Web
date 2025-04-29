@@ -1,5 +1,5 @@
 import { message } from "../utils/message.js";
-import { config } from "../handlers/authHandler.js";
+import { getAuthConfig } from "../handlers/authHandler.js";
 
 const userBtn = document.querySelector(".users-btn");
 const userBox = document.querySelector(".see-user-box");
@@ -54,6 +54,7 @@ createUserBtn.addEventListener("click", async (event) => {
 
 async function getUsers() {
   try {
+    const { config } = getAuthConfig();
     const response = await axios.get(usersUrl, config);
     users = response.data.user;
 
@@ -204,6 +205,7 @@ async function createUser(newUser) {
       message("All fields must be filled!");
       return;
     }
+    const { config } = getAuthConfig();
     await axios.post(usersUrl, newUser, config);
     message("User Created!", "OK", 2000);
     newUser = "";
@@ -218,7 +220,8 @@ async function createUser(newUser) {
 
 async function deleteUser(id) {
   try {
-    const response = await axios.delete(
+    const { config } = getAuthConfig();
+    await axios.delete(
       `https://voteesn-api.onrender.com/api/v1/admin/system/users/${id}`,
       config
     );
@@ -230,7 +233,8 @@ async function deleteUser(id) {
 
 async function updateUser(id, data) {
   try {
-    const response = await axios.patch(
+    const { config } = getAuthConfig();
+    await axios.patch(
       `https://voteesn-api.onrender.com/api/v1/admin/system/users/${id}`,
       data,
       config

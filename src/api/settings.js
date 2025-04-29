@@ -1,12 +1,12 @@
 import { message } from "../utils/message.js";
-import { config } from "../handlers/authHandler.js";
+import { getAuthConfig } from "../handlers/authHandler.js";
 
 const systemBTn = document.querySelector(".system");
 const toolTitle = document.querySelector(".tool-name");
 const toolContainer = document.querySelector(".tool-cont");
 const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
-const resultBox = document.querySelector('.el-res')
+const resultBox = document.querySelector(".el-res");
 
 const settignsURL = `https://voteesn-api.onrender.com/api/v1/admin/voter/settings`;
 
@@ -14,6 +14,7 @@ let settingsData = "";
 
 async function getSettingsFromDB() {
   try {
+    const { config } = getAuthConfig();
     const response = await axios.get(settignsURL, config);
     return (settingsData = response.data.settings[0]);
   } catch (error) {
@@ -23,6 +24,7 @@ async function getSettingsFromDB() {
 
 async function updateSettings(id, data) {
   try {
+    const { config } = getAuthConfig();
     const resData = await axios.patch(
       `https://voteesn-api.onrender.com/api/v1/admin/voter/settings/${id}`,
       data,
@@ -41,10 +43,10 @@ systemBTn.addEventListener("click", async (event) => {
   generated.innerHTML = "";
   toolTitle.innerHTML = "System Settings";
   toolContainer.innerHTML = "";
-  resultBox.innerHTML = ""
-  tokCountBox.classList.add('hidden')
-  tokCountBox.classList.remove('show')
-  toolContainer.scrollIntoView()
+  resultBox.innerHTML = "";
+  tokCountBox.classList.add("hidden");
+  tokCountBox.classList.remove("show");
+  toolContainer.scrollIntoView();
 
   let html = `
   <div class="settings-box">
@@ -91,6 +93,7 @@ systemBTn.addEventListener("click", async (event) => {
     let data = {
       allowedIPs: [String(ipInput.value)],
     };
+    const { config } = getAuthConfig();
     await updateSettings(settingsData._id, data, config);
     settingsData = "";
     await getSettingsFromDB();
