@@ -66,8 +66,7 @@ genQRBtn.addEventListener("click", async (event) => {
     <select class="election-selector">${optionsHTML}</select>
     <input disabled class="election-id" placeholder="Election ID:" value="${firstElection._id}">
     <input class="voter-num" type="number" placeholder="Number of Voters">
-    <button class="gen-qr">Generate Access Codes</button>
-    <button class="clear-box hidden">Clear</button>  
+    <button class="gen-qr">Generate Access Codes</button> 
   `;
 
     toolContainer.insertAdjacentHTML("afterbegin", html);
@@ -75,12 +74,9 @@ genQRBtn.addEventListener("click", async (event) => {
     const genQr = document.querySelector(".gen-qr");
     const selector = document.querySelector(".election-selector");
     const electionID = document.querySelector(".election-id");
-    const clearBtn = document.querySelector(".clear-box");
 
     selector.addEventListener("change", (e) => {
       electionID.value = e.target.value;
-      clearBtn.classList.remove("show");
-      clearBtn.classList.add("hidden");
       generated.innerHTML = "";
     });
 
@@ -94,32 +90,7 @@ genQRBtn.addEventListener("click", async (event) => {
         numToken: Number(voterNum.value.trim()),
       };
 
-      const response = await generateQrCodes(data);
-
-      if (response) {
-        const accessTokens = response.data.AccessTokens.accessToken;
-        generated.innerHTML = "";
-        let tokenOutput = "";
-        accessTokens.forEach((el) => {
-          tokenOutput = `<textarea class="token-output">${el}</textarea>`;
-          generated.insertAdjacentHTML("beforeend", tokenOutput);
-        });
-        if (generated.innerHTML === "") {
-          clearBtn.classList.add("hidden");
-          clearBtn.classList.remove("show");
-        } else {
-          clearBtn.classList.add("show");
-          clearBtn.classList.remove("hidden");
-        }
-
-        clearBtn.addEventListener("click", (event) => {
-          event.preventDefault();
-
-          generated.innerHTML = "";
-          clearBtn.classList.add("hidden");
-          clearBtn.classList.remove("show");
-        });
-      }
+      await generateQrCodes(data);
     });
   } else {
     toolContainer.innerHTML = `<h4 class="tok-used">This action is not available! Please create Election.</h4>`;
@@ -762,7 +733,6 @@ async function generateQrCodes(data) {
   try {
     const { config } = getAuthConfig();
     const genQr = document.querySelector(".gen-qr");
-    const clearBTN = document.querySelector(".clear-box");
     const voterNum = document.querySelector(".voter-num");
     const response = await axios.post(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${data.electionId}/generate-qr`,
@@ -771,16 +741,13 @@ async function generateQrCodes(data) {
     );
 
     genQr.disabled = true;
-    clearBTN.disabled = true;
     message("QR codes generated and saved", "OK", 3000);
     setTimeout(() => {
       genQr.disabled = false;
-      clearBTN.disabled = false;
       voterNum.value = "";
     }, 2000);
     return response;
   } catch (error) {
-    console.log(error);
     message(error.response.data.message);
   }
 }
