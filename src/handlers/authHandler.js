@@ -18,7 +18,7 @@ export function getAuthConfigZip() {
     },
     responseType: "blob",
   };
-  return configZIP;
+  return { configZIP };
 }
 
 export function checkAuth() {

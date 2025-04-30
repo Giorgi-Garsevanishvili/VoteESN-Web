@@ -7,21 +7,45 @@
     <link rel="stylesheet" href="../styles/dashboard.css" />
     <link rel="stylesheet" href="../styles/message.css" />
     <title>Qirvex™ | Admin Dashboard</title>
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
     <meta name="apple-mobile-web-app-title" content="Qirvex™" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <meta
       name="description"
       content="Administrator dashboard for managing elections, users, and results in the Qirvex™ system."
     />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"
+      defer
+    ></script>
   </head>
   <body>
     <div class="see-user-box hidden">
@@ -209,6 +233,32 @@
           <input disabled class="tok-valid" value="" />
         </div>
         <div class="el-res hidden"></div>
+        <div id="revealModal" class="hidden">
+          <div class="modal-cont">
+            <h3>⚠️ Disclosure Notice</h3>
+            <p>
+              You are about to access a 
+              <strong>confidential election token</strong>.
+              This action is <span>strictly monitored</span> and will 
+              <strong>immediately trigger notifications</strong> to all responsible parties.
+            </p>
+            <p>
+              <strong>Unauthorized or unnecessary access</strong> is a 
+              <span >serious violation of policy</span> and may result in 
+              <strong>disciplinary consequences</strong>.
+            </p>
+            <p>
+              <strong>Proceed only if absolutely necessary.</strong>
+            </p>
+            <input type="text" id="modalName" placeholder="Your Name" />
+            <input type="text" id="modalSurname" placeholder="Your Surname" />
+            <input type="text" id="modalEmail" placeholder="Your Email" />
+            <div class="modal-buttons">
+              <button class="modal-cancel">Cancel</button>
+              <button class="modal-proceed">Proceed</button>
+            </div>
+          </div>
+        </div>
         <div class="generated"></div>
       </div>
     </main>

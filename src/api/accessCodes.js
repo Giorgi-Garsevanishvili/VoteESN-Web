@@ -8,13 +8,92 @@ const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
 const resBox = document.querySelector(".el-res");
 
+const revealModal = document.getElementById("revealModal");
+const revealCancel = document.querySelector(".modal-cancel");
+const revealProceed = document.querySelector(".modal-proceed");
+
+const modalName = document.getElementById("modalName");
+const modalSurname = document.getElementById("modalSurname");
+const modalEmail = document.getElementById("modalEmail");
+
 const homeBtn = document.querySelector(".election-home-btn");
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
 const getResBtn = document.querySelector(".get-res-btn");
 
+const revealReqUrl = `https://voteesn-api.onrender.com/api/v1/admin/election/revealToken`;
+
 let results = "";
 let stats = {};
+
+function showModal() {
+  revealModal.classList.remove("hidden");
+  revealModal.classList.add("show");
+}
+
+function hideModal() {
+  revealModal.classList.remove("show");
+  revealModal.classList.add("hidden");
+
+  modalName.value = "";
+  modalEmail.value = "";
+  modalSurname.value = "";
+}
+
+async function submitReveal(tokenId) {
+  if (
+    !modalName.value.trim() ||
+    !modalSurname.value.trim() ||
+    !modalEmail.value.trim()
+  ) {
+    localStorage.removeItem('lastReveal')
+    throw new Error("All fields are required!");
+  }
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (!emailRegex.test(modalEmail.value.trim())) {
+    throw new Error("Please enter a valid email address.");
+  }
+
+  const revealData = {
+    name: modalName.value.trim(),
+    surname: modalSurname.value.trim(),
+    Email: modalEmail.value.trim(),
+    tokenId,
+    revealedAt: new Date().toLocaleString(),
+  };
+
+  localStorage.setItem("lastReveal", JSON.stringify(revealData));
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const lsdata = {
+    name: user.name,
+    role: user.role,
+  };
+
+  const form = {
+    Name: revealData.name,
+    Surname: revealData.surname,
+    Email: revealData.Email,
+    TokenId: revealData.tokenId,
+    RevealedAt: revealData.revealedAt,
+  };
+
+  const data = {
+    tokenId,
+    form,
+    lsdata,
+  };
+
+  const { config } = getAuthConfig();
+  const tokenResponse = await axios.post(revealReqUrl, data, config);
+
+  hideModal();
+
+  return tokenResponse;
+}
 
 async function sendTokens(to, tokenId) {
   let data = {
@@ -231,28 +310,61 @@ getQRBtn.addEventListener("click", async (event) => {
         const revealBTN = document.querySelectorAll(".reveal-token");
 
         revealBTN.forEach((btn) => {
-          btn.addEventListener("click", (event) => {
+          btn.addEventListener("click", async (event) => {
             event.preventDefault();
             const targetBox = event.target.closest(".token-list");
             const targetToken = targetBox.querySelector(".token-display");
             const btn = targetBox.querySelector(".reveal-token");
 
-            targetToken.type =
-              targetToken.type === "password" ? "text" : "password";
+            showModal();
 
-            if (targetToken.type === `password`) {
-              btn.innerHTML = `<img
-                  class="reveal-token-img"
-                  src="../../img/login/eye-closed.svg"
-                  alt="reveal token"
-                />`;
-            } else {
-              btn.innerHTML = `<img
+            revealCancel.addEventListener("click", (event) => {
+              event.preventDefault();
+              hideModal();
+            });
+
+            revealProceed.addEventListener("click", async (event) => {
+              event.preventDefault();
+              try {
+                let tokenId = targetToken.value;
+                const tokenResponse = await submitReveal(tokenId);
+
+                const realVoterToken = tokenResponse.data.token;
+
+                targetToken.value = realVoterToken;
+
+                targetToken.type =
+                  targetToken.type === "password" ? "text" : "password";
+
+                if (targetToken.type === `text`) {
+                  btn.innerHTML = `<img
                   class="reveal-token-img"
                   src="../../img/login/eye.svg"
                   alt="reveal token"
                 />`;
-            }
+                }
+
+                btn.disabled = true;
+                setTimeout(() => {
+                  btn.innerHTML = `<img
+                  class="reveal-token-img"
+                  src="../../img/login/eye-closed.svg"
+                  alt="reveal token"
+                />`;
+                  targetToken.type = "password";
+                  targetToken.value = tokenId;
+                  btn.disabled = false;
+                }, 30 * 1000);
+              } catch (error) {
+                if (error.message === 'All fields are required!' ){
+                  message(error.message, "error", 3000);
+                } else {
+                  localStorage.removeItem('lastReveal');
+                  message(error.response?.data?.message || 'An unknown error occurred.', "error", 3000);
+                  hideModal();
+                }
+              }
+            });
           });
         });
 
@@ -753,10 +865,10 @@ async function generateQrCodes(data) {
 
 async function downloadQrCodes(id) {
   try {
-    const { config } = getAuthConfig();
+    const { configZIP } = getAuthConfigZip();
     const response = await axios.get(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}/generate-qr`,
-      config
+      configZIP
     );
 
     const disposition = response.headers["content-disposition"];
