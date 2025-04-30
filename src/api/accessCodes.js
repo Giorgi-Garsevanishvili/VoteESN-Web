@@ -16,10 +16,10 @@ const getResBtn = document.querySelector(".get-res-btn");
 let results = "";
 let stats = {};
 
-async function sendTokens(to, token) {
+async function sendTokens(to, tokenId) {
   let data = {
     to,
-    token,
+    tokenId,
   };
   const url = `https://voteesn-api.onrender.com/api/v1/admin/election/email`;
   try {
@@ -191,7 +191,6 @@ getQRBtn.addEventListener("click", async (event) => {
         );
 
         const tokens = response.data.tokens;
-
         clearBtn.classList.remove("hidden");
         clearBtn.classList.add("show");
 
@@ -200,7 +199,7 @@ getQRBtn.addEventListener("click", async (event) => {
           const isUsed = token.used === false;
           const isSent = token.sent === false;
 
-          const realToken = token.token;
+          const realToken = token.tokenId;
 
           tokensHTML += `
         <div class="token-list">
