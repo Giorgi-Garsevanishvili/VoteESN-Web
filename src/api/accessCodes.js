@@ -46,7 +46,6 @@ async function submitReveal(tokenId) {
     !modalSurname.value.trim() ||
     !modalEmail.value.trim()
   ) {
-    localStorage.removeItem('lastReveal')
     throw new Error("All fields are required!");
   }
 
@@ -354,6 +353,7 @@ getQRBtn.addEventListener("click", async (event) => {
                   targetToken.type = "password";
                   targetToken.value = tokenId;
                   btn.disabled = false;
+                  localStorage.removeItem('lastReveal')
                 }, 30 * 1000);
               } catch (error) {
                 if (error.message === 'All fields are required!' ){
