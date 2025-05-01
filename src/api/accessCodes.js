@@ -412,6 +412,13 @@ getQRBtn.addEventListener("click", async (event) => {
           btn.addEventListener("click", async (event) => {
             event.preventDefault();
 
+            console.log(currentTokenId);
+            
+            if (currentRevealBtn.disabled === true){
+              message('Token Sending is Restricted While One of the Token is Reveald')
+              return
+            }
+
             const emailRegex =
               /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
