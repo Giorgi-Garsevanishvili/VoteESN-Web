@@ -25,6 +25,10 @@ const revealReqUrl = `https://voteesn-api.onrender.com/api/v1/admin/election/rev
 
 let results = "";
 let stats = {};
+let currentRevealTargetToken = null;
+let currentRevealBtn = null;
+let currentTokenId = null;
+let revealTimeoutId = null;
 
 function showModal() {
   revealModal.classList.remove("hidden");
@@ -93,6 +97,68 @@ async function submitReveal(tokenId) {
 
   return tokenResponse;
 }
+
+revealCancel.addEventListener("click", (event) => {
+  event.preventDefault();
+  hideModal();
+  currentRevealTargetToken = null;
+  currentRevealBtn = null;
+});
+
+revealProceed.addEventListener("click", async (event) => {
+  event.preventDefault();
+  try {
+    if (!currentRevealTargetToken) {
+      return;
+    }
+
+    let tokenId = currentRevealTargetToken.value;
+    currentTokenId = tokenId;
+    const tokenResponse = await submitReveal(tokenId);
+
+    const realVoterToken = tokenResponse.data.token;
+
+    currentRevealTargetToken.value = realVoterToken;
+
+    currentRevealTargetToken.type =
+      currentRevealTargetToken.type === "password" ? "text" : "password";
+
+    if (currentRevealTargetToken.type === `text`) {
+      currentRevealBtn.innerHTML = `<img
+      class="reveal-token-img"
+      src="../../img/login/eye.svg"
+      alt="reveal token"
+    />`;
+    }
+
+    currentRevealBtn.disabled = true;
+    revealTimeoutId = setTimeout(() => {
+      currentRevealBtn.innerHTML = `<img
+      class="reveal-token-img"
+      src="../../img/login/eye-closed.svg"
+      alt="reveal token"
+    />`;
+      currentRevealTargetToken.type = "password";
+      currentRevealTargetToken.value = currentTokenId;
+      currentRevealBtn.disabled = false;
+      localStorage.removeItem("lastReveal");
+    }, 30 * 1000);
+  } catch (error) {
+    currentRevealTargetToken.type = "password";
+    currentRevealTargetToken.value = currentTokenId;
+    if (error.message === "All fields are required!") {
+      message(error.message, "error", 3000);
+    } else {
+      localStorage.removeItem("lastReveal");
+      message(
+        error.response?.data?.message || "An unknown error occurred.",
+        "error",
+        3000
+      );
+      hideModal();
+    }
+  }
+});
 
 async function sendTokens(to, tokenId) {
   let data = {
@@ -315,56 +381,30 @@ getQRBtn.addEventListener("click", async (event) => {
             const targetToken = targetBox.querySelector(".token-display");
             const btn = targetBox.querySelector(".reveal-token");
 
+            if (revealTimeoutId) {
+              clearTimeout(revealTimeoutId);
+              revealTimeoutId = null;
+            }
+
+            if (
+              currentRevealTargetToken &&
+              currentRevealTargetToken !== targetToken
+            ) {
+              currentRevealTargetToken.type = "password";
+              currentRevealBtn.innerHTML = `<img
+                class="reveal-token-img"
+                src="../../img/login/eye-closed.svg"
+                alt="reveal token"
+              />`;
+              currentRevealTargetToken.value = currentTokenId;
+              currentRevealBtn.disabled = false;
+            }
+
+            currentTokenId = null;
+            currentRevealTargetToken = targetToken;
+            currentRevealBtn = btn;
+
             showModal();
-
-            revealCancel.addEventListener("click", (event) => {
-              event.preventDefault();
-              hideModal();
-            });
-
-            revealProceed.addEventListener("click", async (event) => {
-              event.preventDefault();
-              try {
-                let tokenId = targetToken.value;
-                const tokenResponse = await submitReveal(tokenId);
-
-                const realVoterToken = tokenResponse.data.token;
-
-                targetToken.value = realVoterToken;
-
-                targetToken.type =
-                  targetToken.type === "password" ? "text" : "password";
-
-                if (targetToken.type === `text`) {
-                  btn.innerHTML = `<img
-                  class="reveal-token-img"
-                  src="../../img/login/eye.svg"
-                  alt="reveal token"
-                />`;
-                }
-
-                btn.disabled = true;
-                setTimeout(() => {
-                  btn.innerHTML = `<img
-                  class="reveal-token-img"
-                  src="../../img/login/eye-closed.svg"
-                  alt="reveal token"
-                />`;
-                  targetToken.type = "password";
-                  targetToken.value = tokenId;
-                  btn.disabled = false;
-                  localStorage.removeItem('lastReveal')
-                }, 30 * 1000);
-              } catch (error) {
-                if (error.message === 'All fields are required!' ){
-                  message(error.message, "error", 3000);
-                } else {
-                  localStorage.removeItem('lastReveal');
-                  message(error.response?.data?.message || 'An unknown error occurred.', "error", 3000);
-                  hideModal();
-                }
-              }
-            });
           });
         });
 
@@ -910,7 +950,6 @@ export async function deleteQrcodes(id) {
     message(response.data.msg, "OK");
   } catch (error) {
     message(error.response.data.message);
-    console.log(error);
   }
 }
 
@@ -957,6 +996,5 @@ export async function deleteResult(id) {
     }, 2000);
   } catch (error) {
     message(error.response.data.message);
-    console.log(error);
   }
 }
