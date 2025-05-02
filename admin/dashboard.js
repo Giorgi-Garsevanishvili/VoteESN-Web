@@ -16,6 +16,32 @@ const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
 const addedInfo = document.querySelector(".added-info");
 
+let devtoolsOpen = false;
+
+// function detectDevTools() {
+//   const threshold = 160;
+//   const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+//   const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+//   if (widthThreshold || heightThreshold) {
+//     devtoolsOpen = true;
+//     alert('DevTools detected! Reveal blocked.');
+//     // Optionally you can log the devtools access to your server
+//     // fetch('/log-devtools', {
+//     //   method: 'POST',
+//     //   headers: { 'Content-Type': 'application/json' },
+//     //   body: JSON.stringify({
+//     //     message: 'DevTools was opened on page',
+//     //     timestamp: new Date().toISOString()
+//     //   })
+//     // });
+//   } else {
+//     devtoolsOpen = false;
+//   }
+// }
+
+// setInterval(detectDevTools, 500); // Every 0.5 seconds, check
+
 // document.addEventListener('keydown', (e) => {
 //   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
 //     e.preventDefault();

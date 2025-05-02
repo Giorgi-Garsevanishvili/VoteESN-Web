@@ -121,7 +121,8 @@ export async function getOneElection(id) {
     `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
     config
   );
-  responseData = response.data.data;
+  responseData = response.data;
+  
 
   renderOneElectionUpdate(responseData);
   return responseData;
@@ -286,9 +287,11 @@ function renderOneElectionUpdate(response) {
   oneElection.classList.remove("hidden");
   oneElection.classList.add("show");
 
+  console.log(response);
+
   let topicsHTML = "";
 
-  response.topics.forEach((topic) => {
+  response.data.topics.forEach((topic) => {
     let optionHTML = "";
 
     topic.options.forEach((option) => {
@@ -329,8 +332,11 @@ function renderOneElectionUpdate(response) {
     alt="close"
     />
     </button>
-    <h3>${response.title}</h3>
-    <h5>ID: ${response._id}</h5>
+    <h3>${response.data.title}</h3>
+    <h5>ID: ${response.data._id}</h5>
+    <h5>Created By: ${response.author}</h5>
+    <h5>Created At: ${response.data.created_at}</h5>
+    <h5>Updated At: ${response.data.updated_at}</h5> 
     <div class="topic show">
     ${topicsHTML}</div>
     `;
@@ -363,7 +369,7 @@ function updateElectionListener() {
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
-        await updateElectionFunction(responseData._id, responseData.title);
+        await updateElectionFunction(responseData.data._id, responseData.data.title);
       } catch (error) {
         message(error.message);
       }
@@ -392,7 +398,7 @@ function deleteElectionListener() {
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
-        const id = responseData._id;
+        const id = responseData.data._id;
         await deleteResult(id);
         await deleteQrcodes(id);
         await deleteElection(id);
