@@ -16,6 +16,19 @@ const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
 const addedInfo = document.querySelector(".added-info");
 
+// document.addEventListener('keydown', (e) => {
+//   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+//     e.preventDefault();
+//     message('DevTools is disabled! For security purposes.', "error", 4000);
+//   }
+// });
+
+// document.addEventListener('contextmenu', (e) => {
+//   e.preventDefault();
+//   message('Right-click is disabled! For security purposes.', "error", 4000);
+// });
+
+
 export let electionData = {
   title: "",
   topics: [],
