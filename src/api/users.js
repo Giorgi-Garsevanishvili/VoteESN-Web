@@ -64,9 +64,31 @@ async function getUsers() {
 
     let userCount = 1;
     users.forEach((user) => {
+      const lastLogin = new Date(user.lastLogin);
+      const now = new Date();
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(now.getMonth() - 6);
+      let lastLoginTime = null;
+
+      if (user.lastLogin !== null) {
+        lastLoginTime = `Last Login: ${lastLogin
+          .toISOString()
+          .substring(0, 16)
+          .replace("T", " ")}`;
+      } else {
+        lastLoginTime = `User has not logged in yet`;
+      }
+
       let html = `
       <div class="one-user">
       <div>${userCount++}</div>
+      <input disabled type="text" value="${lastLoginTime}" class="last-user-login ${
+        user.lastLogin === null
+          ? "never-logged"
+          : (lastLogin < sixMonthsAgo)
+          ? "logged-old"
+          : "logged-six-month"
+      }"/input>
       <input disabled type="text" value="${user._id}" class="user-id" /input>
       <input class="name" disabled value="${
         user.name

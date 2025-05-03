@@ -16,7 +16,9 @@ const nextBtn = document.querySelector(".next-btn");
 const submitElectionBtn = document.querySelector(".submit-btn");
 const addedInfo = document.querySelector(".added-info");
 
-let devtoolsOpen = false;
+const lastLogin = document.querySelector(".last-login");
+
+// let devtoolsOpen = false;
 
 // function detectDevTools() {
 //   const threshold = 160;
@@ -54,7 +56,6 @@ let devtoolsOpen = false;
 //   message('Right-click is disabled! For security purposes.', "error", 4000);
 // });
 
-
 export let electionData = {
   title: "",
   topics: [],
@@ -66,6 +67,13 @@ ready(async () => {
   if (!isAuth) return;
 
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const lastLoginTime = new Date(user.lastLogin);
+
+  lastLogin.innerHTML = `Last login to the system: ${lastLoginTime
+    .toISOString()
+    .substring(0, 16)
+    .replace("T", " ")}`;
 
   if (user.role === "admin") {
     const userInfo = document.querySelector(".user-info");

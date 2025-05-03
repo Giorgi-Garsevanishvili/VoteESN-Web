@@ -122,7 +122,6 @@ export async function getOneElection(id) {
     config
   );
   responseData = response.data;
-  
 
   renderOneElectionUpdate(responseData);
   return responseData;
@@ -209,7 +208,6 @@ async function updateElectionFunction(id, title) {
     message("Election Successfully Updated!", "OK", 3000);
   } catch (error) {
     message(error.message);
-    console.log(error);
   }
 }
 
@@ -287,12 +285,22 @@ function renderOneElectionUpdate(response) {
   oneElection.classList.remove("hidden");
   oneElection.classList.add("show");
 
-  console.log(response);
-
   let topicsHTML = "";
 
   response.data.topics.forEach((topic) => {
     let optionHTML = "";
+
+    const createdAtDB = new Date(response.data.created_at);
+    const updatedAtDB = new Date(response.data.updated_at);
+
+    const createdAt = createdAtDB
+      .toISOString()
+      .substring(0, 16)
+      .replace("T", " ");
+    const updatedAt = updatedAtDB
+      .toISOString()
+      .substring(0, 16)
+      .replace("T", " ");    
 
     topic.options.forEach((option) => {
       optionHTML += `
@@ -333,10 +341,14 @@ function renderOneElectionUpdate(response) {
     />
     </button>
     <h3>${response.data.title}</h3>
+    <br>
     <h5>ID: ${response.data._id}</h5>
     <h5>Created By: ${response.author}</h5>
-    <h5>Created At: ${response.data.created_at}</h5>
-    <h5>Updated At: ${response.data.updated_at}</h5> 
+    <h5>Created At: ${createdAt}</h5>
+    <br>
+    <h5>Updated By: ${response.updatedBy}</h5>
+    <h5>Updated At: ${updatedAt}</h5> 
+    <br>
     <div class="topic show">
     ${topicsHTML}</div>
     `;
@@ -369,7 +381,10 @@ function updateElectionListener() {
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
-        await updateElectionFunction(responseData.data._id, responseData.data.title);
+        await updateElectionFunction(
+          responseData.data._id,
+          responseData.data.title
+        );
       } catch (error) {
         message(error.message);
       }
@@ -411,8 +426,6 @@ function deleteElectionListener() {
           location.reload();
         }, 2000);
       } catch (error) {
-        console.log(error);
-
         message(error.message);
       }
     });

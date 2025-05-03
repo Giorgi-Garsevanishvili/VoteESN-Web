@@ -7,6 +7,37 @@ input {
   color: #0a3c43;
 }
 
+.last-login {
+  background-color: #ffffffc6;
+  border: 1px solid #0a3c43;
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  margin: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: rgb(128, 128, 128);
+}
+
+.last-user-login {
+  text-align: center;
+}
+
+.never-logged {
+  color: #010c16;
+  background-color: rgba(255, 166, 0, 0.641);
+}
+
+.logged-six-month {
+  color: #010c16;
+  background-color: #27ae5fc1;
+}
+
+.logged-old {
+  background-color:#ee073195;
+  color: #010c16;
+}
+
 select {
   background-color: #edf0f1;
 }
@@ -164,7 +195,7 @@ main {
 .modal-cont p {
   text-align: center;
   color: #333;
-  font-size: 1.rem;
+  font-size: 1rem;
 }
 
 .modal-cont span {
