@@ -7,18 +7,6 @@ input {
   color: #0a3c43;
 }
 
-.last-login {
-  background-color: #ffffffc6;
-  border: 1px solid #0a3c43;
-  padding: 0.5rem 1rem;
-  border-radius: 3rem;
-  margin: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  color: rgb(128, 128, 128);
-}
-
 .last-user-login {
   text-align: center;
 }

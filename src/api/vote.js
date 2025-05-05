@@ -17,6 +17,7 @@ const buttonBox = document.querySelector(".vid-btn");
 const start = document.querySelector(".start-scan");
 const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
+const lastLogin = document.querySelector(".last-login");
 let result = "";
 
 async function getElAuth() {
@@ -69,6 +70,13 @@ ready(async () => {
   if (!isAuth) return;
 
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const lastLoginTime = new Date(user.lastLogin);
+
+  lastLogin.innerHTML = `Last login to the system: ${lastLoginTime
+    .toISOString()
+    .substring(0, 16)
+    .replace("T", " ")}`;
 
   if (user.role === "voter") {
     const userInfo = document.querySelector(".user-info");
