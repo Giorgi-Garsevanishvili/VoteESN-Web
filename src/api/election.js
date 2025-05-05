@@ -117,19 +117,17 @@ export async function getElection() {
 
 export async function getOneElection(id) {
   try {
-    
     const { config, token } = getAuthConfig();
     const response = await axios.get(
       `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
       config
     );
     responseData = response.data;
-  
+
     renderOneElectionUpdate(responseData);
     return responseData;
   } catch (error) {
-   console.log(error);
-     
+    console.log(error);
   }
 }
 
@@ -306,7 +304,7 @@ function renderOneElectionUpdate(response) {
     const updatedAt = updatedAtDB
       .toISOString()
       .substring(0, 16)
-      .replace("T", " ");    
+      .replace("T", " ");
 
     topic.options.forEach((option) => {
       optionHTML += `
@@ -346,7 +344,7 @@ function renderOneElectionUpdate(response) {
     alt="close"
     />
     </button>
-    <h3>${response.data.title}</h3>
+    <h3 class="one-el-title">${response.data.title}</h3>
     <br>
     <h5>ID: ${response.data._id}</h5>
     <h5>Created By: ${response.author}</h5>

@@ -34,7 +34,7 @@ input {
 }
 
 .logged-old {
-  background-color:#ee073195;
+  background-color: #ee073195;
   color: #010c16;
 }
 
@@ -283,6 +283,13 @@ main {
   background-color: #e5f1f3;
 }
 
+.el-name {
+  width: 10rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .election-img {
   margin: 0.5rem;
   width: 3.5vw;
@@ -353,6 +360,11 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.one-el-title {
+  text-align: center;
+  padding: 1rem;
 }
 
 .close-tool-btn,
