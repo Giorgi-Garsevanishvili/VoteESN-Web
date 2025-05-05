@@ -116,15 +116,21 @@ export async function getElection() {
 }
 
 export async function getOneElection(id) {
-  const { config, token } = getAuthConfig();
-  const response = await axios.get(
-    `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
-    config
-  );
-  responseData = response.data;
-
-  renderOneElectionUpdate(responseData);
-  return responseData;
+  try {
+    
+    const { config, token } = getAuthConfig();
+    const response = await axios.get(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+      config
+    );
+    responseData = response.data;
+  
+    renderOneElectionUpdate(responseData);
+    return responseData;
+  } catch (error) {
+   console.log(error);
+     
+  }
 }
 
 export async function createElection() {

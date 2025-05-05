@@ -62,8 +62,15 @@ async function getUsers() {
       message("Users not found!");
     }
 
+    const sortedUsers = [...users].sort((a, b) => {
+      if (a.name.includes("Qirvex™")) return -1;
+      if (b.name.includes("Qirvex™")) return 1;
+
+      return a.name.localeCompare(b.name);
+    });
+
     let userCount = 1;
-    users.forEach((user) => {
+    sortedUsers.forEach((user) => {
       const lastLogin = new Date(user.lastLogin);
       const now = new Date();
       const sixMonthsAgo = new Date();
@@ -83,30 +90,44 @@ async function getUsers() {
       <div class="one-user">
       <div>${userCount++}</div>
       <input disabled type="text" value="${lastLoginTime}" class="last-user-login ${
+        user.Qirvex === true ? "hidden" : ""
+      } ${
         user.lastLogin === null
           ? "never-logged"
-          : (lastLogin < sixMonthsAgo)
+          : lastLogin < sixMonthsAgo
           ? "logged-old"
           : "logged-six-month"
       }"/input>
-      <input disabled type="text" value="${user._id}" class="user-id" /input>
+      <input disabled type="text" value="${user._id}" class="user-id  ${
+        user.Qirvex === true ? "hidden" : ""
+      }" /input>
       <input class="name" disabled value="${
         user.name
       }" type="text" placeholder="Name"/>
-      <input class="email" disabled value="${
-        user.email
-      }" type="text" placeholder="Email"/>
-      <select name="role" disabled id="role">
-          <option value="admin" ${
-            user.role === "admin" ? "selected" : ""
-          }>Admin</option>
-          <option value="voter" ${
-            user.role === "voter" ? "selected" : ""
-          }>Voter</option>
+      <input class="email ${
+        user.Qirvex === true ? "hidden" : ""
+      }" disabled value="${user.email}" type="text" placeholder="Email"/>
+      <select class="${
+        user.Qirvex === true ? "hidden" : ""
+      }" name="role" disabled id="role">
+          <option class="${
+            user.Qirvex === true ? "hidden" : ""
+          }" value="admin" ${
+        user.role === "admin" ? "selected" : ""
+      }>Admin</option>
+          <option class="${
+            user.Qirvex === true ? "hidden" : ""
+          }" value="voter" ${
+        user.role === "voter" ? "selected" : ""
+      }>Voter</option>
         </select>
       <input class="password hidden" type="text" placeholder="Password"/>
-      <button class="delete-user">Delete</button>
-      <button class="edit-user">Edit</button>
+      <button class="delete-user  ${
+        user.Qirvex === true ? "hidden" : ""
+      }">Delete</button>
+      <button class="edit-user  ${
+        user.Qirvex === true ? "hidden" : ""
+      }">Edit</button>
       <button class="save-user hidden">Save</button>
       </div>
       `;

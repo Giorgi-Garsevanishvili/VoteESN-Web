@@ -52,8 +52,8 @@ select {
 }
 
 .user-content input {
-  max-width: 20vw;
-  min-width: 16vw;
+  max-width: 16vw;
+  min-width: 13vw;
   width: auto;
 }
 
@@ -345,6 +345,7 @@ main {
   margin: 1rem;
   max-width: 100vw;
   max-height: none;
+  overflow: hidden;
 }
 
 .one-el-form {
@@ -628,7 +629,7 @@ main {
   width: 80vw;
   height: fit-content;
   padding: 2rem;
-  overflow: auto;
+  overflow: hidden;
   border: 1px solid #7f8c8d;
 }
 
@@ -639,7 +640,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem;
+  padding: 0.15rem;
   margin: 0.5rem;
   border-radius: 0.5rem;
   border: none;
@@ -651,8 +652,11 @@ main {
   color: #224c77;
 }
 
+.one-user :first-child {
+  margin-right: 0.5rem;
+}
+
 #role {
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.4rem;
@@ -669,7 +673,7 @@ main {
   margin-top: 2rem;
   width: fit-content;
   min-height: 14rem;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .one-user {
@@ -677,9 +681,10 @@ main {
   align-items: center;
   justify-content: start;
   max-width: 100vw;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  overflow: auto;
+  height: auto;
+  padding: 1.5rem;
+  margin: 1rem;
+  overflow: hidden;
 }
 
 .save-user,
@@ -1112,6 +1117,11 @@ main {
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
+  }
+
+  .one-user :first-child {
+    margin-right: 0rem;
+    margin-bottom: 0.5rem;
   }
 
   .one-user {
