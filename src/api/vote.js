@@ -210,7 +210,7 @@ async function getOneElection() {
 
       let oneQuestionHtml = `
         <div class="question-box">
-          <h3>${electionData.topics[0][0].title}</h3>
+          <h3 class="question-text">${electionData.topics[0][0].title}</h3>
           <div class="radio-wrapper-19">${optionsHtml}</div>
         </div>
       <button class="next-topic">Next Topic</button>

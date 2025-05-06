@@ -91,7 +91,6 @@ main {
   pointer-events: none;
 }
 
-
 .tok-manual button,
 .no-qr-btn,
 .vote-submit-box button,
@@ -132,7 +131,6 @@ main {
   background-color: #444034;
 }
 
-
 .tok-manual button:focus,
 .no-qr-btn:focus,
 .vote-submit-box button:focus,
@@ -141,7 +139,6 @@ main {
   box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
 }
-
 
 .tok-manual button:hover,
 .no-qr-btn:hover,
@@ -158,10 +155,8 @@ main {
   transform: translateY(-2px);
 }
 
-
 .tok-manual button:active,
-.no-qr-btn:active
-.vote-submit-box button:active,
+.no-qr-btn:active .vote-submit-box button:active,
 .start-scan:active,
 .stop-scan:active {
   box-shadow: #d6d6e7 0 3px 7px inset;
@@ -206,7 +201,8 @@ main {
   align-items: center;
   justify-content: center;
   border-radius: 5rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 .vote-submit-box {
@@ -216,79 +212,82 @@ main {
   justify-content: center;
 }
 
+.radio-wrapper-19 input[type="radio"]:focus {
+  outline: 0;
+  border-color: #7f8c8d;
+  box-shadow: 0 0 0 4px #bdc3c7;
+}
 
-  .radio-wrapper-19 input[type="radio"]:focus {
-    outline: 0;
-    border-color: #7f8c8d;
-    box-shadow: 0 0 0 4px #bdc3c7;
-  }
+.tok-manual input {
+  padding: 0.8rem;
+  border-radius: 1rem;
+  max-width: 20vw;
+  min-width: 16vw;
+  width: auto;
+}
 
-  .tok-manual input{
-    padding: 0.8rem;
-    border-radius: 1rem;
-    max-width: 20vw;
-    min-width: 16vw;
-    width: auto;
-  }
-  
-  .radio-wrapper-19 {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-    justify-content: center;
-    margin: 2rem;
-  }
-  
-  .radio-wrapper-19 input[type="radio"] {
-    clip: rect(0 0 0 0);
-    clip-path: inset(100%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
-  }
-  
-  .radio-wrapper-19 input[type="radio"]:checked + span {
-    box-shadow: 0 0 0 0.0625em #041e6081;
-    background-color: #baddf4;
-    z-index: 1;
-    color: #021324;
-  }
-  
-  .radio-wrapper-19 label span {
-    display: block;
-    cursor: pointer;
-    background-color: #ecf0f1;
-    padding: 0.375em .75em;
-    position: relative;
-    margin-left: .0625em;
-    box-shadow: 0 0 0 0.0625em #b5bfd9;
-    letter-spacing: .05em;
-    color: #34495e;
-    text-align: center;
-    transition: background-color .5s ease;
-  }
-  
-  .radio-wrapper-19 label:first-child span {
-    border-radius: .375em 0 0 .375em;
-  }
-  
-  .radio-wrapper-19 label:last-child span {
-    border-radius: 0 .375em .375em 0;
-  }      
-
-
-#current-el {
-  font-size: 1rem;
+.radio-wrapper-19 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  justify-content: center;
   margin: 2rem;
 }
 
-@media (max-width: 1023px) {
+.radio-wrapper-19 input[type="radio"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.radio-wrapper-19 input[type="radio"]:checked + span {
+  box-shadow: 0 0 0 0.0625em #041e6081;
+  background-color: #baddf4;
+  z-index: 1;
+  color: #021324;
+}
+
+.radio-wrapper-19 label span {
+  display: block;
+  cursor: pointer;
+  background-color: #ecf0f1;
+  padding: 0.375em 0.75em;
+  position: relative;
+  margin-left: 0.0625em;
+  box-shadow: 0 0 0 0.0625em #b5bfd9;
+  letter-spacing: 0.05em;
+  color: #34495e;
+  text-align: center;
+  transition: background-color 0.5s ease;
+}
+
+.radio-wrapper-19 label:first-child span {
+  border-radius: 0.375em 0 0 0.375em;
+}
+
+.radio-wrapper-19 label:last-child span {
+  border-radius: 0 0.375em 0.375em 0;
+}
+
+.question-text {
+  text-align: center;
+}
+
+#current-el {
+  font-size: 0.9rem;
+  margin: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+@media (max-width: 900px) {
   header {
     width: 80%;
   }
-
 
   .radio-wrapper-19 {
     display: flex;
@@ -297,7 +296,6 @@ main {
     justify-content: center;
     margin: 2rem;
   }
-
 
   .tok-manual {
     flex-direction: column;
@@ -314,14 +312,27 @@ main {
   }
 
   .user-info {
-    height: 2.5vh;
-    font-size: 0.6rem;
+    height: 2.7vh;
+    font-size: 0.75rem;
+  }
+
+  .question-text {
+    font-size: 1.2rem;
   }
 
   .vidElem {
     width: 100%;
     height: 70vh;
     object-fit: cover;
+  }
+
+  main {
+    width: 94%;
+  }
+
+  .vote-box {
+    margin: 0rem;
+    max-width: 80vw;
   }
 
   .overlay-text {
@@ -333,15 +344,9 @@ main {
     border-radius: 1rem;
     font-size: 1.2rem;
   }
-}
 
-@media (min-width: 1024px) and (max-width: 1439px) {
   header {
     width: 80%;
   }
-
-  .user-info {
-    height: 2.5vh;
-    font-size: 1.5rem;
-  }
 }
+
