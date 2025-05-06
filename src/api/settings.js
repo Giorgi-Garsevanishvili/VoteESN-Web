@@ -8,6 +8,11 @@ const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
 const resultBox = document.querySelector(".el-res");
 
+const homeBtn = document.querySelector(".election-home-btn");
+const genQRBtn = document.querySelector(".gen-qr-btn");
+const getQRBtn = document.querySelector(".get-qr-btn");
+const getResBtn = document.querySelector(".get-res-btn");
+
 const settignsURL = `https://voteesn-api.onrender.com/api/v1/admin/voter/settings`;
 
 let settingsData = "";
@@ -40,6 +45,12 @@ async function updateSettings(id, data) {
 systemBTn.addEventListener("click", async (event) => {
   await getSettingsFromDB();
   event.preventDefault();
+
+  homeBtn.classList.remove("selected");
+  genQRBtn.classList.remove("selected");
+  getQRBtn.classList.remove("selected");
+  getResBtn.classList.remove("selected");
+
   generated.innerHTML = "";
   toolTitle.innerHTML = "System Settings";
   toolContainer.innerHTML = "";

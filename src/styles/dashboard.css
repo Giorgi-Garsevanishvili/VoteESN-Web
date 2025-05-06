@@ -35,6 +35,13 @@ select {
   width: 25vw;
 }
 
+.election-selector,
+.election-selector-get{
+  width: 16rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .create-user-cont input {
   width: 25vw;
 }

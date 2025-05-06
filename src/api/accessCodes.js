@@ -483,7 +483,25 @@ getQRBtn.addEventListener("click", async (event) => {
       try {
         const id = electionID.value;
         await downloadQrCodes(id);
+
+        const emailBox = document.querySelectorAll(".mail-input");
+        const mailStatus = document.querySelectorAll(".mail-status");
+        const oneEachSendBTN = document.querySelectorAll(".mail-button");
+
+        console.log(emailBox);
+        console.log(mailStatus);
+        console.log(oneEachSendBTN);
+
+        mailStatus.forEach((item) => (item.value = "✅"));
+        emailBox.forEach((item) => {
+          item.value = "";
+          item.classList.add("hidden");
+        });
+
+        oneEachSendBTN.forEach((item) => item.classList.add("hidden"));
       } catch (error) {
+        console.log(error);
+
         message(error);
       }
     });
@@ -599,6 +617,7 @@ getResBtn.addEventListener("click", async (event) => {
       resBox.innerHTML = "";
       generated.innerHTML = "";
       results = "";
+      stats = {};
 
       try {
         await getResults(electionID.value);
@@ -747,103 +766,6 @@ getResBtn.addEventListener("click", async (event) => {
         new Chart(canvas, config);
       });
 
-      downloadResultBTN.addEventListener("click", async (event) => {
-        event.preventDefault();
-
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF("p", "mm", "a4");
-
-        const logoUrl = "../../img/admin/dashboard/Qirvex-stamp.png";
-
-        const selectedOption = selector.options[selector.selectedIndex];
-        const electionTitle = selectedOption.text;
-        const electionId = selectedOption.value;
-        const timestamp = new Date().toLocaleString();
-
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const systemTAG = `voteESN Election System Report`;
-        const tagWidth = pdf.getTextWidth(systemTAG);
-        const cx = (pageWidth - tagWidth) / 2;
-
-        let y = 15;
-
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(16);
-        pdf.text(systemTAG, cx, y);
-        y += 10;
-        pdf.text(
-          `Election Report: ${electionTitle} (ID: ${electionId})`,
-          10,
-          y
-        );
-        y += 7;
-        pdf.setFontSize(10);
-        pdf.setFont("helvetica", "normal");
-        pdf.text(`Generated at: ${timestamp}`, 10, y);
-        y += 10;
-
-        const logoImg = new Image();
-        logoImg.crossOrigin = "Anonymous";
-        logoImg.src = logoUrl;
-
-        logoImg.onload = async () => {
-          pdf.addImage(logoImg, "PNG", 160, 30, 40, 10);
-
-          for (const question in stats) {
-            const counts = stats[question];
-            const totalVotes = Object.values(counts).reduce(
-              (sum, count) => sum + count,
-              0
-            );
-            let rowHeight = 6;
-
-            pdf.setFont("helvetica", "bold");
-            pdf.setFontSize(12);
-            pdf.text(question, 10, y);
-            y += 7;
-
-            pdf.setFont("helvetica", "normal");
-            pdf.setFontSize(10);
-
-            const answers = Object.keys(counts);
-            const rows = answers.map((answer) => {
-              const count = counts[answer];
-              const percentage = totalVotes
-                ? ((count / totalVotes) * 100).toFixed(1) + "%"
-                : "0.0%";
-              return [answer, count.toString(), percentage];
-            });
-
-            pdf.setFont("helvetica", "bold");
-            pdf.setFontSize(11);
-
-            pdf.text("Answer", 10, y);
-            pdf.text("Votes", 50, y);
-            pdf.text("Percentage", 90, y);
-            y += rowHeight;
-
-            pdf.setFont("helvetica", "normal");
-            pdf.setFontSize(10);
-
-            rows.forEach((row) => {
-              row.forEach((text, index) => {
-                pdf.text(text, 10 + index * 40, y);
-              });
-              y += rowHeight;
-            });
-
-            y += 6;
-
-            if (y + rowHeight * (rows.length + 2) > 280) {
-              pdf.addPage();
-              y = 20;
-            }
-          }
-
-          pdf.save(`Election_Report_${electionId}.pdf`);
-        };
-      });
-
       clearBTN.addEventListener("click", (event) => {
         event.preventDefault();
 
@@ -884,6 +806,101 @@ getResBtn.addEventListener("click", async (event) => {
           message("Delete Request Rejected!", "error", 3000);
         });
       });
+    });
+
+    downloadResultBTN.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      const logoUrl = "../../img/admin/dashboard/Qirvex-stamp.png";
+
+      const selectedOption = selector.options[selector.selectedIndex];
+      const electionTitle = selectedOption.text;
+      const electionId = selectedOption.value;
+      const timestamp = new Date().toLocaleString();
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const systemTAG = `voteESN Election System Report`;
+      const tagWidth = pdf.getTextWidth(systemTAG);
+      const cx = (pageWidth - tagWidth) / 2;
+
+      let y = 15;
+
+      pdf.setFont("NotoSans_Condensed", "bold");
+      pdf.setFontSize(16);
+      pdf.text(systemTAG, cx, y);
+      y += 10;
+      pdf.text(`Election Report: ${electionTitle}`, 10, y);
+      y += 7;
+      pdf.setFontSize(10);
+      pdf.setFont("NotoSans_Condensed", "normal");
+      pdf.text(`ID:  ${electionId}`, 10, y);
+      y += 7;
+      pdf.text(`Generated at: ${timestamp}`, 10, y);
+      y += 10;
+
+      const logoImg = new Image();
+      logoImg.crossOrigin = "Anonymous";
+      logoImg.src = logoUrl;
+
+      logoImg.onload = async () => {
+        pdf.addImage(logoImg, "PNG", 160, 30, 40, 10);
+
+        for (const question in stats) {
+          const counts = stats[question];
+          const totalVotes = Object.values(counts).reduce(
+            (sum, count) => sum + count,
+            0
+          );
+          let rowHeight = 6;
+
+          pdf.setFont("NotoSans_Condensed", "bold");
+          pdf.setFontSize(12);
+          pdf.text(question, 10, y);
+          y += 7;
+
+          pdf.setFont("NotoSans_Condensed", "normal");
+          pdf.setFontSize(10);
+
+          const answers = Object.keys(counts);
+          const rows = answers.map((answer) => {
+            const count = counts[answer];
+            const percentage = totalVotes
+              ? ((count / totalVotes) * 100).toFixed(1) + "%"
+              : "0.0%";
+            return [answer, count.toString(), percentage];
+          });
+
+          pdf.setFont("NotoSans_Condensed", "bold");
+          pdf.setFontSize(11);
+
+          pdf.text("Answer", 10, y);
+          pdf.text("Votes", 50, y);
+          pdf.text("Percentage", 90, y);
+          y += rowHeight;
+
+          pdf.setFont("NotoSans_Condensed", "normal");
+          pdf.setFontSize(10);
+
+          rows.forEach((row) => {
+            row.forEach((text, index) => {
+              pdf.text(text, 10 + index * 40, y);
+            });
+            y += rowHeight;
+          });
+
+          y += 6;
+
+          if (y + rowHeight * (rows.length + 2) > 280) {
+            pdf.addPage();
+            y = 20;
+          }
+        }
+
+        pdf.save(`Election_Report_${electionId}.pdf`);
+      };
     });
   } else {
     toolContainer.innerHTML = `<h4 class="tok-used">This action is not available! Please create Election.</h4>`;
