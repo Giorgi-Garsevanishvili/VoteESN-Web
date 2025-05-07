@@ -272,8 +272,12 @@ async function runAuthFlow() {
 }
 
 async function getElectionVoter() {
-  const { config } = getAuthConfig();
-  await axios.get(url, config);
+  try {
+    const { config } = getAuthConfig();
+    await axios.get(url, config);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 logOutBtn.addEventListener("click", (event) => {

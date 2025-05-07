@@ -23,7 +23,7 @@ async function getSettingsFromDB() {
     const response = await axios.get(settignsURL, config);
     return (settingsData = response.data.settings[0]);
   } catch (error) {
-    console.log(error);
+    message(error.message, 'error', 3000)
   }
 }
 
@@ -58,6 +58,41 @@ systemBTn.addEventListener("click", async (event) => {
   tokCountBox.classList.add("hidden");
   tokCountBox.classList.remove("show");
   toolContainer.scrollIntoView();
+
+  if (!settingsData) {
+    message("Please Set Up settings");
+
+    let html = `<button class="set-settings">Set Up Settings</button>
+
+    `;
+
+    toolContainer.insertAdjacentHTML("afterbegin", html);
+
+    const setSettingsBtn = document.querySelector(".set-settings");
+
+    setSettingsBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const createSetUrl = `https://voteesn-api.onrender.com/api/v1/admin/voter/settings`;
+      const data = {
+        ipRestrictionEnabled: false,
+      };
+      try {
+        setSettingsBtn.disabled = true;
+        const { config } = getAuthConfig();
+        await axios.post(createSetUrl, data, config);
+        message("Settings created", "OK", "3000");
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      } catch (error) {
+        setSettingsBtn.disabled = false;
+        console.log(error);
+      }
+    });
+
+    return;
+  }
 
   let html = `
   <div class="settings-box">
