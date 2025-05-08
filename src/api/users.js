@@ -98,7 +98,7 @@ async function getUsers() {
           ? "logged-old"
           : "logged-six-month"
       }"/input>
-      <input disabled type="text" value="${user._id}" class="user-id  ${
+      <input disabled type="text" value="${user._id}" class="user-id hidden ${
         user.Qirvex === true ? "hidden" : ""
       }" /input>
       <input class="name" disabled value="${
@@ -121,6 +121,20 @@ async function getUsers() {
         user.role === "voter" ? "selected" : ""
       }>Voter</option>
         </select>
+        <select class="${
+          user.Qirvex === true ? "hidden" : ""
+        }" name="section" disabled id="section">
+          <option class="${
+            user.Qirvex === true ? "hidden" : ""
+          }" value="Riga" ${
+        user.section === "Riga" ? "selected" : ""
+      }>Riga</option>
+          <option class="${
+            user.Qirvex === true ? "hidden" : ""
+          }" value="Latvia" ${
+        user.section === "Latvia" ? "selected" : ""
+      }>Latvia</option>
+        </select>
       <input class="password hidden" type="text" placeholder="Password"/>
       <button class="delete-user  ${
         user.Qirvex === true ? "hidden" : ""
@@ -129,6 +143,7 @@ async function getUsers() {
         user.Qirvex === true ? "hidden" : ""
       }">Edit</button>
       <button class="save-user hidden">Save</button>
+      <button class="cancel hidden">Cancel</button>
       </div>
       `;
       userListDOM.insertAdjacentHTML("beforeend", html);
@@ -136,10 +151,22 @@ async function getUsers() {
     deleteUserListener();
     editUserListener();
     saveUserListener();
+    cancelEditListener();
     return users;
   } catch (error) {
     message(error.message);
   }
+}
+
+function cancelEditListener() {
+  const cancelBtn = document.querySelectorAll(".cancel");
+  cancelBtn.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      userListDOM.innerHTML = "";
+      await getUsers();
+    });
+  });
 }
 
 function deleteUserListener() {
@@ -181,16 +208,20 @@ function editUserListener() {
       const oneUser = event.target.closest(".one-user");
 
       const save = oneUser.querySelector(".save-user");
+      const cancel = oneUser.querySelector(".cancel");
       const name = oneUser.querySelector(".name");
       const email = oneUser.querySelector(".email");
       const role = oneUser.querySelector("#role");
       const edit = oneUser.querySelector(".edit-user");
       const password = oneUser.querySelector(".password");
+      const lastLog = oneUser.querySelector(".last-user-login")
 
       name.removeAttribute("disabled");
       email.removeAttribute("disabled");
       role.removeAttribute("disabled");
 
+      lastLog.classList.add("hidden")
+      cancel.classList.remove("hidden");
       save.classList.remove("hidden");
       password.classList.remove("hidden");
       edit.classList.add("hidden");

@@ -36,7 +36,7 @@ select {
 }
 
 .election-selector,
-.election-selector-get{
+.election-selector-get {
   width: 16rem;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -200,6 +200,23 @@ main {
 
 .modal-cont strong {
   color: #000;
+}
+
+.set-settings {
+  font-weight: bold;
+  border: none;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  background-color: #c6e3ea86;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
+  transition: 0.5s;
+}
+
+.set-settings:hover {
+  color: white;
+  background-color: #224c77;
+  opacity: 1;
 }
 
 .tools-box,
@@ -663,10 +680,12 @@ main {
   margin-right: 0.5rem;
 }
 
+#section,
 #role {
   align-items: center;
   justify-content: center;
   padding: 0.4rem;
+  margin: 0.1rem;
   border: 1px solid black;
   border-radius: 0.4rem;
   font-size: 1rem;
@@ -694,12 +713,15 @@ main {
   overflow: hidden;
 }
 
+
+.cancel,
 .save-user,
 .delete-user,
 .edit-user {
   padding: 0.7rem;
   border-radius: 0.5rem;
   border: none;
+  margin: 0.2rem;
   transition: 0.2s;
 }
 
@@ -709,17 +731,19 @@ main {
 }
 
 .delete-user {
-  margin-left: 1rem;
-  margin-right: 0.5rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
   background-color: #d35400;
   color: #f7fafa;
 }
 
+.cancel,
 .edit-user {
   background-color: #f4d03f;
   color: #34495e;
 }
 
+.cancel:hover,
 .save-user:hover,
 .delete-user:hover,
 .edit-user:hover {
@@ -1260,6 +1284,7 @@ main {
     width: 75%;
   }
 
+  #section,
   #role,
   .create-user-btn {
     width: auto;
@@ -1285,6 +1310,7 @@ main {
     flex-direction: column;
   }
 
+  .cancel,
   .delete-user,
   .save-user,
   .edit-user {

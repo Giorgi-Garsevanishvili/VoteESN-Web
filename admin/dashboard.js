@@ -67,7 +67,6 @@ ready(async () => {
   if (!isAuth) return;
 
   const user = JSON.parse(localStorage.getItem("user"));
-
   const lastLoginTime = new Date(user.lastLogin);
 
   lastLogin.innerHTML = `Last login to the system: ${lastLoginTime
@@ -78,7 +77,7 @@ ready(async () => {
   if (user.role === "admin") {
     const userInfo = document.querySelector(".user-info");
     if (userInfo) {
-      userInfo.innerHTML = `Session with admin: ${user.name}`;
+      userInfo.innerHTML = `Session with admin: ${user.name}.  Section: ${user.section}`;
     }
     await getElection();
   }

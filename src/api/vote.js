@@ -80,7 +80,7 @@ ready(async () => {
 
   if (user.role === "voter") {
     const userInfo = document.querySelector(".user-info");
-    userInfo.innerHTML = `Session with: ${user.name}`;
+    userInfo.innerHTML = `Session with: ${user.name}, Section: ${user.section}`;
     try {
       await getElectionVoter();
     } catch (error) {
@@ -276,7 +276,8 @@ async function getElectionVoter() {
     const { config } = getAuthConfig();
     await axios.get(url, config);
   } catch (error) {
-    console.log(error);
+    overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
+    message(error.response.data)
   }
 }
 
