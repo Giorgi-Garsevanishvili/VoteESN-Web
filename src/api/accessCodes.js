@@ -208,7 +208,7 @@ genQRBtn.addEventListener("click", async (event) => {
 
     let html = `
     <select class="election-selector">${optionsHTML}</select>
-    <input disabled class="election-id" placeholder="Election ID:" value="${firstElection._id}">
+    <input disabled class="election-id hidden" placeholder="Election ID:" value="${firstElection._id}">
     <input class="voter-num" type="number" placeholder="Number of Voters">
     <button class="gen-qr">Generate Access Codes</button> 
   `;
@@ -279,7 +279,7 @@ getQRBtn.addEventListener("click", async (event) => {
 
     let html = `
     <select class="election-selector-get">${optionsHTML}</select>
-    <input disabled class="election-id-get" placeholder="Election ID:" value="${firstElection._id}">
+    <input disabled class="election-id-get hidden" placeholder="Election ID:" value="${firstElection._id}">
     <button class="get-codes">Get Codes</button>
     <button class="download-codes hidden">Download</button>
     <button class="delete-codes hidden">Delete</button>  
@@ -578,7 +578,7 @@ getResBtn.addEventListener("click", async (event) => {
 
     let html = `
   <select class="election-selector-get">${optionsHTML}</select>
-  <input disabled class="election-id-get" value="${firstElection._id}">
+  <input disabled class="election-id-get hidden" value="${firstElection._id}">
   <button class="get-result">Get Results</button>
   <button class="download-result hidden">Download Full Report</button>
   <button class="delete-result hidden">Delete</button>  

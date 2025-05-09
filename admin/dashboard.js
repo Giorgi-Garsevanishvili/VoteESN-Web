@@ -67,6 +67,7 @@ ready(async () => {
   if (!isAuth) return;
 
   const user = JSON.parse(localStorage.getItem("user"));
+
   const lastLoginTime = new Date(user.lastLogin);
 
   lastLogin.innerHTML = `Last login to the system: ${lastLoginTime

@@ -346,7 +346,7 @@ function renderOneElectionUpdate(response) {
     </button>
     <h3 class="one-el-title">${response.data.title}</h3>
     <br>
-    <h5>ID: ${response.data._id}</h5>
+    <h5 class="hidden" >ID: ${response.data._id}</h5>
     <h5>Created By: ${response.author}</h5>
     <h5>Created At: ${createdAt}</h5>
     <br>
