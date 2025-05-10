@@ -27,6 +27,12 @@ if (errorStorage) {
 async function logIn(event) {
   event.preventDefault();
 
+  document.querySelector('.side-message').style.display = 'block';
+
+  setTimeout(() => {
+  document.querySelector('.side-message').style.display = 'none';
+}, 15000);
+
   logBtn.disabled = true;
   logBtn.innerHTML =
     '<img class="password-toggle" src="../img/login/loading.gif" alt="loading..." />';

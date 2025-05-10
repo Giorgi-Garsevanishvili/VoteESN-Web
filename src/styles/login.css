@@ -18,6 +18,37 @@ main {
   flex-grow: 1;
 }
 
+/* Styling for the side message */
+.side-message {
+  position: fixed;
+  bottom: 20%;
+  right: 0;
+  transform: translateY(-50%); 
+  background-color: rgba(0, 0, 0, 0.85); 
+  color: #ffffff;
+  padding: 10px 15px;
+  border: 1px  solid #1f5b86;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 9999; 
+  border-radius: 5px;
+  display: none; 
+}
+
+/* Responsive Design: Make sure the message adapts on mobile */
+@media (max-width: 600px) {
+  .side-message {
+    left: 0;
+    right: 0;
+    top: unset; 
+    bottom: 0;
+    transform: unset; 
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
 input {
   font-family: "Orbitron", sans-serif;
   border: 0.1rem solid gray;
@@ -51,7 +82,6 @@ input:focus {
   margin: 1rem auto;
 }
 
-
 .login-btn {
   align-items: center;
   justify-content: center;
@@ -82,7 +112,8 @@ input:focus {
   padding: 3rem;
   height: fit-content;
   border-radius: 3rem;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   background-color: #ecf0f186;
   border-left: 1px solid #7f8c8d;
   border-top: 1px solid #7f8c8d;
@@ -90,7 +121,8 @@ input:focus {
 
 .login-form {
   border-radius: 2rem;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .login-container {
@@ -119,13 +151,13 @@ footer {
   background-color: #f0f0f0;
   color: #333;
   font-size: 0.8rem;
-  padding: 1.5rem 1rem; 
+  padding: 1.5rem 1rem;
   margin-top: auto;
-  width: 100vw; 
+  width: 100vw;
   box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
   border-top: 1px solid #ddd;
   text-align: center;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 footer p {
   text-align: center;
@@ -135,9 +167,7 @@ footer p {
   line-height: 1.7;
 }
 
-
 @media (max-width: 1023px) {
-
   .login-form,
   .welcome-box {
     margin: 1rem;
@@ -148,7 +178,6 @@ footer p {
     margin-top: 1rem;
     justify-content: center;
   }
-  
 
   .welcome-box {
     font-size: 1rem;
