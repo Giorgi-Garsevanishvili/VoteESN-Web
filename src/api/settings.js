@@ -23,7 +23,7 @@ async function getSettingsFromDB() {
     const response = await axios.get(settignsURL, config);
     return (settingsData = response.data.settings[0]);
   } catch (error) {
-    message(error.message, 'error', 3000)
+    message(error.message, "error", 3000);
   }
 }
 
@@ -87,7 +87,7 @@ systemBTn.addEventListener("click", async (event) => {
         }, 2000);
       } catch (error) {
         setSettingsBtn.disabled = false;
-        console.log(error);
+        message(error.response.data);
       }
     });
 
@@ -121,6 +121,8 @@ systemBTn.addEventListener("click", async (event) => {
     <div class="trust-rest-cont hidden">Will be added soon!</div>
   </dov>
   </div>
+
+  <button class="del-settings">Delete Settings</button>
   `;
 
   toolContainer.insertAdjacentHTML("afterbegin", html);
@@ -131,8 +133,30 @@ systemBTn.addEventListener("click", async (event) => {
   const ipToggle = document.querySelector(".check-ip");
   const ipRestBox = document.querySelector(".ip-rest-cont");
 
+  const delSettings = document.querySelector(".del-settings");
+
   const updateIP = document.querySelector(".update-ip");
   const ipInput = document.querySelector(".allowedIPs-input");
+
+  delSettings.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    try {
+      delSettings.disabled = true;
+      const { config } = getAuthConfig();
+      await axios.delete(
+        `https://voteesn-api.onrender.com/api/v1/admin/voter/settings/${settingsData._id}`,
+        config
+      );
+      message("Settings Deleted", "OK", 3000);
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
+    } catch (error) {
+      delSettings.disabled = false;
+      message(error.response.data.message);
+    }
+  });
 
   updateIP.addEventListener("click", async (event) => {
     event.preventDefault();

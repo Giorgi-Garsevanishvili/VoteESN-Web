@@ -599,6 +599,7 @@ main {
   padding: 0.7rem;
 }
 
+.del-settings,
 .add-topic,
 .delete-el-btn,
 .update-el {
@@ -616,6 +617,7 @@ main {
   background-color: #f39c12;
 }
 
+.del-settings,
 .delete-el-btn {
   background-color: #d35400;
 }
