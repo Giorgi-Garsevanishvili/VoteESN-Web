@@ -488,10 +488,6 @@ getQRBtn.addEventListener("click", async (event) => {
         const mailStatus = document.querySelectorAll(".mail-status");
         const oneEachSendBTN = document.querySelectorAll(".mail-button");
 
-        console.log(emailBox);
-        console.log(mailStatus);
-        console.log(oneEachSendBTN);
-
         mailStatus.forEach((item) => (item.value = "✅"));
         emailBox.forEach((item) => {
           item.value = "";
@@ -500,8 +496,6 @@ getQRBtn.addEventListener("click", async (event) => {
 
         oneEachSendBTN.forEach((item) => item.classList.add("hidden"));
       } catch (error) {
-        console.log(error);
-
         message(error);
       }
     });
@@ -811,6 +805,18 @@ getResBtn.addEventListener("click", async (event) => {
     downloadResultBTN.addEventListener("click", async (event) => {
       event.preventDefault();
 
+      const { config } = getAuthConfig();
+      const response = await axios.get(
+        `https://voteesn-api.onrender.com/api/v1/admin/election/tokens/${electionID.value}`,
+        config
+      );
+
+      const tokens = response.data.tokens;
+
+      const total = tokens.length;
+      const used = tokens.filter((t) => t.used === true).length;
+      const unused = tokens.filter((t) => t.used === false).length;
+
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF("p", "mm", "a4");
 
@@ -839,8 +845,19 @@ getResBtn.addEventListener("click", async (event) => {
       pdf.text(`ID:  ${electionId}`, 10, y);
       y += 7;
       pdf.text(`Generated at: ${timestamp}`, 10, y);
-      y += 10;
-
+      y += 15;
+      pdf.setFontSize(16);
+      pdf.setFont("NotoSans_Condensed", "bold");
+      pdf.text("Voter Access Token Stats:", 10, y);
+      y += 7;
+      pdf.setFontSize(10);
+      pdf.setFont("NotoSans_Condensed", "normal");
+      pdf.text(`Total Access Tokens: ${total}`, 10, y);
+      y += 7;
+      pdf.text(`Used Access Tokens: ${used}`, 10, y);
+      y += 7;
+      pdf.text(`Unused Access Tokens: ${unused}`, 10, y);
+      y += 15;
       const logoImg = new Image();
       logoImg.crossOrigin = "Anonymous";
       logoImg.src = logoUrl;
@@ -886,8 +903,19 @@ getResBtn.addEventListener("click", async (event) => {
 
           rows.forEach((row) => {
             row.forEach((text, index) => {
+              if (totalVotes > total || totalVotes > used) {
+                pdf.setTextColor(255, 0, 0);
+              }
               pdf.text(text, 10 + index * 40, y);
             });
+
+            if (totalVotes > total || totalVotes > used) {
+              pdf.setTextColor(255, 0, 0);
+              y += 7;
+              pdf.text(`Disbalance Detected!`, 10, y);
+              y += 7;
+              pdf.setTextColor(0, 0, 0);
+            }
             y += rowHeight;
           });
 
