@@ -5,13 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/global.css" />
     <link rel="stylesheet" href="../styles/voter.css" />
+    <link rel="stylesheet" href="../styles/user-voter.css" />
     <link rel="stylesheet" href="../styles/message.css" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+      defer
+    ></script>
     <title>Qirvex™ | Voter Portal</title>
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
     <meta name="apple-mobile-web-app-title" content="Qirvex™" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <meta
@@ -32,7 +45,7 @@
             alt="user"
           />
         </button>
-         <button class="log-out">
+        <button class="log-out">
           <img
             class="log-out-img"
             src="../../img/admin/dashboard/exit.webp"
@@ -43,6 +56,18 @@
     </header>
     <h5 class="last-login"></h5>
     <main>
+      <div class="user-box hidden">
+        <div class="user-details">
+          <button class="close-btn">
+            <img
+              class="close-img"
+              src="../../img/admin/dashboard/circle-xmark.webp"
+              alt="close"
+            />
+          </button>
+          <div class="user-cont"></div>
+        </div>
+      </div>
       <div class="tok-manual hidden">
         <input class="manual-tok-inp" type="text" placeholder="Enter Token" />
         <button class="enter-tok">Submit</button>
@@ -63,9 +88,13 @@
         <button class="no-qr-btn">I don`t Have QR code</button>
       </div>
     </main>
-    <iframe title="Qirvex-Branding" src="../../Qirvex-Branding-Kit/footer-compnent.html"></iframe>
+    <iframe
+      title="Qirvex-Branding"
+      src="../../Qirvex-Branding-Kit/footer-compnent.html"
+    ></iframe>
     <div class="message hidden"></div>
     <script type="module" src="../api/vote.js"></script>
+    <script type="module" src="../api/user-voter.js"></script>
     <script type="module" src="../../lib/qr-scanner.min.js"></script>
   </body>
 </html>
