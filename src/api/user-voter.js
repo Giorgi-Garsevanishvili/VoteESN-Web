@@ -65,7 +65,7 @@ userButton.addEventListener("click", async (event) => {
   <div class="user-own">
     <div class="user-img"><img class="voter-user-img" src="../../img/admin/dashboard/member-list.webp" alt="user" /></div>
     <input class="hidden" disabled type="text" value="${user._id}" /input>
-    <input class="current-section show" disabled type="text" value=${user.section}>
+    <input class="current-section show" disabled type="text" value="${user.section}">
     <select name="section" class="hidden" disabled id="section">
       <option value="Requested Riga">Request Riga</option>
       <option value="Requested Latvia" >Request Latvia</option>

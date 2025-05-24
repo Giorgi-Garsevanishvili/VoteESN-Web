@@ -52,6 +52,16 @@ select {
   width: auto;
 }
 
+#MyAccount {
+  font-size: 1rem;
+  border: none;
+  text-align: center;
+  margin: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5rem;
+  border: 1px solid gray;
+}
+
 /* header styles */
 
 header {
@@ -715,7 +725,6 @@ main {
   overflow: hidden;
 }
 
-
 .cancel,
 .save-user,
 .delete-user,
@@ -1093,6 +1102,8 @@ main {
   background-color: #27ae60;
   transition: 0.3s;
 }
+
+
 
 /* Media Queries */
 
