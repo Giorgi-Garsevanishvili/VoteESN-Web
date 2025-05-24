@@ -58,6 +58,8 @@ async function getUsers() {
     const response = await axios.get(usersUrl, config);
     users = response.data.user;
 
+    const admin = JSON.parse(localStorage.getItem("user"));
+
     if (users.length <= 0) {
       message("Users not found!");
     }
@@ -86,9 +88,12 @@ async function getUsers() {
         lastLoginTime = `User has not logged in yet`;
       }
 
+      const isCurrentUser = user._id === admin.id;
+
       let html = `
       <div class="one-user">
       <div>${userCount++}</div>
+      <h3 id="MyAccount" class="${isCurrentUser ? "show" : "hidden"}">🔸Me</h3>
       <input disabled type="text" value="${lastLoginTime}" class="last-user-login ${
         user.Qirvex === true ? "hidden" : ""
       } ${
@@ -124,16 +129,21 @@ async function getUsers() {
         <select class="${
           user.Qirvex === true ? "hidden" : ""
         }" name="section" disabled id="section">
+          <option class="${user.Qirvex === true ? "hidden" : ""}" value="${
+        admin.section
+      }" ${user.section === `${admin.section}` ? "selected" : ""}>${
+        admin.section
+      }</option>
           <option class="${
             user.Qirvex === true ? "hidden" : ""
-          }" value="Riga" ${
-        user.section === "Riga" ? "selected" : ""
-      }>Riga</option>
+          }" value="Requested ${admin.section}" ${
+        user.section === `Requested ${admin.section}` ? "selected" : ""
+      }>Requested ${admin.section}</option>
           <option class="${
             user.Qirvex === true ? "hidden" : ""
-          }" value="Latvia" ${
-        user.section === "Latvia" ? "selected" : ""
-      }>Latvia</option>
+          }" value="Demo" ${
+        user.section === "Demo" ? "selected" : ""
+      }>Demo</option>
         </select>
       <input class="password hidden" type="text" placeholder="Password"/>
       <button class="delete-user  ${
@@ -214,13 +224,15 @@ function editUserListener() {
       const role = oneUser.querySelector("#role");
       const edit = oneUser.querySelector(".edit-user");
       const password = oneUser.querySelector(".password");
-      const lastLog = oneUser.querySelector(".last-user-login")
+      const lastLog = oneUser.querySelector(".last-user-login");
+      const section = oneUser.querySelector("#section");
 
       name.removeAttribute("disabled");
       email.removeAttribute("disabled");
       role.removeAttribute("disabled");
+      section.removeAttribute("disabled");
 
-      lastLog.classList.add("hidden")
+      lastLog.classList.add("hidden");
       cancel.classList.remove("hidden");
       save.classList.remove("hidden");
       password.classList.remove("hidden");
@@ -242,6 +254,7 @@ function saveUserListener() {
       const email = oneUser.querySelector(".email");
       const role = oneUser.querySelector("#role");
       const password = oneUser.querySelector(".password");
+      const section = oneUser.querySelector("#section");
 
       const id = oneUser.querySelector(".user-id").value;
       btn.addEventListener("click", async (event) => {
@@ -250,6 +263,7 @@ function saveUserListener() {
           name: name.value.trim(),
           email: email.value.trim(),
           role: role.value,
+          section: section.value,
         };
 
         if (password.value !== "") {
