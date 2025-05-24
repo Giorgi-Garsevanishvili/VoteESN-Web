@@ -65,13 +65,14 @@ userButton.addEventListener("click", async (event) => {
   <div class="user-own">
     <div class="user-img"><img class="voter-user-img" src="../../img/admin/dashboard/member-list.webp" alt="user" /></div>
     <input class="hidden" disabled type="text" value="${user._id}" /input>
-     <select name="section" disabled id="section">
-      <option value="Riga" ${
-        user.section === "Riga" ? "selected" : ""
-      }>Riga</option>
-      <option value="Latvia" ${
-        user.section === "Latvia" ? "selected" : ""
-      }>Latvia</option>
+    <input class="current-section show" disabled type="text" value=${user.section}>
+    <select name="section" class="hidden" disabled id="section">
+      <option value="Requested Riga">Request Riga</option>
+      <option value="Requested Latvia" >Request Latvia</option>
+      <option value="Requested Jelgava" >Request Jelgava</option>
+      <option value="Requested Valmiera" >Request Valmiera</option>
+      <option value="Requested Global" >Request Global</option>
+      <option value="Requested Demo" >Request Demo</option>
     </select>
     <input class="name" disabled type="text" value="${user.name}" /input>
     <input class="email" disabled type="text" value="${user.email}" /input>
@@ -97,17 +98,22 @@ userButton.addEventListener("click", async (event) => {
 
     const name = document.querySelector(".name");
     const email = document.querySelector(".email");
-    // const section = document.getElementById("section");
+    const currentSection = document.querySelector(".current-section");
+    const section = document.getElementById("section");
 
     editAccount.classList.add("hidden");
     saveAccount.classList.remove("hidden");
     saveAccount.classList.add("show");
+    currentSection.classList.remove("show");
+    currentSection.classList.add("hidden");
+    section.classList.remove("hidden");
+    section.classList.add("show");
     cancel.classList.remove("hidden");
     cancel.classList.add("show");
 
     name.disabled = false;
     email.disabled = false;
-    // section.disabled = false;
+    section.disabled = false;
   });
 
   saveAccount.addEventListener("click", async (event) => {
@@ -119,10 +125,12 @@ userButton.addEventListener("click", async (event) => {
 
     const name = document.querySelector(".name");
     const email = document.querySelector(".email");
+    const section = document.getElementById("section");
 
     const data = {
       name: name.value,
       email: email.value,
+      section: section.value,
     };
 
     await updateUser(data);
