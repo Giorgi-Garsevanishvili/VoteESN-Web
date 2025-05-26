@@ -6,6 +6,10 @@ const url = "https://voteesn-api.onrender.com/api/v1/auth/login";
 const email = document.querySelector(".email-input");
 const password = document.querySelector(".password-input");
 const logBtn = document.querySelector(".login-btn");
+const forgotPassword = document.querySelector(".forgot-password");
+const modal = document.getElementById("revealModal");
+const cancel = document.querySelector(".modal-cancel");
+const resetPassword = document.querySelector(".modal-proceed");
 
 logBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -27,11 +31,11 @@ if (errorStorage) {
 async function logIn(event) {
   event.preventDefault();
 
-  document.querySelector('.side-message').style.display = 'block';
+  document.querySelector(".side-message").style.display = "block";
 
   setTimeout(() => {
-  document.querySelector('.side-message').style.display = 'none';
-}, 15000);
+    document.querySelector(".side-message").style.display = "none";
+  }, 15000);
 
   logBtn.disabled = true;
   logBtn.innerHTML =
@@ -91,6 +95,36 @@ const togglePasswordBtn = document.querySelector(".show-password");
 togglePasswordBtn.addEventListener("click", (event) => {
   event.preventDefault();
   togglePassword();
+});
+
+forgotPassword.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  modal.classList.remove("hidden");
+  modal.classList.add("show");
+});
+
+cancel.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  modal.classList.remove("show");
+  modal.classList.add("hidden");
+});
+
+resetPassword.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  try {
+    console.log("works");
+    resetPassword.disabled = true;
+    cancel.disabled = true;
+    message("Reset Link Sent To Your Email", "OK", 2000);
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+  } catch (error) {
+    message(error.response.data);
+  }
 });
 
 function togglePassword() {
