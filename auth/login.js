@@ -10,6 +10,7 @@ const forgotPassword = document.querySelector(".forgot-password");
 const modal = document.getElementById("revealModal");
 const cancel = document.querySelector(".modal-cancel");
 const resetPassword = document.querySelector(".modal-proceed");
+const emailInput = document.getElementById("email");
 
 logBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -111,19 +112,27 @@ cancel.addEventListener("click", (event) => {
   modal.classList.add("hidden");
 });
 
-resetPassword.addEventListener("click", (event) => {
+resetPassword.addEventListener("click", async (event) => {
   event.preventDefault();
+  const requestURL = `https://voteesn-api.onrender.com/api/v1/auth/reset-password-request`;
+  const email = emailInput.value;
+
+  const body = {
+    email: email
+  }
 
   try {
-    console.log("works");
     resetPassword.disabled = true;
     cancel.disabled = true;
+    await axios.post(requestURL, body);
     message("Reset Link Sent To Your Email", "OK", 2000);
     setTimeout(() => {
       location.reload();
     }, 2000);
   } catch (error) {
-    message(error.response.data);
+    resetPassword.disabled = false;
+    cancel.disabled = false;
+    message(error.response.data.message);
   }
 });
 
