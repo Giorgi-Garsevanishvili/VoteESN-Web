@@ -44,11 +44,12 @@
   <body>
     <main>
       <!-- Permanent Message on the side -->
-    <div class="side-message">
-      <p class="side-message-text">
-        Please note: The spin-up may take longer due to the free plan on Render.
-      </p>
-    </div>
+      <div class="side-message">
+        <p class="side-message-text">
+          Please note: The spin-up may take longer due to the free plan on
+          Render.
+        </p>
+      </div>
       <div class="welcome-box">
         <h1 class="welcome-text">voteESN</h1>
         <iframe
@@ -85,9 +86,21 @@
           </div>
           <div class="login-container">
             <button class="login-btn">Log In</button>
+            <a class="forgot-password">Forgot Password</a>
           </div>
         </div>
       </form>
+      <div id="revealModal" class="hidden">
+        <div class="modal-cont">
+          <h3>Reset Your Password</h3>
+          <p>Enter the email address associated with your account and we’ll send you a link to reset your password.</p>
+          <input type="email" id="email" placeholder="Email address" />
+          <div class="modal-buttons">
+            <button class="modal-cancel">Cancel</button>
+            <button class="modal-proceed">Reset Password</button>
+          </div>
+        </div>
+      </div>
     </main>
     <footer>
       <p>
