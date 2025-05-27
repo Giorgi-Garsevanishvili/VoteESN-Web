@@ -725,6 +725,7 @@ main {
   overflow: hidden;
 }
 
+.reset-password,
 .cancel,
 .save-user,
 .delete-user,
@@ -754,6 +755,12 @@ main {
   color: #34495e;
 }
 
+.reset-password {
+  background-color:#224c77;
+  color: #f2f6f9;
+}
+
+.reset-password:hover,
 .cancel:hover,
 .save-user:hover,
 .delete-user:hover,
