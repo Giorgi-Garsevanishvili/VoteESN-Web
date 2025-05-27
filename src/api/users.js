@@ -145,13 +145,13 @@ async function getUsers() {
         user.section === "Demo" ? "selected" : ""
       }>Demo</option>
         </select>
-      <input class="password hidden" type="text" placeholder="Password"/>
       <button class="delete-user  ${
         user.Qirvex === true ? "hidden" : ""
       }">Delete</button>
       <button class="edit-user  ${
         user.Qirvex === true ? "hidden" : ""
       }">Edit</button>
+      <button class="reset-password">Reset Password</button>
       <button class="save-user hidden">Save</button>
       <button class="cancel hidden">Cancel</button>
       </div>
@@ -162,10 +162,40 @@ async function getUsers() {
     editUserListener();
     saveUserListener();
     cancelEditListener();
+    resetPassword();
     return users;
   } catch (error) {
     message(error.message);
   }
+}
+
+function resetPassword() {
+  const resetBtn = document.querySelectorAll(".reset-password");
+  resetBtn.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const userContainer = event.target.closest(".one-user");
+      const email = userContainer.querySelector(".email").value;
+
+      const requestURL = `https://voteesn-api.onrender.com/api/v1/auth/reset-password-request`;
+
+      const body = {
+        email: email,
+      };
+
+      try {
+        btn.disabled = true;
+        await axios.post(requestURL, body);
+        message("Reset Link Sent To Email", "OK", 2000);
+        setTimeout(() => {
+          btn.disabled = false;
+        }, 2000);
+      } catch (error) {
+        btn.disabled = false;
+        message(error.response.data.message);
+      }
+    });
+  });
 }
 
 function cancelEditListener() {
@@ -223,7 +253,6 @@ function editUserListener() {
       const email = oneUser.querySelector(".email");
       const role = oneUser.querySelector("#role");
       const edit = oneUser.querySelector(".edit-user");
-      const password = oneUser.querySelector(".password");
       const lastLog = oneUser.querySelector(".last-user-login");
       const section = oneUser.querySelector("#section");
 
@@ -235,7 +264,6 @@ function editUserListener() {
       lastLog.classList.add("hidden");
       cancel.classList.remove("hidden");
       save.classList.remove("hidden");
-      password.classList.remove("hidden");
       edit.classList.add("hidden");
     });
   });
@@ -253,7 +281,6 @@ function saveUserListener() {
       const name = oneUser.querySelector(".name");
       const email = oneUser.querySelector(".email");
       const role = oneUser.querySelector("#role");
-      const password = oneUser.querySelector(".password");
       const section = oneUser.querySelector("#section");
 
       const id = oneUser.querySelector(".user-id").value;
@@ -265,10 +292,6 @@ function saveUserListener() {
           role: role.value,
           section: section.value,
         };
-
-        if (password.value !== "") {
-          newUser.password = password.value.trim();
-        }
 
         savebtn.disabled = true;
         await updateUser(id, newUser);
