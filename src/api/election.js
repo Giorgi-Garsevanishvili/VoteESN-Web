@@ -11,6 +11,7 @@ const toolContainer = document.querySelector(".tool-cont");
 const oneElection = document.querySelector(".one-election");
 const contOneEl = document.querySelector(".one-el-form");
 const addTopic = document.querySelector(".add-topic");
+const oneElBtns = document.querySelector(".one-el-btns");
 const updateElection = document.querySelector(".update-el");
 const deleteElectionBtn = document.querySelector(".delete-el-btn");
 const addTopicBtn = document.querySelector(".add-topic");
@@ -89,9 +90,12 @@ export async function getElection() {
     }
 
     allElections.forEach((election) => {
-      let html = `<button class="election-btn">
+      let html = `<button class="election-btn ${
+        election.status === "Completed" ? "archived" : ""
+      }">
       <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
       <div class="el-btn-info">
+        <h3>${election.status === "Completed" ? "🔒" : "🟢"}<h3>
         <h5 class="el-name">${election.title}</h5>
         <h5 class="el-id">${election._id}</h5>
       </div>
@@ -353,9 +357,30 @@ function renderOneElectionUpdate(response) {
     <h5>Updated By: ${response.updatedBy}</h5>
     <h5>Updated At: ${updatedAt}</h5> 
     <br>
-    <div class="topic show">
+    <label class="toggle  ip-Restriction">
+      <h5 class="toggle-label">Election Status</h5>
+      <h5 class="toggle-label">${response.data.status === "Completed" ? "🔒 Locked (Cannot change)" : "🟢 Toggle to Complete"}</h5>
+      <input ${
+        response.data.status === "Completed" ? "disabled" : ""
+      } class="toggle-checkbox election-close" type="checkbox" ${
+      response.data.status === "Completed" ? "checked" : ""
+    }>
+      <div class="toggle-switch"></div>
+    </label>
+    <br>
+    <div class="topic ${
+      response.data.status === "Completed" ? "hidden" : "show"
+    }">
     ${topicsHTML}</div>
+    <div class="warning ${
+      response.data.status === "Completed" ? "show" : "hidden"
+    }"><h4>This Election is Completed and Archived. You cant Modify or Update it.</h4></div>
     `;
+
+    if (response.data.status === "Completed") {
+      updateElection.classList.add("hidden");
+      addTopic.classList.add("hidden");
+    }
 
     contOneEl.innerHTML = "";
     contOneEl.insertAdjacentHTML("afterbegin", html);
@@ -367,6 +392,64 @@ function renderOneElectionUpdate(response) {
     addOption(extraOptionUpdate, addOptionBtnUpdate);
     addListeners();
   });
+}
+
+function closeElectionListener() {
+  const closeToggle = document.querySelector(".election-close");
+  closeToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to close the election? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      try {
+        await closeElection(responseData.data._id);
+      } catch (error) {
+        message(error.message);
+      }
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Close Request Rejected! Continue Update", "error", 3000);
+    });
+  });
+}
+
+async function closeElection(id) {
+  let updatedData = {
+    status: "Completed",
+  };
+  try {
+    const { config } = getAuthConfig();
+    await axios.patch(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+      updatedData,
+      config
+    );
+
+    addTopicBtn.disabled = true;
+    deleteElectionBtn.disabled = true;
+    updateElection.disabled = true;
+    setTimeout(() => {
+      addTopicBtn.disabled = false;
+      deleteElectionBtn.disabled = false;
+      updateElection.disabled = false;
+      location.reload();
+    }, 2000);
+
+    message("Election Successfully Closed!", "OK", 3000);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function updateElectionListener() {
@@ -478,6 +561,7 @@ function addOption(extOpt, addOpt) {
 function addListeners() {
   updateElectionListener();
   deleteElectionListener();
+  closeElectionListener();
   closeBTN();
 }
 

@@ -754,7 +754,7 @@ main {
 }
 
 .reset-password {
-  background-color:#224c77;
+  background-color: #224c77;
   color: #f2f6f9;
 }
 
@@ -1018,6 +1018,7 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-align: center;
   justify-content: space-between;
   width: 32vw;
   margin: 0.5rem;
@@ -1084,6 +1085,18 @@ main {
   outline: none;
 }
 
+.warning {
+  text-align: center;
+  color: #b00020;
+  margin: 1rem;
+}
+
+.archived {
+  opacity: 0.8;
+  border-right: 1px solid #b00020;
+  border-bottom: 1px solid #b00020;
+}
+
 .ip-rest-cont,
 .trust-rest-cont {
   align-items: center;
@@ -1107,8 +1120,6 @@ main {
   background-color: #27ae60;
   transition: 0.3s;
 }
-
-
 
 /* Media Queries */
 
