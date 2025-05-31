@@ -30,7 +30,28 @@ resetBTN.addEventListener("click", async (event) => {
       window.location.href = "../../login.html";
     }, 2000);
   } catch (error) {
+    let shouldHideReset = false;
     resetBTN.disabled = false;
-    message(error.response.data.message);
+    if (error.status === 401) {
+      shouldHideReset = true;
+      title.textContent = "Link Expired! ⛔";
+    } else if (
+      error.response.data.message ===
+      "Error: Token is no longer valid. Password was changed."
+    ) {
+      shouldHideReset = true;
+      title.textContent = "Link already Used! ⛔";
+    } else {
+      message(error.response.data.message);
+    }
+
+    if (shouldHideReset) {
+      resetForm.classList.remove("show");
+      resetForm.classList.add("hidden");
+      resetBTN.classList.add("hidden");
+      setTimeout(() => {
+        window.location.href = "../../login.html";
+      }, 2000);
+    }
   }
 });
