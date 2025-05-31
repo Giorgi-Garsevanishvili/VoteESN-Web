@@ -11,6 +11,7 @@ const toolContainer = document.querySelector(".tool-cont");
 const oneElection = document.querySelector(".one-election");
 const contOneEl = document.querySelector(".one-el-form");
 const addTopic = document.querySelector(".add-topic");
+const oneElBtns = document.querySelector(".one-el-btns");
 const updateElection = document.querySelector(".update-el");
 const deleteElectionBtn = document.querySelector(".delete-el-btn");
 const addTopicBtn = document.querySelector(".add-topic");
@@ -89,11 +90,25 @@ export async function getElection() {
     }
 
     allElections.forEach((election) => {
-      let html = `<button class="election-btn">
+      let html = `<button class="election-btn ${
+        election.status === "Ongoing"
+          ? "inProgress"
+          : election.status === "Completed"
+          ? "done"
+          : ""
+      }">
       <img class="election-img" src="../../img/admin/dashboard/vote-yea.webp" alt="election">
       <div class="el-btn-info">
+        <h3>${
+          election.status === "Completed"
+            ? "✅"
+            : election.status === "Ongoing"
+            ? "🔄"
+            : "📝"
+        }<h3>
         <h5 class="el-name">${election.title}</h5>
-        <h5 class="el-id">${election._id}</h5>
+        <h5 class="el-id" hidden>${election._id}</h5>
+        <h5 class="el-status">Status: ${election.status}</h5>
       </div>
       </button>`;
       toolContainer.insertAdjacentHTML("afterbegin", html);
@@ -353,9 +368,68 @@ function renderOneElectionUpdate(response) {
     <h5>Updated By: ${response.updatedBy}</h5>
     <h5>Updated At: ${updatedAt}</h5> 
     <br>
-    <div class="topic show">
+    <label class="toggle">
+      <h5 class="toggle-label">Election Complete</h5>
+      <h5 class="toggle-label">${
+        response.data.status === "Completed" || response.data.status === "Draft"
+          ? "🔒 Locked (Cannot change)"
+          : "🟢 Toggle to Complete"
+      }</h5>
+      <input ${
+        response.data.status === "Completed" || response.data.status === "Draft"
+          ? "disabled"
+          : ""
+      } class="toggle-checkbox election-close" type="checkbox" ${
+      response.data.status === "Completed" ? "checked" : ""
+    }>
+      <div class="toggle-switch"></div>
+
+    </label>
+      <label class="toggle">
+      <h5 class="toggle-label">Election Ongoing</h5>
+      <h5 class="toggle-label">${
+        response.data.status === "Completed" ||
+        response.data.status === "Ongoing"
+          ? "🔒 Locked (Cannot change)"
+          : "🔄 Toggle to Launch"
+      }</h5>
+      <input ${
+        response.data.status === "Completed" ||
+        response.data.status === "Ongoing"
+          ? "disabled"
+          : ""
+      } class="toggle-checkbox election-launch" type="checkbox" ${
+      response.data.status === "Ongoing" ? "checked" : ""
+    }>
+      <div class="toggle-switch"></div>
+    </label>
+    <div class="warning show
+    }"><h4>${
+      response.data.status === "Ongoing"
+        ? "This election is Ongoing. You can only mark it as Completed."
+        : response.data.status === "Completed"
+        ? "This election is Completed. You can only delete it or view reports in the dedicated area."
+        : "This election is in Draft. Launch it before making it available for voting or completing."
+    }</h4></div>
+    <br>
+    <div class="topic ${
+      response.data.status === "Completed" || response.data.status === "Ongoing"
+        ? "hidden"
+        : "show"
+    }">
     ${topicsHTML}</div>
     `;
+
+    if (
+      response.data.status === "Completed" ||
+      response.data.status === "Ongoing"
+    ) {
+      updateElection.classList.add("hidden");
+      addTopic.classList.add("hidden");
+    } else {
+      updateElection.classList.remove("hidden");
+      addTopic.classList.remove("hidden");
+    }
 
     contOneEl.innerHTML = "";
     contOneEl.insertAdjacentHTML("afterbegin", html);
@@ -367,6 +441,94 @@ function renderOneElectionUpdate(response) {
     addOption(extraOptionUpdate, addOptionBtnUpdate);
     addListeners();
   });
+}
+
+function launchElectionListener() {
+  const closeToggle = document.querySelector(".election-launch");
+  closeToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to Launch the election? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      try {
+        await closeElection(responseData.data._id, "Ongoing");
+      } catch (error) {
+        message(error.message);
+      }
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Launch Request Rejected! Continue Update", "error", 3000);
+    });
+  });
+}
+
+function closeElectionListener() {
+  const closeToggle = document.querySelector(".election-close");
+  closeToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    message(
+      `Would you like to complete the election process? <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+      "OK",
+      30000
+    );
+
+    const yesBtn = document.querySelector(".yes-btn");
+    const noBtn = document.querySelector(".no-btn");
+
+    yesBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      try {
+        await closeElection(responseData.data._id, "Completed");
+      } catch (error) {
+        message(error.message);
+      }
+    });
+
+    noBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      message("Complete Request Rejected! Continue Update", "error", 3000);
+    });
+  });
+}
+
+async function closeElection(id, status) {
+  let updatedData = {
+    status: status,
+  };
+  try {
+    const { config } = getAuthConfig();
+    await axios.patch(
+      `https://voteesn-api.onrender.com/api/v1/admin/election/${id}`,
+      updatedData,
+      config
+    );
+
+    addTopicBtn.disabled = true;
+    deleteElectionBtn.disabled = true;
+    updateElection.disabled = true;
+    setTimeout(() => {
+      addTopicBtn.disabled = false;
+      deleteElectionBtn.disabled = false;
+      updateElection.disabled = false;
+      location.reload();
+    }, 2000);
+
+    message("Election Successfully Closed!", "OK", 3000);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function updateElectionListener() {
@@ -478,6 +640,8 @@ function addOption(extOpt, addOpt) {
 function addListeners() {
   updateElectionListener();
   deleteElectionListener();
+  closeElectionListener();
+  launchElectionListener();
   closeBTN();
 }
 
