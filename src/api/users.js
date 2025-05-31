@@ -9,7 +9,6 @@ const userListDOM = document.querySelector(".users-list");
 
 const name = document.querySelector(".name");
 const email = document.querySelector(".email");
-const password = document.querySelector(".password");
 const role = document.querySelector("#role");
 
 const usersUrl = `https://voteesn-api.onrender.com/api/v1/admin/system/users`;
@@ -35,10 +34,10 @@ closebtn.addEventListener("click", (event) => {
 
 createUserBtn.addEventListener("click", async (event) => {
   event.preventDefault();
+
   let newUser = {
     name: name.value.trim(),
     email: email.value.trim(),
-    password: password.value.trim(),
     role: role.value,
   };
 
@@ -65,6 +64,8 @@ async function getUsers() {
     }
 
     const sortedUsers = [...users].sort((a, b) => {
+      if (a._id === admin.id) return -1;
+      if (b._id === admin.id) return 1;
       if (a.name.includes("Qirvex™")) return -1;
       if (b.name.includes("Qirvex™")) return 1;
 
@@ -307,12 +308,7 @@ function saveUserListener() {
 
 async function createUser(newUser) {
   try {
-    if (
-      newUser.name === "" ||
-      newUser.email === "" ||
-      newUser.password === "" ||
-      newUser.role === ""
-    ) {
+    if (newUser.name === "" || newUser.email === "" || newUser.role === "") {
       message("All fields must be filled!");
       return;
     }
@@ -322,7 +318,6 @@ async function createUser(newUser) {
     newUser = "";
     name.value = "";
     email.value = "";
-    password.value = "";
     role.value = "voter";
   } catch (error) {
     message(error.response.data.message, "error", 3000);
