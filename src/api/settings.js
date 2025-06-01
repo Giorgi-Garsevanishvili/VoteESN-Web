@@ -1,6 +1,9 @@
+// Description: IP Restriction and Trusted Device Management Module
+
 import { message } from "../utils/message.js";
 import { getAuthConfig } from "../handlers/authHandler.js";
 
+// DOM elements
 const systemBTn = document.querySelector(".system");
 const toolTitle = document.querySelector(".tool-name");
 const toolContainer = document.querySelector(".tool-cont");
@@ -8,15 +11,19 @@ const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
 const resultBox = document.querySelector(".el-res");
 
+// Navigation buttons
 const homeBtn = document.querySelector(".election-home-btn");
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
 const getResBtn = document.querySelector(".get-res-btn");
 
+// API endpoint for settings management
 const settignsURL = `https://voteesn-api.onrender.com/api/v1/admin/voter/settings`;
 
+// Variable to store settings data
 let settingsData = "";
 
+// Function to fetch settings from the database
 async function getSettingsFromDB() {
   try {
     const { config } = getAuthConfig();
@@ -27,6 +34,7 @@ async function getSettingsFromDB() {
   }
 }
 
+// Function to update settings in the database
 async function updateSettings(id, data) {
   try {
     const { config } = getAuthConfig();
@@ -42,6 +50,7 @@ async function updateSettings(id, data) {
   }
 }
 
+// Event listener for the system settings button, responsible for displaying and managing system settings
 systemBTn.addEventListener("click", async (event) => {
   await getSettingsFromDB();
   event.preventDefault();

@@ -1,8 +1,12 @@
+
+// Login functionality for the VoteESN application
 import { checkRole, getAuthConfig } from "../src/handlers/authHandler.js";
 import { message } from "../src/utils/message.js";
 
+// url for the login API endpoint
 const url = "https://voteesn-api.onrender.com/api/v1/auth/login";
 
+// Selectors for the login form elements
 const email = document.querySelector(".email-input");
 const password = document.querySelector(".password-input");
 const logBtn = document.querySelector(".login-btn");
@@ -11,24 +15,53 @@ const modal = document.getElementById("revealModal");
 const cancel = document.querySelector(".modal-cancel");
 const resetPassword = document.querySelector(".modal-proceed");
 const emailInput = document.getElementById("email");
+const togglePasswordBtn = document.querySelector(".show-password");
 
+// Event listener for the login form submission
+document
+  .querySelector(".login-form")
+  .addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+      await logIn(event);
+    }
+  });
+
+// Event listener for the login button click
 logBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   await logIn(event);
 });
 
+
+// Check for any error messages stored in localStorage
+// and display them if present
 const errorStorage = localStorage.getItem("error");
+
+// Get the authentication token from localStorage
 const { token } = getAuthConfig();
 
+
+// If a token exists, check the user's role
 if (token) {
   checkRole();
 }
 
+
+// If there is an error message in localStorage, display it
 if (errorStorage) {
   message(errorStorage);
   localStorage.clear();
 }
 
+
+// Function to handle the login process
+/**
+ * Handles the login process by sending a request to the server
+ * with the user's email and password.
+ * Displays appropriate messages based on the response.
+ * sets the user data and token in localStorage
+ * lands the user to the appropriate page based on their role.
+ */
 async function logIn(event) {
   event.preventDefault();
 
@@ -83,21 +116,15 @@ async function logIn(event) {
   }
 }
 
-document
-  .querySelector(".login-form")
-  .addEventListener("keydown", async function (event) {
-    if (event.key === "Enter") {
-      await logIn(event);
-    }
-  });
+// Event listeners for the toggle password visibility and forgot password functionality
 
-const togglePasswordBtn = document.querySelector(".show-password");
-
+// Event listener for the toggle password visibility button
 togglePasswordBtn.addEventListener("click", (event) => {
   event.preventDefault();
   togglePassword();
 });
 
+// Event listeners for the forgot password modal functionality
 forgotPassword.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -105,6 +132,7 @@ forgotPassword.addEventListener("click", (event) => {
   modal.classList.add("show");
 });
 
+// Event listener for the cancel button in the modal
 cancel.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -112,14 +140,17 @@ cancel.addEventListener("click", (event) => {
   modal.classList.add("hidden");
 });
 
+// Event listener for the reset password button in the modal 
+// Sends a request to reset the password
+// and displays a message based on the response
 resetPassword.addEventListener("click", async (event) => {
   event.preventDefault();
   const requestURL = `https://voteesn-api.onrender.com/api/v1/auth/reset-password-request`;
   const email = emailInput.value;
 
   const body = {
-    email: email
-  }
+    email: email,
+  };
 
   try {
     resetPassword.disabled = true;
@@ -136,6 +167,7 @@ resetPassword.addEventListener("click", async (event) => {
   }
 });
 
+// Function to toggle the visibility of the password input field
 function togglePassword() {
   var passwordInput = document.getElementById("password");
   const eye = document.querySelector(".show-password");

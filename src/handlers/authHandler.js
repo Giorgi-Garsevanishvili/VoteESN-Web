@@ -1,3 +1,6 @@
+// Description: This module provides functions to handle authentication configuration, check user roles, and manage authentication state.
+
+// get authentication configuration for API requests
 export function getAuthConfig() {
   const token = localStorage.getItem("authToken");
   const config = {
@@ -9,6 +12,7 @@ export function getAuthConfig() {
   return { config, token };
 }
 
+// get authentication configuration for downloading ZIP files
 export function getAuthConfigZip() {
   const token = localStorage.getItem("authToken");
   const configZIP = {
@@ -21,6 +25,7 @@ export function getAuthConfigZip() {
   return { configZIP };
 }
 
+// check if token and user information are present in localStorage
 export function checkAuth() {
   const token = localStorage.getItem("authToken");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -34,6 +39,7 @@ export function checkAuth() {
   }
 }
 
+// check user role and redirect accordingly
 export function checkRole() {
   const userInfo = JSON.parse(localStorage.getItem("user"));
 

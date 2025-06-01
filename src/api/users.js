@@ -1,6 +1,8 @@
+// Description: this module handles user management functionalities such as viewing, creating, editing, and deleting users in the admin panel of the VoteESN application.
 import { message } from "../utils/message.js";
 import { getAuthConfig } from "../handlers/authHandler.js";
 
+// DOM elements for user management
 const userBtn = document.querySelector(".users-btn");
 const userBox = document.querySelector(".see-user-box");
 const closebtn = document.querySelector(".close-btn-user");
@@ -9,12 +11,15 @@ const userListDOM = document.querySelector(".users-list");
 
 const name = document.querySelector(".name");
 const email = document.querySelector(".email");
-const role = document.querySelector("#role");
+const role = document.querySelector(".role");
 
+// URL for user management API
 const usersUrl = `https://voteesn-api.onrender.com/api/v1/admin/system/users`;
 
+// Variable to hold user data
 let users = null;
 
+// Event listener to open user management page
 userBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -24,6 +29,7 @@ userBtn.addEventListener("click", (event) => {
   getUsers();
 });
 
+// Event listener to close user management page
 closebtn.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -32,6 +38,7 @@ closebtn.addEventListener("click", (event) => {
   message("User Page closed!", "OK", 2000);
 });
 
+// Event listener to create a new user
 createUserBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -51,6 +58,7 @@ createUserBtn.addEventListener("click", async (event) => {
   }
 });
 
+// Function to fetch and display users, sort them, and handle their last login information, and add event listeners for user management actions.
 async function getUsers() {
   try {
     const { config } = getAuthConfig();
@@ -95,7 +103,7 @@ async function getUsers() {
       <div class="one-user">
       <div>${userCount++}</div>
       <h3 id="MyAccount" class="${isCurrentUser ? "show" : "hidden"}">🔸Me</h3>
-      <input disabled type="text" value="${lastLoginTime}" class="last-user-login ${
+      <input name="lastLogin" disabled type="text" value="${lastLoginTime}" class="last-user-login ${
         user.Qirvex === true ? "hidden" : ""
       } ${
         user.lastLogin === null
@@ -104,18 +112,18 @@ async function getUsers() {
           ? "logged-old"
           : "logged-six-month"
       }"/input>
-      <input disabled type="text" value="${user._id}" class="user-id hidden ${
+      <input name="userId" disabled type="text" value="${user._id}" class="user-id hidden ${
         user.Qirvex === true ? "hidden" : ""
       }" /input>
-      <input class="name" disabled value="${
+      <input name="userName" class="name" disabled value="${
         user.name
       }" type="text" placeholder="Name"/>
-      <input class="email ${
+      <input name="userEmail" class="email ${
         user.Qirvex === true ? "hidden" : ""
       }" disabled value="${user.email}" type="text" placeholder="Email"/>
-      <select class="${
+      <select class="role ${
         user.Qirvex === true ? "hidden" : ""
-      }" name="role" disabled id="role">
+      }" name="role" disabled class="role">
           <option class="${
             user.Qirvex === true ? "hidden" : ""
           }" value="admin" ${
@@ -127,9 +135,9 @@ async function getUsers() {
         user.role === "voter" ? "selected" : ""
       }>Voter</option>
         </select>
-        <select class="${
+        <select class="section ${
           user.Qirvex === true ? "hidden" : ""
-        }" name="section" disabled id="section">
+        }" name="section" disabled class="section">
           <option class="${user.Qirvex === true ? "hidden" : ""}" value="${
         admin.section
       }" ${user.section === `${admin.section}` ? "selected" : ""}>${
@@ -170,6 +178,7 @@ async function getUsers() {
   }
 }
 
+// Function to reset user password by sending a reset link to the user's email
 function resetPassword() {
   const resetBtn = document.querySelectorAll(".reset-password");
   resetBtn.forEach((btn) => {
@@ -199,6 +208,7 @@ function resetPassword() {
   });
 }
 
+// Function to handle canceling the edit operation for a user
 function cancelEditListener() {
   const cancelBtn = document.querySelectorAll(".cancel");
   cancelBtn.forEach((btn) => {
@@ -210,6 +220,7 @@ function cancelEditListener() {
   });
 }
 
+// Function to handle deleting a user with confirmation
 function deleteUserListener() {
   const deleteUserbtn = document.querySelectorAll(".delete-user");
   deleteUserbtn.forEach((btn) => {
@@ -241,6 +252,7 @@ function deleteUserListener() {
   });
 }
 
+// Function to handle editing a user by enabling input fields and showing save/cancel buttons
 function editUserListener() {
   const editUserBtn = document.querySelectorAll(".edit-user");
   editUserBtn.forEach((btn) => {
@@ -252,10 +264,10 @@ function editUserListener() {
       const cancel = oneUser.querySelector(".cancel");
       const name = oneUser.querySelector(".name");
       const email = oneUser.querySelector(".email");
-      const role = oneUser.querySelector("#role");
+      const role = oneUser.querySelector(".role");
       const edit = oneUser.querySelector(".edit-user");
       const lastLog = oneUser.querySelector(".last-user-login");
-      const section = oneUser.querySelector("#section");
+      const section = oneUser.querySelector(".section");
 
       name.removeAttribute("disabled");
       email.removeAttribute("disabled");
@@ -270,6 +282,7 @@ function editUserListener() {
   });
 }
 
+// Function to handle saving the edited user information
 function saveUserListener() {
   const save = document.querySelectorAll(".save-user");
 
@@ -281,8 +294,8 @@ function saveUserListener() {
       const savebtn = oneUser.querySelector(".save-user");
       const name = oneUser.querySelector(".name");
       const email = oneUser.querySelector(".email");
-      const role = oneUser.querySelector("#role");
-      const section = oneUser.querySelector("#section");
+      const role = oneUser.querySelector(".role");
+      const section = oneUser.querySelector(".section");
 
       const id = oneUser.querySelector(".user-id").value;
       btn.addEventListener("click", async (event) => {
@@ -306,6 +319,7 @@ function saveUserListener() {
   });
 }
 
+// Function to create a new user by sending a POST request to the API
 async function createUser(newUser) {
   try {
     if (newUser.name === "" || newUser.email === "" || newUser.role === "") {
@@ -324,6 +338,7 @@ async function createUser(newUser) {
   }
 }
 
+// Function to delete a user by sending a DELETE request to the API
 async function deleteUser(id) {
   try {
     const { config } = getAuthConfig();
@@ -337,6 +352,7 @@ async function deleteUser(id) {
   }
 }
 
+// Function to update a user's information by sending a PATCH request to the API
 async function updateUser(id, data) {
   try {
     const { config } = getAuthConfig();

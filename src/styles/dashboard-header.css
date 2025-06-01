@@ -1,0 +1,79 @@
+/* header styles */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem;
+  padding: 2rem;
+  width: 80%;
+  height: 0.1vw;
+  background-color: #34495e;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.392);
+  border-radius: 3rem;
+  color: #ecf0f1;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  outline: none; /* Remove focus outline */
+  user-select: none; /* Prevent selection */
+}
+
+/* User Info */
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ecf0f1;
+  color: #34495e;
+  margin: 0.2rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Control Buttons */
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* System and Log Out Buttons */
+.system-img,
+.log-out-img {
+  width: 1rem;
+}
+
+.system,
+.log-out {
+  border: none;
+  background-color: #ecf0f1;
+  border-radius: 5em;
+  padding: 1em;
+  margin: 0.3em;
+  width: 3rem;
+  height: auto;
+  transition: 0.3s;
+}
+
+.system:hover,
+.log-out:hover {
+  transition: 0.3s;
+  background-color: #bdc3c7;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  /* User Info */
+  .user-info {
+    display: none;
+  }
+}
