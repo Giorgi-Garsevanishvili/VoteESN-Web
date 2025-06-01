@@ -1,42 +1,48 @@
+// Description : This module prociedes functions to manage elections, including fetching, creating, updating, and deleting elections, as well as handling election topics and options.
+
 import { message } from "../utils/message.js";
 import { getAuthConfig } from "../handlers/authHandler.js";
 import { addExtraInput, electionData } from "../../admin/dashboard.js";
-import { deleteQrcodes, deleteResult } from "./accessCodes.js";
+import { deleteQrcodes } from "./tokens-manager.js";
+import { deleteResult } from "./results.js";
 
-const getElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
-const createElectionUrl =
-  "https://voteesn-api.onrender.com/api/v1/admin/election";
+// API endpoints for election management
+const ElectionUrl = "https://voteesn-api.onrender.com/api/v1/admin/election";
 
+// DOM elements for election management
 const toolContainer = document.querySelector(".tool-cont");
 const oneElection = document.querySelector(".one-election");
 const contOneEl = document.querySelector(".one-el-form");
 const addTopic = document.querySelector(".add-topic");
-const oneElBtns = document.querySelector(".one-el-btns");
 const updateElection = document.querySelector(".update-el");
 const deleteElectionBtn = document.querySelector(".delete-el-btn");
 const addTopicBtn = document.querySelector(".add-topic");
 const homeBtn = document.querySelector(".election-home-btn");
 
+// Tool title and other UI elements
 const toolTitle = document.querySelector(".tool-name");
 const generated = document.querySelector(".generated");
 const tokCountBox = document.querySelector(".tok-count-box");
 const resultBox = document.querySelector(".el-res");
 
+// Navigation buttons for election management
 const genQRBtn = document.querySelector(".gen-qr-btn");
 const getQRBtn = document.querySelector(".get-qr-btn");
 const getResBtn = document.querySelector(".get-res-btn");
 
+// Variable to store the response data from election requests
 let responseData = null;
 
+// Function to get authentication for election management
 async function getElAuth() {
   try {
     const { config } = getAuthConfig();
-    await axios.get(getElectionUrl, config);
+    await axios.get(ElectionUrl, config);
   } catch (error) {
     throw new Error("Authentication faild!");
   }
 }
-
+// Set an interval to check authentication every 5 seconds
 setInterval(async () => {
   try {
     await getElAuth();
@@ -51,34 +57,20 @@ setInterval(async () => {
   }
 }, 5000);
 
+// Function to get all elections from the server
 export async function getAllElection(elections) {
   const { config } = getAuthConfig();
-  elections = await axios.get(getElectionUrl, config);
+  elections = await axios.get(ElectionUrl, config);
   return elections;
 }
 
-homeBtn.addEventListener("click", async (event) => {
-  event.preventDefault();
-  generated.innerHTML = "";
-  toolTitle.innerHTML = "Home";
-  toolContainer.innerHTML = "";
-  tokCountBox.classList.add("hidden");
-  tokCountBox.classList.remove("show");
-  resultBox.innerHTML = "";
-  homeBtn.classList.add("selected");
-  genQRBtn.classList.remove("selected");
-  getQRBtn.classList.remove("selected");
-  getResBtn.classList.remove("selected");
-  await getElection();
-  toolContainer.scrollIntoView();
-});
-
+// function to get and display all elections view buttons
 export async function getElection() {
   try {
     const { config } = getAuthConfig();
     toolContainer.innerHTML = `Loading...`;
 
-    const election = await axios.get(getElectionUrl, config);
+    const election = await axios.get(ElectionUrl, config);
     const response = election.data;
     const electionData = response.data;
     const allElections = electionData.allElections;
@@ -130,6 +122,7 @@ export async function getElection() {
   }
 }
 
+// Function to get a single election by ID
 export async function getOneElection(id) {
   try {
     const { config, token } = getAuthConfig();
@@ -146,15 +139,17 @@ export async function getOneElection(id) {
   }
 }
 
+// Function to create a new election
 export async function createElection() {
   try {
     const { config } = getAuthConfig();
-    await axios.post(createElectionUrl, electionData, config);
+    await axios.post(ElectionUrl, electionData, config);
   } catch (error) {
     message(error.message);
   }
 }
 
+// Function to update an existing election
 async function updateElectionFunction(id, title) {
   const updatedTitle = title;
 
@@ -230,6 +225,7 @@ async function updateElectionFunction(id, title) {
   }
 }
 
+// Function to delete an election by ID
 async function deleteElection(id) {
   const { config } = getAuthConfig();
   await axios.delete(
@@ -238,6 +234,7 @@ async function deleteElection(id) {
   );
 }
 
+// Function to remove buttons for topics and options
 function removeButtons(option, title) {
   title.forEach((btn) => {
     btn.addEventListener("click", (event) => {
@@ -255,6 +252,7 @@ function removeButtons(option, title) {
   });
 }
 
+// Function to add a new topic with options
 function addTopicFunction() {
   addTopic.addEventListener("click", (event) => {
     event.preventDefault();
@@ -300,6 +298,7 @@ function addTopicFunction() {
   });
 }
 
+// Function to render the election update page in detail.
 function renderOneElectionUpdate(response) {
   oneElection.classList.remove("hidden");
   oneElection.classList.add("show");
@@ -443,6 +442,7 @@ function renderOneElectionUpdate(response) {
   });
 }
 
+// Function to launch the election
 function launchElectionListener() {
   const closeToggle = document.querySelector(".election-launch");
   closeToggle.addEventListener("click", (event) => {
@@ -460,7 +460,7 @@ function launchElectionListener() {
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
-        await closeElection(responseData.data._id, "Ongoing");
+        await changeElectionStatus(responseData.data._id, "Ongoing");
       } catch (error) {
         message(error.message);
       }
@@ -473,6 +473,7 @@ function launchElectionListener() {
   });
 }
 
+// Function to mark election as completed
 function closeElectionListener() {
   const closeToggle = document.querySelector(".election-close");
   closeToggle.addEventListener("click", (event) => {
@@ -490,7 +491,7 @@ function closeElectionListener() {
     yesBtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
-        await closeElection(responseData.data._id, "Completed");
+        await changeElectionStatus(responseData.data._id, "Completed");
       } catch (error) {
         message(error.message);
       }
@@ -503,7 +504,8 @@ function closeElectionListener() {
   });
 }
 
-async function closeElection(id, status) {
+// function to change the election status to completed or ongoing
+async function changeElectionStatus(id, status) {
   let updatedData = {
     status: status,
   };
@@ -531,6 +533,7 @@ async function closeElection(id, status) {
   }
 }
 
+// Function to update the election listener
 function updateElectionListener() {
   updateElection.addEventListener("click", (event) => {
     event.preventDefault();
@@ -563,6 +566,7 @@ function updateElectionListener() {
   });
 }
 
+// Function to delete the election listener
 function deleteElectionListener() {
   deleteElectionBtn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -603,6 +607,7 @@ function deleteElectionListener() {
   });
 }
 
+// Function to handle the close button functionality
 function closeBTN() {
   const closeBtn = document.querySelector(".close-btn-one-el");
   closeBtn.addEventListener("click", (event) => {
@@ -630,6 +635,7 @@ function closeBTN() {
   });
 }
 
+// Function to add extra input options for topics
 function addOption(extOpt, addOpt) {
   addOpt.forEach((btn, index) => {
     const relatedBox = extOpt[index];
@@ -637,6 +643,7 @@ function addOption(extOpt, addOpt) {
   });
 }
 
+// Function to add all listeners for election management
 function addListeners() {
   updateElectionListener();
   deleteElectionListener();
@@ -644,5 +651,22 @@ function addListeners() {
   launchElectionListener();
   closeBTN();
 }
+
+// Event listener for the home button to reset the view
+homeBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  generated.innerHTML = "";
+  toolTitle.innerHTML = "Home";
+  toolContainer.innerHTML = "";
+  tokCountBox.classList.add("hidden");
+  tokCountBox.classList.remove("show");
+  resultBox.innerHTML = "";
+  homeBtn.classList.add("selected");
+  genQRBtn.classList.remove("selected");
+  getQRBtn.classList.remove("selected");
+  getResBtn.classList.remove("selected");
+  await getElection();
+  toolContainer.scrollIntoView();
+});
 
 addTopicFunction();

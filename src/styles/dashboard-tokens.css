@@ -1,0 +1,125 @@
+/* Token display Styles */
+.token-list {
+  padding: 0.5rem;
+  margin: 1rem;
+  border: 1px solid rgb(184, 180, 180);
+  color: #34495e;
+  background-color: #d6dce0;
+  border-radius: 2rem;
+}
+
+.token-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+}
+
+.token-box input {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Mail Box Styles */
+.mail-box {
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mail-button {
+  border: none;
+  width: auto;
+  color: #010c16;
+  background: orange;
+  font-size: 0.8rem;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  transition: 0.3s;
+}
+
+.mail-button:hover {
+  opacity: 0.5;
+}
+
+.mail-box input {
+  width: 18vw;
+  padding: 0.7rem;
+}
+
+/* Token Display Styles */
+.token-display:disabled {
+  width: fit-content;
+  width: 17vw;
+}
+
+.reveal-token {
+  border-radius: 0.3rem;
+  border: none;
+  background-color: transparent;
+}
+
+.token-status:disabled {
+  text-align: center;
+  width: fit-content;
+  width: 2vw;
+}
+
+.valid {
+  background-color: #27ae60;
+  color: #34495e;
+}
+
+.invalid {
+  background-color: #d35400;
+  color: #34495e;
+}
+
+.tok-count-box input {
+  font-size: 0.75rem;
+  text-align: center;
+  text-justify: auto;
+  margin: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  min-width: 1vw;
+  max-width: 5vw;
+}
+
+/* Token Status Styles */
+.tok-valid {
+  background-color: #27ae60;
+  color: #ecf0f1;
+}
+
+.tok-used {
+  background-color: #d35400;
+  color: #ecf0f1;
+}
+
+.tok-count {
+  background-color: #34495e;
+  color: #ecf0f1;
+}
+
+@media (max-width: 900px) {
+  .token-display:disabled,
+  .token-status:disabled {
+    width: 55vw;
+  }
+
+  .mail-box,
+  .token-box {
+    flex-direction: column;
+  }
+
+  .mail-box input {
+    max-width: none;
+    width: 55vw;
+  }
+}

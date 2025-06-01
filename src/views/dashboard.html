@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/dashboard-header.css" />
+    <link rel="stylesheet" href="../styles/dashboard-nav-buttons.css" />
+    <link rel="stylesheet" href="../styles/dashboard-settings.css" />
+    <link rel="stylesheet" href="../styles/dashboard-home.css" />
+    <link rel="stylesheet" href="../styles/dashboard-tokens.css" />
+    <link rel="stylesheet" href="../styles/dashboard-users.css" />
+    <link rel="stylesheet" href="../styles/dashboard-add-election.css" />
     <link rel="stylesheet" href="../styles/dashboard.css" />
     <link rel="stylesheet" href="../styles/message.css" />
     <title>Qirvex™ | Admin Dashboard</title>
@@ -60,8 +67,8 @@
       </button>
       <h3 class="titles">Create User</h3>
       <div class="create-user-cont">
-        <input class="name" type="text" placeholder="Name" />
-        <input class="email" type="text" placeholder="Email" />
+        <input id="new-user-name" class="name" type="text" placeholder="Name" />
+        <input id="new-user-email" class="email" type="text" placeholder="Email" />
         <select name="role" id="role">
           <option value="admin">Admin</option>
           <option selected value="voter">Voter</option>
@@ -230,9 +237,9 @@
         <h3 class="tool-name">Election Home</h3>
         <div class="tool-cont"></div>
         <div class="tok-count-box hidden">
-          <input disabled class="tok-count" value="" />
-          <input disabled class="tok-used" value="" />
-          <input disabled class="tok-valid" value="" />
+          <input name="tokenCount" disabled class="tok-count" value="" />
+          <input name="tokenUsed" disabled class="tok-used" value="" />
+          <input name="tokenValid" disabled class="tok-valid" value="" />
         </div>
         <div class="el-res hidden"></div>
         <div id="revealModal" class="hidden">
@@ -273,7 +280,9 @@
     <footer style="font-size: 0.8rem; margin: 0.3rem">
       Uicons by <a href="https://www.flaticon.com/uicons">Flaticon</a>
     </footer>
-    <script type="module" src="../api/accessCodes.js"></script>
+    <script type="module" src="../api/results.js"></script>
+    <script type="module" src="../api/tokens-manager.js"></script>
+    <script type="module" src="../api/tokens-create.js"></script>
     <script type="module" src="../../admin/dashboard.js"></script>
     <script type="module" src="../api/settings.js"></script>
     <script type="module" src="../api/users.js"></script>

@@ -1,10 +1,15 @@
+// description: This script handles the voting process for voters, including QR code scanning, token validation, and election participation.
+
+// imports
 import QrScanner from "../../lib/qr-scanner.min.js";
 import { logOut } from "../../auth/logout.js";
 import { checkAuth, getAuthConfig } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 
+// URL for the election API
 const url = `https://voteesn-api.onrender.com/api/v1/user/voter`;
 
+// DOM elements
 const tokenInput = document.querySelector(".tok-manual");
 const manualTokInput = document.querySelector(".manual-tok-inp");
 const submitTok = document.querySelector(".enter-tok");
@@ -18,52 +23,16 @@ const start = document.querySelector(".start-scan");
 const stop = document.querySelector(".stop-scan");
 const overlayText = document.querySelector(".overlay-text");
 const lastLogin = document.querySelector(".last-login");
-let result = "";
 
-async function getElAuth() {
-  try {
-    const { config } = getAuthConfig();
-    await axios.get(url, config);
-  } catch (error) {
-    throw new Error("Authentication faild!");
-  }
-}
-
-setInterval(async () => {
-  try {
-    await getElAuth();
-  } catch (error) {
-    setTimeout(() => {
-      window.location.href = "../../login.html";
-    }, 2000);
-    message(error.message);
-    localStorage.clear();
-    return message("Authentication Faild!");
-  }
-}, 5000);
-
-submitTok.addEventListener("click", async (event) => {
+// Event listener for logging out
+logOutBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  const token = manualTokInput.value;
-  await tokenValidation(token);
-  manualTokInput.value = "";
+  logOut();
 });
 
-noQrBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  start.classList.remove("hidden");
-  start.classList.add("show");
-  stop.classList.add("hidden");
-  scanningBox.classList.remove("show");
-  scanningBox.classList.add("hidden");
-  overlayText.classList.add("hidden");
-  tokenInput.classList.remove("hidden");
-  tokenInput.classList.add("show");
-  noQrBtn.classList.add("hidden");
-  noQrBtn.classList.remove("show");
-});
-
+// Function to check if the document is ready and execute a callback
+// This function is used to ensure that the DOM is fully loaded before executing any code.
+// checks the user role and redirects accordingly.
 ready(async () => {
   const isAuth = await runAuthFlow();
 
@@ -95,6 +64,57 @@ ready(async () => {
   }
 });
 
+// Function to get authentication for election and check if the user is authenticated
+async function getElAuth() {
+  try {
+    const { config } = getAuthConfig();
+    await axios.get(url, config);
+  } catch (error) {
+    throw new Error("Authentication faild!");
+  }
+}
+
+// Function to run the authentication flow and check user role
+async function runAuthFlow() {
+  try {
+    checkAuth();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.role) throw new Error("User not authenticated");
+
+    if (user.role === "admin") {
+      window.location.href = "../views/dashboard.html";
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    message(error.message);
+    overlayText.innerHTML = `<h3 class="error-message"">${error.message} <p>System will log you out in few seconds.</p></h3>`;
+    buttonBox.classList.add("hidden");
+    setTimeout(() => {
+      localStorage.clear();
+      return (window.location.href = "../../login.html");
+    }, 4000);
+    return false;
+  }
+}
+
+// Check authentication every 5 seconds
+setInterval(async () => {
+  try {
+    await getElAuth();
+  } catch (error) {
+    setTimeout(() => {
+      window.location.href = "../../login.html";
+    }, 2000);
+    message(error.message);
+    localStorage.clear();
+    return message("Authentication Faild!");
+  }
+}, 5000);
+
+// Function to validate the token and fetch election data
 async function tokenValidation(token) {
   const data = {
     token,
@@ -118,6 +138,56 @@ async function tokenValidation(token) {
   }
 }
 
+// Initialize the QR scanner
+const qrScanner = new QrScanner(
+  verifyBox,
+  async (result) => {
+    stopScan();
+    await tokenValidation(result.data);
+  },
+  {
+    returnDetailedScanResult: true,
+    highlightScanRegion: true,
+    calculateScanRegion: (video) => {
+      const width = video.videoWidth;
+      const height = video.videoHeight;
+      const size = Math.min(width, height) * 0.45;
+
+      return {
+        x: (width - size) / 2,
+        y: (height - size) / 2,
+        width: size,
+        height: size,
+      };
+    },
+  }
+);
+
+// Event listeners for manual token input and submission
+submitTok.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const token = manualTokInput.value;
+  await tokenValidation(token);
+  manualTokInput.value = "";
+});
+
+// Event listener for the the "I don't have a QR code" button when user manually enters a token.
+noQrBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  start.classList.remove("hidden");
+  start.classList.add("show");
+  stop.classList.add("hidden");
+  scanningBox.classList.remove("show");
+  scanningBox.classList.add("hidden");
+  overlayText.classList.add("hidden");
+  tokenInput.classList.remove("hidden");
+  tokenInput.classList.add("show");
+  noQrBtn.classList.add("hidden");
+  noQrBtn.classList.remove("show");
+});
+
+// Function to fetch and render the election data for the voter
 async function getOneElection() {
   const electionID = localStorage.getItem("electionID");
   const uniqueToken = localStorage.getItem("voterToken");
@@ -242,74 +312,33 @@ async function getOneElection() {
       });
     }
   } catch (error) {
-    console.log(error);
+    message(error.response.data.message);
   }
 }
 
-async function runAuthFlow() {
-  try {
-    checkAuth();
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!user || !user.role) throw new Error("User not authenticated");
-
-    if (user.role === "admin") {
-      window.location.href = "../views/dashboard.html";
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    message(error.message);
-    overlayText.innerHTML = `<h3 class="error-message"">${error.message} <p>System will log you out in few seconds.</p></h3>`;
-    buttonBox.classList.add("hidden");
-    setTimeout(() => {
-      localStorage.clear();
-      return (window.location.href = "../../login.html");
-    }, 4000);
-    return false;
-  }
-}
-
+// Function to get election voter data
 async function getElectionVoter() {
   try {
     const { config } = getAuthConfig();
     await axios.get(url, config);
   } catch (error) {
     overlayText.innerHTML = `<h3 class="error-message"">${error.response.data} <p>System will log you out in few seconds. Contact Admin.</p></h3>`;
-    message(error.response.data)
+    message(error.response.data);
   }
 }
 
-logOutBtn.addEventListener("click", (event) => {
+// Event listeners for starting and stopping the QR code scanning process
+start.addEventListener("click", (event) => {
   event.preventDefault();
-  logOut();
+  startScan();
 });
 
-const qrScanner = new QrScanner(
-  verifyBox,
-  async (result) => {
-    stopScan();
-    await tokenValidation(result.data);
-  },
-  {
-    returnDetailedScanResult: true,
-    highlightScanRegion: true,
-    calculateScanRegion: (video) => {
-      const width = video.videoWidth;
-      const height = video.videoHeight;
-      const size = Math.min(width, height) * 0.45;
+stop.addEventListener("click", (event) => {
+  event.preventDefault();
+  stopScan();
+});
 
-      return {
-        x: (width - size) / 2,
-        y: (height - size) / 2,
-        width: size,
-        height: size,
-      };
-    },
-  }
-);
-
+// Function to start the QR code scanning process
 function startScan() {
   overlayText.classList.add("hidden");
   start.classList.remove("show");
@@ -323,16 +352,7 @@ function startScan() {
   qrScanner.start();
 }
 
-stop.addEventListener("click", (event) => {
-  event.preventDefault();
-  stopScan();
-});
-
-start.addEventListener("click", (event) => {
-  event.preventDefault();
-  startScan();
-});
-
+// Function to stop the QR code scanning process
 function stopScan() {
   overlayText.classList.remove("hidden");
   start.classList.remove("hidden");
@@ -344,6 +364,7 @@ function stopScan() {
   qrScanner.stop();
 }
 
+// Function to check if the document is ready and execute a callback
 function ready(callback) {
   if (
     document.readyState === "complete" ||

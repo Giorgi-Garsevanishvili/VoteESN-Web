@@ -1,8 +1,10 @@
+//imports
 import { message } from "../src/utils/message.js";
 import { logOut } from "../auth/logout.js";
 import { createElection, getElection } from "../src/api/election.js";
 import { checkAuth } from "../src/handlers/authHandler.js";
 
+// Global Selectors for general dashboard elements and election creation
 const logOutBtn = document.querySelector(".log-out");
 const addElectionBtn = document.querySelector(".add-election-btn");
 const addElection = document.querySelector(".add-election");
@@ -18,49 +20,55 @@ const addedInfo = document.querySelector(".added-info");
 
 const lastLogin = document.querySelector(".last-login");
 
-// let devtoolsOpen = false;
+ // DevTool Lock Functions
+    // let devtoolsOpen = false;
 
-// function detectDevTools() {
-//   const threshold = 160;
-//   const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-//   const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+    // function detectDevTools() {
+    //   const threshold = 160;
+    //   const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+    //   const heightThreshold = window.outerHeight - window.innerHeight > threshold;
 
-//   if (widthThreshold || heightThreshold) {
-//     devtoolsOpen = true;
-//     alert('DevTools detected! Reveal blocked.');
-//     // Optionally you can log the devtools access to your server
-//     // fetch('/log-devtools', {
-//     //   method: 'POST',
-//     //   headers: { 'Content-Type': 'application/json' },
-//     //   body: JSON.stringify({
-//     //     message: 'DevTools was opened on page',
-//     //     timestamp: new Date().toISOString()
-//     //   })
-//     // });
-//   } else {
-//     devtoolsOpen = false;
-//   }
-// }
+    //   if (widthThreshold || heightThreshold) {
+    //     devtoolsOpen = true;
+    //     alert('DevTools detected! Reveal blocked.');
+    //     // Optionally you can log the devtools access to your server
+    //     // fetch('/log-devtools', {
+    //     //   method: 'POST',
+    //     //   headers: { 'Content-Type': 'application/json' },
+    //     //   body: JSON.stringify({
+    //     //     message: 'DevTools was opened on page',
+    //     //     timestamp: new Date().toISOString()
+    //     //   })
+    //     // });
+    //   } else {
+    //     devtoolsOpen = false;
+    //   }
+    // }
 
-// setInterval(detectDevTools, 500); // Every 0.5 seconds, check
+    // setInterval(detectDevTools, 500); // Every 0.5 seconds, check
 
-// document.addEventListener('keydown', (e) => {
-//   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-//     e.preventDefault();
-//     message('DevTools is disabled! For security purposes.', "error", 4000);
-//   }
-// });
+    // document.addEventListener('keydown', (e) => {
+    //   if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+    //     e.preventDefault();
+    //     message('DevTools is disabled! For security purposes.', "error", 4000);
+    //   }
+    // });
 
-// document.addEventListener('contextmenu', (e) => {
-//   e.preventDefault();
-//   message('Right-click is disabled! For security purposes.', "error", 4000);
-// });
+    // document.addEventListener('contextmenu', (e) => {
+    //   e.preventDefault();
+    //   message('Right-click is disabled! For security purposes.', "error", 4000);
+    // });
 
+
+
+// Variable for Election Creation flow. Exported for Election.js
 export let electionData = {
   title: "",
   topics: [],
 };
 
+
+// Runs Authentication for page load and displays User info and makes initial election fetch. 
 ready(async () => {
   const isAuth = await runAuthFlow();
 
@@ -84,6 +92,7 @@ ready(async () => {
   }
 });
 
+// Secondary User role based Authentication.
 async function runAuthFlow() {
   try {
     checkAuth();
@@ -108,6 +117,7 @@ async function runAuthFlow() {
   }
 }
 
+// Listener for Election creation flow to check the logic and save the inserted data to electionData variable and clean input area for next topics.
 nextBtn.addEventListener("click", (event) => {
   event.preventDefault();
   message(
@@ -178,6 +188,7 @@ nextBtn.addEventListener("click", (event) => {
   });
 });
 
+// Listener for Election creation flow. Final Step to create election based on data in electionData Variabele. Reloads the page and based on that cleans the working flow in general.
 submitElectionBtn.addEventListener("click", (event) => {
   event.preventDefault();
   message(
@@ -210,11 +221,13 @@ submitElectionBtn.addEventListener("click", (event) => {
   });
 });
 
+// Listener for LogOut Event.
 logOutBtn.addEventListener("click", (event) => {
   event.preventDefault();
   logOut();
 });
 
+// Listener for Election Creation Flow. First step. It is general button for initialize the election creation process.
 addElectionBtn.addEventListener("click", (event) => {
   event.preventDefault();
   electionName.classList.add("show");
@@ -222,6 +235,7 @@ addElectionBtn.addEventListener("click", (event) => {
   addElection.classList.add("show");
 });
 
+// Listener for Election Creation Flow. this listener cleans the whole flow and data entered in fields and hides the election creation form.
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   message(
@@ -268,6 +282,10 @@ closeBtn.addEventListener("click", (event) => {
 
 addExtraInput(addOptionBtn, extraOption);
 
+
+// This function adds the input for extra topic during election creation. takes two parameters 
+// *target : Button which need to be initializer of adding the extra input, it creates the html elements. 
+// *box : Any HTML element which can be used as a container for created extra input by target parameter.
 export function addExtraInput(target, box) {
   let inputCount = 2;
   target.addEventListener("click", (event) => {
@@ -294,6 +312,8 @@ export function addExtraInput(target, box) {
   });
 }
 
+
+// Checks the state of the page and based on that calls the callback function and prevents page history save (Reloads the page in case of using browser back button)
 function ready(callback) {
   if (
     document.readyState === "complete" ||

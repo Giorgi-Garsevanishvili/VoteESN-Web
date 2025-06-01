@@ -1,13 +1,18 @@
+// Description: User management module for voter accounts, allowing users to view, edit, and delete their account information.
+
 import { getAuthConfig } from "../handlers/authHandler.js";
 import { message } from "../utils/message.js";
 
+// DOM elements
 const userButton = document.querySelector(".voter-user");
 const userBox = document.querySelector(".user-box");
 const userDetails = document.querySelector(".user-cont");
 const closeBtn = document.querySelector(".close-btn");
 
+// API endpoint for user account management
 const UserUrl = `https://voteesn-api.onrender.com/api/v1/user/account`;
 
+// Function to get user information from the server
 async function getUser() {
   try {
     const { config } = getAuthConfig();
@@ -19,6 +24,7 @@ async function getUser() {
   }
 }
 
+// Function to update user information on the server
 async function updateUser(data) {
   try {
     const { config } = getAuthConfig();
@@ -32,6 +38,7 @@ async function updateUser(data) {
   }
 }
 
+// Function to delete the user account
 async function deleteAccount() {
   try {
     const { config } = getAuthConfig();
@@ -47,6 +54,7 @@ async function deleteAccount() {
   }
 }
 
+// Close button functionality to hide the user box
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   userBox.classList.remove("show");
@@ -54,6 +62,7 @@ closeBtn.addEventListener("click", (event) => {
   userDetails.innerHTML = "";
 });
 
+// Event listener for the user button to fetch and display user details
 userButton.addEventListener("click", async (event) => {
   event.preventDefault();
 

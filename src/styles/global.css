@@ -9,6 +9,8 @@ Extra-Large Desktop | 1441+ | Ultra-wide dashboards
 
 */
 
+/* General styles */
+
 a,
 button,
 input,
@@ -28,6 +30,7 @@ h5 {
   outline: none; /* Remove focus outline */
   user-select: none; /* Prevent selection */
 }
+
 
 iframe {
   display: flex;

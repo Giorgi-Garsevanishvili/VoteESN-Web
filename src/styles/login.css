@@ -1,3 +1,62 @@
+/* Login Page Styles */
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+/* Welcome Text and Box */
+
+.welcome-text {
+  margin: 2rem;
+}
+
+.welcome-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem;
+  padding: 3rem;
+  height: fit-content;
+  border-radius: 3rem;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
+}
+
+/* Input Fields */
+input {
+  font-family: "Orbitron", sans-serif;
+  border: 0.1rem solid gray;
+  border-radius: 2rem;
+  font-weight: 400;
+  font-size: 1rem;
+  width: 100%;
+  height: 2em;
+  padding: 0.8rem;
+  outline: none;
+  transition: 0.5s;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+input:hover {
+  border-color: #4e5cc6;
+  transition: 0.5s;
+}
+
+input:focus {
+  border-color: #2047aa;
+  box-shadow: 0 0 3px rgba(18, 32, 122, 0.464);
+}
+
+/* Login Form Styles */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -9,8 +68,36 @@
   background-color: #ecf0f186;
   border-left: 1px solid #7f8c8d;
   border-top: 1px solid #7f8c8d;
+  border-radius: 2rem;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
+.form-row {
+  position: relative;
+  display: flex;
+  margin: 1rem auto;
+}
+
+/* Login Button Styles */
+.login-btn {
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 0.12rem solid gray;
+  background-color: #07082b;
+  color: white;
+  font-size: 1.2rem;
+  transition: 0.5s;
+}
+
+.login-btn:hover {
+  background-color: #1f5b86;
+  transition: 0.5s;
+}
+
+/* General Styles */
 main {
   display: flex;
   justify-content: center;
@@ -36,6 +123,7 @@ main {
   display: none;
 }
 
+/* Reveal Modal Styles */
 #revealModal {
   position: fixed;
   top: 0;
@@ -103,6 +191,8 @@ main {
   font-size: 1rem;
 }
 
+/* Styling for the forgot password link */
+
 .forgot-password {
   cursor: pointer;
   margin: 0.6rem;
@@ -114,104 +204,11 @@ main {
   color: #1c4dc9;
 }
 
-/* Responsive Design: Make sure the message adapts on mobile */
-@media (max-width: 600px) {
-  .side-message {
-    left: 0;
-    right: 0;
-    top: unset;
-    bottom: 0;
-    transform: unset;
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-}
-
-input {
-  font-family: "Orbitron", sans-serif;
-  border: 0.1rem solid gray;
-  border-radius: 2rem;
-  font-weight: 400;
-  font-size: 1rem;
-  width: 100%;
-  height: 2em;
-  padding: 0.8rem;
-  outline: none;
-  transition: 0.5s;
-}
-
-input::placeholder {
-  color: #888;
-}
-
-input:hover {
-  border-color: #4e5cc6;
-  transition: 0.5s;
-}
-
-input:focus {
-  border-color: #2047aa;
-  box-shadow: 0 0 3px rgba(18, 32, 122, 0.464);
-}
-
-.form-row {
-  position: relative;
-  display: flex;
-  margin: 1rem auto;
-}
-
-.login-btn {
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  border-radius: 1rem;
-  border: 0.12rem solid gray;
-  background-color: #07082b;
-  color: white;
-  font-size: 1.2rem;
-  transition: 0.5s;
-}
-
-.login-btn:hover {
-  background-color: #1f5b86;
-  transition: 0.5s;
-}
-
-.welcome-text {
-  margin: 2rem;
-}
-
-.welcome-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 3rem;
-  padding: 3rem;
-  height: fit-content;
-  border-radius: 3rem;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
-    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-  background-color: #ecf0f186;
-  border-left: 1px solid #7f8c8d;
-  border-top: 1px solid #7f8c8d;
-}
-
-.login-form {
-  border-radius: 2rem;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
-    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-}
-
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-}
+/* Show Password Button */
 
 .show-password {
   position: absolute;
-  top: 1.22rem;
+  top: 0.9rem;
   right: 0.7rem;
   border: none;
   background-color: transparent;
@@ -225,6 +222,7 @@ input:focus {
   width: 2.2rem;
 }
 
+/* Footer Styles */
 footer {
   background-color: #f0f0f0;
   color: #333;
@@ -237,6 +235,7 @@ footer {
   text-align: center;
   box-sizing: border-box;
 }
+
 footer p {
   text-align: center;
   margin: 0rem;
@@ -245,6 +244,7 @@ footer p {
   line-height: 1.7;
 }
 
+/* Responsive Design: Make sure the login form adapts larger screens */
 @media (max-width: 1023px) {
   .login-form,
   .welcome-box {
@@ -282,5 +282,15 @@ footer p {
 
   .password-toggle {
     width: 1.5rem;
+  }
+
+  .side-message {
+    left: 0;
+    right: 0;
+    top: unset;
+    bottom: 0;
+    transform: unset;
+    font-size: 0.9rem;
+    padding: 10px;
   }
 }

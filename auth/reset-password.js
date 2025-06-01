@@ -1,15 +1,27 @@
 import { message } from "../src/utils/message.js";
 
+// selectors for the reset password form
 const passwordInput = document.getElementById("password");
 const resetBTN = document.querySelector(".reset");
 const resetForm = document.querySelector(".reset-form");
 const title = document.querySelector(".title");
 
+// parse the token from the URL
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get("token");
 
+// If no token is found, redirect to the login page
+if (!token) {
+  message("No token found! Please try again.");
+  setTimeout(() => {
+    window.location.href = "../../login.html";
+  }, 2000);
+}
+
+// Construct the reset password URL with the token
 const resetPassURL = `https://voteesn-api.onrender.com/api/v1/auth/reset-password?token=${token}`;
 
+// listener for the reset password form submission.
 resetBTN.addEventListener("click", async (event) => {
   event.preventDefault();
 

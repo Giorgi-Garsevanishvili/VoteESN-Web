@@ -1,0 +1,100 @@
+/* Main Buttons */
+.main-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3rem;
+  margin-top: 0;
+  padding: 2rem;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  background-color: #ecf0f186;
+  border-left: 1px solid #7f8c8d;
+  border-top: 1px solid #7f8c8d;
+}
+
+/* Nav Buttons */
+.election-home-btn,
+.get-res-btn,
+.gen-qr-btn,
+.get-qr-btn,
+.users-btn,
+.add-election-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  border-radius: 1rem;
+  width: 6rem;
+  height: 7rem;
+  border: none;
+  margin: 0.2rem;
+  font-weight: 600;
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.election-home-img,
+.get-res-img,
+.gen-qr-img,
+.get-qr-img,
+.users-img,
+.add-btn-img {
+  padding: 0.3rem;
+  width: 3rem;
+  transition: 0.3s;
+  margin: 0.3rem;
+}
+
+.election-home-btn:hover,
+.get-res-btn:hover,
+.gen-qr-btn:hover,
+.get-qr-btn:hover,
+.users-btn:hover,
+.add-election-btn:hover {
+  background-color: rgb(220, 221, 229);
+  border-left: 1px solid #bdc3c7;
+  border-top: 1px solid #bdc3c7;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .main-buttons {
+    flex-direction: column;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  /* Nav Button and Images */
+  .election-home-img,
+  .gen-qr-img,
+  .get-qr-img,
+  .users-img,
+  .get-res-img,
+  .add-btn-img,
+  .election-img {
+    padding: 0.2rem;
+    width: 1rem;
+    transition: 0.3s;
+  }
+
+  .election-home-btn,
+  .get-res-btn,
+  .users-btn,
+  .add-election-btn,
+  .gen-qr-btn,
+  .get-qr-btn {
+    flex-direction: row;
+    width: 80vw;
+    height: 3rem;
+    margin: 0.5rem;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    background-color: #ecf0f186;
+    border-left: 1px solid #7f8c8d;
+    border-top: 1px solid #7f8c8d;
+  }
+}
