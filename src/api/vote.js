@@ -123,8 +123,10 @@ async function tokenValidation(token) {
   try {
     const { config } = getAuthConfig();
     const response = await axios.post(valUrl, data, config);
-    localStorage.setItem("electionID", response.data.data[0].electionId);
-    localStorage.setItem("voterToken", response.data.data[0].token);
+    console.log(response);
+    
+    localStorage.setItem("electionID", response.data.data.electionId);
+    localStorage.setItem("voterToken", response.data.data.token);
     tokenInput.classList.remove("show");
     tokenInput.classList.add("hidden");
     buttonBox.classList.remove("show");
