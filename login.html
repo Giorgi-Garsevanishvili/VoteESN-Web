@@ -84,8 +84,24 @@
               />
             </button>
           </div>
+          <label id="consentBox">
+            <input type="checkbox" id="consentCheckbox" />
+            I accept the
+            <a
+              href="https://docs.google.com/document/d/1nzn0yOU5TDyRDWu8SI8ufXnBOsqolhRrjHtoRBD1Cd4/edit?usp=sharing"
+              target="_blank"
+              >Terms and Conditions</a
+            >
+            and
+            <a
+              href="https://docs.google.com/document/d/103cYw1QNsL3PinFQPA2Jdu7oAEGBozPerqaxqSHduSE/edit?usp=sharing"
+              target="_blank"
+              >Privacy Policy</a
+            >
+          </label>
+          <br /><br />
           <div class="login-container">
-            <button class="login-btn">Log In</button>
+            <button class="login-btn" disabled>Log In</button>
             <a class="forgot-password">Forgot Password</a>
           </div>
         </div>
@@ -93,7 +109,10 @@
       <div id="revealModal" class="hidden">
         <div class="modal-cont">
           <h3>Reset Your Password</h3>
-          <p>Enter the email address associated with your account and we’ll send you a link to reset your password.</p>
+          <p>
+            Enter the email address associated with your account and we’ll send
+            you a link to reset your password.
+          </p>
           <input type="email" id="email" placeholder="Email address" />
           <div class="modal-buttons">
             <button class="modal-cancel">Cancel</button>

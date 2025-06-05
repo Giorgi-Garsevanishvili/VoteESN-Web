@@ -123,6 +123,21 @@ main {
   display: none;
 }
 
+/*consten Form */
+#consentBox {
+  font-size: 0.9rem;
+}
+
+#consentCheckbox {
+  border: none;
+  font-size: initial;
+  font-weight: initial;
+  width: 1rem;
+  height: 1rem;
+  padding: 0rem;
+  margin: 0rem;
+}
+
 /* Reveal Modal Styles */
 #revealModal {
   position: fixed;
