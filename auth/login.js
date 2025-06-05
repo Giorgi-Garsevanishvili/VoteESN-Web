@@ -1,4 +1,3 @@
-
 // Login functionality for the VoteESN application
 import { checkRole, getAuthConfig } from "../src/handlers/authHandler.js";
 import { message } from "../src/utils/message.js";
@@ -16,6 +15,13 @@ const cancel = document.querySelector(".modal-cancel");
 const resetPassword = document.querySelector(".modal-proceed");
 const emailInput = document.getElementById("email");
 const togglePasswordBtn = document.querySelector(".show-password");
+const consentCheckBox = document.getElementById("consentCheckbox");
+
+// Event listener for the consent checkbox
+// Enables or disables the login button based on the checkbox state
+consentCheckBox.addEventListener("change", () => {
+  logBtn.disabled = !consentCheckBox.checked;
+});
 
 // Event listener for the login form submission
 document
@@ -32,7 +38,6 @@ logBtn.addEventListener("click", async (event) => {
   await logIn(event);
 });
 
-
 // Check for any error messages stored in localStorage
 // and display them if present
 const errorStorage = localStorage.getItem("error");
@@ -40,19 +45,16 @@ const errorStorage = localStorage.getItem("error");
 // Get the authentication token from localStorage
 const { token } = getAuthConfig();
 
-
 // If a token exists, check the user's role
 if (token) {
   checkRole();
 }
-
 
 // If there is an error message in localStorage, display it
 if (errorStorage) {
   message(errorStorage);
   localStorage.clear();
 }
-
 
 // Function to handle the login process
 /**
@@ -78,12 +80,26 @@ async function logIn(event) {
   const data = {
     email: email.value.trim(),
     password: password.value.trim(),
+    consentAccepted: consentCheckBox.checked,
   };
+
+  if (!data.consentAccepted) {
+    logBtn.disabled = false;
+    logBtn.innerHTML = "Log In";
+    return message("Please accept the Terms and Conditions to login.");
+  }
 
   if (!data.email || !data.password) {
     logBtn.disabled = false;
     logBtn.innerHTML = "Log In";
     return message("Email and Password must be presented", "error", 4000);
+  }
+
+  if (!consentCheckBox.checked) {
+    logBtn.disabled = false;
+    logBtn.innerHTML = "Log In";
+    message("Please accept the Terms and Conditions to login.");
+    return;
   }
 
   try {
@@ -140,7 +156,7 @@ cancel.addEventListener("click", (event) => {
   modal.classList.add("hidden");
 });
 
-// Event listener for the reset password button in the modal 
+// Event listener for the reset password button in the modal
 // Sends a request to reset the password
 // and displays a message based on the response
 resetPassword.addEventListener("click", async (event) => {
