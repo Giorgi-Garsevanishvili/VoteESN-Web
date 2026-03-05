@@ -11,7 +11,7 @@ const userListDOM = document.querySelector(".users-list");
 
 const name = document.querySelector(".name");
 const email = document.querySelector(".email");
-const role = document.querySelector(".role");
+const role = document.getElementById("role");
 
 // URL for user management API
 const usersUrl = `https://voteesn-api.onrender.com/api/v1/admin/system/users`;
