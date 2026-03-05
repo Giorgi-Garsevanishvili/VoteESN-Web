@@ -121,7 +121,7 @@ async function runAuthFlow() {
 nextBtn.addEventListener("click", (event) => {
   event.preventDefault();
   message(
-    `After this step you want be able to make changes on current topics. If everything is correct press "Yes" button and continue.?<div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
+    `After this step you won't be able to make changes on current topic. If everything is correct press "Yes" button and continue. <div class="close-agree"><button class="yes-btn">Yes</button><button class="no-btn">No</button></div>`,
     "OK",
     30000
   );
